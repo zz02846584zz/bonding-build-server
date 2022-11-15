@@ -1,157 +1,128 @@
--- phpMyAdmin SQL Dump
--- version 4.9.0.1
--- https://www.phpmyadmin.net/
+-- -------------------------------------------------------------
+-- TablePlus 5.1.0(468)
 --
--- 主機： localhost
--- 產生時間： 2022 年 11 月 05 日 18:52
--- 伺服器版本： 10.4.6-MariaDB
--- PHP 版本： 7.2.21
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
+-- https://tableplus.com/
+--
+-- Database: bonding
+-- Generation Time: 2022-11-15 19:28:05.9810
+-- -------------------------------------------------------------
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- 資料庫： `bonding`
---
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `award_tip`
---
-
+DROP TABLE IF EXISTS `award_tip`;
 CREATE TABLE `award_tip` (
-  `id` int(11) NOT NULL COMMENT 'ID',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
   `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '標題',
   `content` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '內容',
   `publishDate` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '排程日期',
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft' COMMENT '狀態'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft' COMMENT '狀態',
+  PRIMARY KEY (`id`),
+  KEY `IDX_dae815d71dfe420302661f46e6` (`createTime`),
+  KEY `IDX_db49b86f2dd640c40e9fab804c` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `award_tip_category`
---
-
+DROP TABLE IF EXISTS `award_tip_category`;
 CREATE TABLE `award_tip_category` (
   `awardTipId` int(11) NOT NULL,
-  `industryCategoryId` int(11) NOT NULL
+  `industryCategoryId` int(11) NOT NULL,
+  PRIMARY KEY (`awardTipId`,`industryCategoryId`),
+  KEY `IDX_87f84a1fdcf928032b0dd22605` (`awardTipId`),
+  KEY `IDX_aa35d86677050492d195ce958f` (`industryCategoryId`),
+  CONSTRAINT `FK_87f84a1fdcf928032b0dd22605e` FOREIGN KEY (`awardTipId`) REFERENCES `award_tip` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_aa35d86677050492d195ce958f9` FOREIGN KEY (`industryCategoryId`) REFERENCES `industry_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `award_tip_collection`
---
-
+DROP TABLE IF EXISTS `award_tip_collection`;
 CREATE TABLE `award_tip_collection` (
-  `id` int(11) NOT NULL COMMENT 'ID',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
   `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
   `awardTipId` int(11) DEFAULT NULL COMMENT 'ID',
-  `userId` int(11) DEFAULT NULL COMMENT 'ID'
+  `userId` int(11) DEFAULT NULL COMMENT 'ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_eb8cd0d3bab0963599c12aa42b` (`createTime`),
+  KEY `IDX_a84fa02b5a72f191ff1047a0a2` (`updateTime`),
+  KEY `FK_ca917bcb2a3d0bb5dbec70ffdff` (`awardTipId`),
+  KEY `FK_fc0300ae03194150782492b0980` (`userId`),
+  CONSTRAINT `FK_ca917bcb2a3d0bb5dbec70ffdff` FOREIGN KEY (`awardTipId`) REFERENCES `award_tip` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_fc0300ae03194150782492b0980` FOREIGN KEY (`userId`) REFERENCES `base_sys_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `award_tip_view`
---
-
+DROP TABLE IF EXISTS `award_tip_view`;
 CREATE TABLE `award_tip_view` (
-  `id` int(11) NOT NULL COMMENT 'ID',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
   `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
   `userId` int(11) DEFAULT NULL COMMENT 'ID',
-  `awardTipId` int(11) DEFAULT NULL COMMENT 'ID'
+  `awardTipId` int(11) DEFAULT NULL COMMENT 'ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_bbcccb0fee5e8f861d80bf7c95` (`createTime`),
+  KEY `IDX_d1767b7c075fb2bbdae6ed329e` (`updateTime`),
+  KEY `FK_35cea6be22a229c502cb93e0a92` (`awardTipId`),
+  KEY `FK_8fd6c2ad439a21e4bc368a97930` (`userId`),
+  CONSTRAINT `FK_35cea6be22a229c502cb93e0a92` FOREIGN KEY (`awardTipId`) REFERENCES `award_tip` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_8fd6c2ad439a21e4bc368a97930` FOREIGN KEY (`userId`) REFERENCES `base_sys_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `base_sys_conf`
---
-
+DROP TABLE IF EXISTS `base_sys_conf`;
 CREATE TABLE `base_sys_conf` (
-  `id` int(11) NOT NULL COMMENT 'ID',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
   `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
   `cKey` varchar(255) NOT NULL COMMENT '配置键',
-  `cValue` varchar(255) NOT NULL COMMENT '配置值'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `cValue` varchar(255) NOT NULL COMMENT '配置值',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_9be195d27767b4485417869c3a` (`cKey`),
+  KEY `IDX_905208f206a3ff9fd513421971` (`createTime`),
+  KEY `IDX_4c6f27f6ecefe51a5a196a047a` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
---
--- 傾印資料表的資料 `base_sys_conf`
---
-
-INSERT INTO `base_sys_conf` (`id`, `createTime`, `updateTime`, `cKey`, `cValue`) VALUES
-(1, '2021-02-25 14:23:26.810981', '2021-02-25 14:23:26.810981', 'logKeep', '31');
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `base_sys_department`
---
-
+DROP TABLE IF EXISTS `base_sys_department`;
 CREATE TABLE `base_sys_department` (
-  `id` int(11) NOT NULL COMMENT 'ID',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
   `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
   `name` varchar(255) NOT NULL COMMENT '部门名称',
   `parentId` bigint(20) DEFAULT NULL COMMENT '上级部门ID',
-  `orderNum` int(11) NOT NULL DEFAULT 0 COMMENT '排序'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `orderNum` int(11) NOT NULL DEFAULT 0 COMMENT '排序',
+  PRIMARY KEY (`id`),
+  KEY `IDX_be4c53cd671384fa588ca9470a` (`createTime`),
+  KEY `IDX_ca1473a793961ec55bc0c8d268` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
 
---
--- 傾印資料表的資料 `base_sys_department`
---
-
-INSERT INTO `base_sys_department` (`id`, `createTime`, `updateTime`, `name`, `parentId`, `orderNum`) VALUES
-(1, '2021-02-24 21:17:11.971397', '2022-05-30 19:38:50.000000', '鍵結科技', NULL, 0),
-(11, '2021-02-26 14:17:06.690613', '2022-05-30 19:38:50.000000', '開發', 1, 2),
-(12, '2021-02-26 14:17:11.576369', '2022-05-30 19:38:50.000000', '管理', 1, 1),
-(13, '2021-02-26 14:28:59.685177', '2022-05-30 19:38:50.000000', '用戶', 1, 3),
-(15, '2022-07-02 17:46:03.239000', '2022-07-02 17:46:03.239000', '創作者', 13, 1),
-(16, '2022-07-02 17:46:10.826000', '2022-07-02 17:48:36.366781', '一般用戶', 13, 0),
-(17, '2022-07-02 17:49:31.327000', '2022-07-02 17:49:48.871000', '系統', 12, 0),
-(18, '2022-07-02 17:49:39.465000', '2022-07-02 17:49:39.465000', '編輯', 12, 1);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `base_sys_log`
---
-
+DROP TABLE IF EXISTS `base_sys_log`;
 CREATE TABLE `base_sys_log` (
-  `id` int(11) NOT NULL COMMENT 'ID',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
   `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
   `userId` bigint(20) DEFAULT NULL COMMENT '用户ID',
   `action` varchar(100) NOT NULL COMMENT '行为',
   `ip` varchar(50) DEFAULT NULL COMMENT 'ip',
   `ipAddr` varchar(50) DEFAULT NULL COMMENT 'ip地址',
-  `params` longtext DEFAULT NULL COMMENT '参数'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `params` longtext DEFAULT NULL COMMENT '参数',
+  PRIMARY KEY (`id`),
+  KEY `IDX_51a2caeb5713efdfcb343a8772` (`userId`),
+  KEY `IDX_938f886fb40e163db174b7f6c3` (`action`),
+  KEY `IDX_24e18767659f8c7142580893f2` (`ip`),
+  KEY `IDX_a03a27f75cf8d502b3060823e1` (`ipAddr`),
+  KEY `IDX_c9382b76219a1011f7b8e7bcd1` (`createTime`),
+  KEY `IDX_bfd44e885b470da43bcc39aaa7` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=1563 DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `base_sys_menu`
---
-
+DROP TABLE IF EXISTS `base_sys_menu`;
 CREATE TABLE `base_sys_menu` (
-  `id` int(11) NOT NULL COMMENT 'ID',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
   `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
   `parentId` bigint(20) DEFAULT NULL COMMENT '父菜单ID',
@@ -163,12 +134,1408 @@ CREATE TABLE `base_sys_menu` (
   `orderNum` int(11) NOT NULL DEFAULT 0 COMMENT '排序',
   `viewPath` varchar(255) DEFAULT NULL COMMENT '视图地址',
   `keepAlive` tinyint(4) NOT NULL DEFAULT 1 COMMENT '路由缓存',
-  `isShow` tinyint(4) NOT NULL DEFAULT 1 COMMENT '是否显示'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `isShow` tinyint(4) NOT NULL DEFAULT 1 COMMENT '是否显示',
+  PRIMARY KEY (`id`),
+  KEY `IDX_05e3d6a56604771a6da47ebf8e` (`createTime`),
+  KEY `IDX_d5203f18daaf7c3fe0ab34497f` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=202 DEFAULT CHARSET=utf8mb4;
 
---
--- 傾印資料表的資料 `base_sys_menu`
---
+DROP TABLE IF EXISTS `base_sys_param`;
+CREATE TABLE `base_sys_param` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `keyName` varchar(255) NOT NULL COMMENT '键位',
+  `name` varchar(255) NOT NULL COMMENT '名称',
+  `data` text NOT NULL COMMENT '数据',
+  `dataType` tinyint(4) NOT NULL DEFAULT 0 COMMENT '数据类型 0:字符串 1：数组 2：键值对',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`),
+  KEY `IDX_cf19b5e52d8c71caa9c4534454` (`keyName`),
+  KEY `IDX_7bcb57371b481d8e2d66ddeaea` (`createTime`),
+  KEY `IDX_479122e3bf464112f7a7253dac` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `base_sys_role`;
+CREATE TABLE `base_sys_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `userId` varchar(255) NOT NULL COMMENT '用户ID',
+  `name` varchar(255) NOT NULL COMMENT '名称',
+  `label` varchar(50) DEFAULT NULL COMMENT '角色标签',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `relevance` int(11) NOT NULL DEFAULT 1 COMMENT '数据权限是否关联上下级',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_469d49a5998170e9550cf113da` (`name`),
+  UNIQUE KEY `IDX_f3f24fbbccf00192b076e549a7` (`label`),
+  KEY `IDX_6f01184441dec49207b41bfd92` (`createTime`),
+  KEY `IDX_d64ca209f3fc52128d9b20e97b` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `base_sys_role_department`;
+CREATE TABLE `base_sys_role_department` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `roleId` bigint(20) NOT NULL COMMENT '角色ID',
+  `departmentId` bigint(20) NOT NULL COMMENT '部门ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_e881a66f7cce83ba431cf20194` (`createTime`),
+  KEY `IDX_cbf48031efee5d0de262965e53` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `base_sys_role_menu`;
+CREATE TABLE `base_sys_role_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `roleId` bigint(20) NOT NULL COMMENT '角色ID',
+  `menuId` bigint(20) NOT NULL COMMENT '菜单ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_3641f81d4201c524a57ce2aa54` (`createTime`),
+  KEY `IDX_f860298298b26e7a697be36e5b` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=912 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `base_sys_user`;
+CREATE TABLE `base_sys_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `departmentId` bigint(20) DEFAULT NULL COMMENT '部門ID',
+  `username` varchar(100) NOT NULL COMMENT '用戶名',
+  `password` varchar(255) NOT NULL COMMENT '密碼',
+  `passwordV` int(11) NOT NULL DEFAULT 1 COMMENT '密碼版本, 作用是改完密碼, 讓原來的token失效',
+  `phone` varchar(20) DEFAULT NULL COMMENT '電話(帶區碼)',
+  `email` varchar(255) DEFAULT NULL COMMENT 'Email',
+  `socketId` varchar(255) DEFAULT NULL COMMENT 'socketId',
+  `createBy` bigint(20) NOT NULL COMMENT '建立用戶ID',
+  `updateBy` bigint(20) NOT NULL COMMENT '更新用戶ID',
+  `status` enum('normal','suspend','delete') NOT NULL DEFAULT 'normal',
+  `firstName` varchar(255) NOT NULL COMMENT '姓',
+  `lastName` varchar(255) NOT NULL COMMENT '名',
+  `idCard` varchar(255) DEFAULT NULL COMMENT '身分證',
+  `birthday` varchar(255) DEFAULT NULL COMMENT '生日',
+  `headImg` varchar(255) DEFAULT NULL COMMENT '頭像',
+  `gender` enum('male','female','intersex') NOT NULL,
+  `remark` varchar(255) DEFAULT NULL COMMENT '備注',
+  `intro` varchar(255) DEFAULT NULL COMMENT '簡介',
+  `deleteBy` bigint(20) DEFAULT NULL COMMENT '刪除用戶ID',
+  `deleteTime` datetime(6) DEFAULT NULL COMMENT '刪除時間',
+  `emailVerify` enum('unverified','verify','pending') NOT NULL DEFAULT 'unverified',
+  `identifyVerify` enum('unverified','pending','rejected','verify') NOT NULL DEFAULT 'unverified',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_469ad55973f5b98930f6ad627b` (`username`),
+  UNIQUE KEY `IDX_400a3f7d29883f1ace87ff93d3` (`email`),
+  UNIQUE KEY `IDX_9ec6d7ac6337eafb070e4881a8` (`phone`),
+  UNIQUE KEY `IDX_a8903023c24cf63cdb21db4cd8` (`idCard`),
+  KEY `IDX_0cf944da378d70a94f5fefd803` (`departmentId`),
+  KEY `IDX_ca8611d15a63d52aa4e292e46a` (`createTime`),
+  KEY `IDX_a0f2f19cee18445998ece93ddd` (`updateTime`),
+  KEY `IDX_d264b9f0e4ae49a17a7150d93e` (`createBy`),
+  KEY `IDX_06ca72f509a1ac2cf339c9d917` (`updateBy`),
+  KEY `IDX_2313dc36bdabec27461abe0264` (`deleteBy`)
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `base_sys_user_identity`;
+CREATE TABLE `base_sys_user_identity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `positive` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '正面照',
+  `negative` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '背面照',
+  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
+  `createBy` bigint(20) NOT NULL COMMENT '建立用戶ID',
+  `updateBy` bigint(20) NOT NULL COMMENT '更新用戶ID',
+  `idCard` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '身分證號',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_937215ab83a5d4ea78a9c95328` (`userId`),
+  KEY `IDX_a0da48c942110aeaced4cb0bbe` (`createTime`),
+  KEY `IDX_d7c1586a1672effb311225f3d1` (`updateTime`),
+  KEY `IDX_7b94ece1304851fe39cab141d2` (`createBy`),
+  KEY `IDX_bc39816e16e7da41e040ba5bf0` (`updateBy`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `base_sys_user_role`;
+CREATE TABLE `base_sys_user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `userId` bigint(20) NOT NULL COMMENT '用户ID',
+  `roleId` bigint(20) NOT NULL COMMENT '角色ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_fa9555e03e42fce748c9046b1c` (`createTime`),
+  KEY `IDX_3e36c0d2b1a4c659c6b4fc64b3` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `collection_article`;
+CREATE TABLE `collection_article` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
+  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_58d24a12c7c68fabafae201fe6` (`createTime`),
+  KEY `IDX_f669b717c78d169aa15b210ac7` (`updateTime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `collection_award_tip`;
+CREATE TABLE `collection_award_tip` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `awardTipId` bigint(20) NOT NULL COMMENT '文章ID',
+  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_304d238e534bea8304c9dfeea0` (`createTime`),
+  KEY `IDX_e79c40c96f0bbd11b7c9a4295a` (`updateTime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `collection_tip`;
+CREATE TABLE `collection_tip` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `tipId` bigint(20) NOT NULL COMMENT '小知識ID',
+  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_45fcdb95d6b5d636f814fd1d33` (`createTime`),
+  KEY `IDX_6d49b67b022e19c26902cbe79b` (`updateTime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `industry_category`;
+CREATE TABLE `industry_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '分類名稱',
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '分類描述',
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '分類代稱',
+  `parentId` int(11) DEFAULT NULL COMMENT '上層分類',
+  `icon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Icon',
+  `orderNum` int(11) DEFAULT NULL COMMENT '排序號',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_9f26e3c0d649615ec7849aea05` (`name`),
+  UNIQUE KEY `IDX_e1ac4d7245b7ddca94c319ddb6` (`slug`),
+  KEY `IDX_81fc5e3804320468d01bf78ee9` (`createTime`),
+  KEY `IDX_30a9d37811e3ccea0e65d93fc0` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `news_article`;
+CREATE TABLE `news_article` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '標題',
+  `thumbnail` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '縮圖',
+  `commentOpen` tinyint(4) NOT NULL DEFAULT 1 COMMENT '開啟評論',
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '代稱',
+  `publishTime` datetime DEFAULT NULL COMMENT '發布時間',
+  `createBy` bigint(20) NOT NULL COMMENT '建立用戶ID',
+  `updateBy` bigint(20) NOT NULL COMMENT '更新用戶ID',
+  `deleteBy` bigint(20) DEFAULT NULL COMMENT '刪除用戶ID',
+  `deleteTime` datetime(6) DEFAULT NULL COMMENT '刪除時間',
+  `status` enum('draft','pending','reject','published','delete','schedule') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft',
+  `metaTitle` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'meta標題',
+  `content` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '完整文章',
+  `metaDescription` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'meta描述',
+  `authorId` int(11) DEFAULT NULL COMMENT '作者ID',
+  `isTop` tinyint(4) NOT NULL DEFAULT 0 COMMENT '置頂新聞',
+  `isHot` tinyint(4) NOT NULL DEFAULT 0 COMMENT '熱門新聞',
+  `type` enum('normal','video') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'normal',
+  `videoUrl` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '影片網址',
+  `content_preview` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '預覽內容',
+  `excerpt` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '摘錄',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_c6bbfb15842493169f3e616fab` (`slug`),
+  KEY `IDX_b7b4846ec5875b3dc81f5ac7f4` (`createTime`),
+  KEY `IDX_902afd9ace5423046d21f494f0` (`updateTime`),
+  KEY `IDX_1d3e381e731aa621ec5a603344` (`createBy`),
+  KEY `IDX_bb27ae67761c4b2e9b88613f51` (`updateBy`),
+  KEY `IDX_39edf5217ba60642cfc03aab6d` (`deleteBy`),
+  KEY `IDX_ff0cb9036098cdbad4f8e5a2a3` (`title`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `news_article_category`;
+CREATE TABLE `news_article_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
+  `categoryId` bigint(20) NOT NULL COMMENT '分類ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_0416b2346e597f06ff372de297` (`createTime`),
+  KEY `IDX_cd1f3e05b74cce06fa7826037d` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `news_article_collection`;
+CREATE TABLE `news_article_collection` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
+  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_e6a898e0eaba2bc4a78335fc3c` (`createTime`),
+  KEY `IDX_025cdbad16c922f9cfac3fefb3` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `news_article_like`;
+CREATE TABLE `news_article_like` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
+  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_b9204c3ff90d945591cdfaa628` (`createTime`),
+  KEY `IDX_a753f2bbb362a608bcec8d2c00` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `news_article_view`;
+CREATE TABLE `news_article_view` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
+  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
+  `count` bigint(20) NOT NULL COMMENT 'count',
+  PRIMARY KEY (`id`),
+  KEY `IDX_eb9555c1591ca3ba5b5684f08e` (`createTime`),
+  KEY `IDX_d9f3a6f6b7000d28075b946150` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=390 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `news_comment`;
+CREATE TABLE `news_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `createBy` bigint(20) NOT NULL COMMENT '建立用戶ID',
+  `updateBy` bigint(20) NOT NULL COMMENT '更新用戶ID',
+  `deleteBy` bigint(20) DEFAULT NULL COMMENT '刪除用戶ID',
+  `deleteTime` datetime(6) DEFAULT NULL COMMENT '刪除時間',
+  `content` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '內容',
+  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
+  `parentId` bigint(20) DEFAULT NULL COMMENT '父ID',
+  `ip` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ip',
+  `ipAddr` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ip地址',
+  PRIMARY KEY (`id`),
+  KEY `IDX_81d8221c5139f5a00795e4dd3a` (`createTime`),
+  KEY `IDX_84c2537550971c57cf909b8e8d` (`updateTime`),
+  KEY `IDX_7e38467cc7ad60351701fbe03c` (`createBy`),
+  KEY `IDX_b27a10c6c06ff89fae9ef3d9ed` (`updateBy`),
+  KEY `IDX_b060795bbfc06659628c01f82d` (`deleteBy`),
+  KEY `IDX_2483843be6a021565c5c5e97c0` (`ip`),
+  KEY `IDX_7fd311599f53bb51d61d55b02e` (`ipAddr`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `news_comment_like`;
+CREATE TABLE `news_comment_like` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `commentId` bigint(20) NOT NULL COMMENT '留言ID',
+  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
+  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_84e6b703c6cc0742aa879e140b` (`createTime`),
+  KEY `IDX_2f129025b265ccc9f71ce067d5` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `space_info`;
+CREATE TABLE `space_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '地址',
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '类型',
+  `classifyId` bigint(20) DEFAULT NULL COMMENT '分类ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_eb1da2f304c760846b5add09b3` (`createTime`),
+  KEY `IDX_d7a2539961e9aacba8b353f3c9` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `space_type`;
+CREATE TABLE `space_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '类别名称',
+  `parentId` tinyint(4) DEFAULT NULL COMMENT '父分类ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_6669449501d275f367ca295472` (`createTime`),
+  KEY `IDX_0749b509b68488caecd4cc2bbc` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `task_info`;
+CREATE TABLE `task_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `jobId` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任務ID',
+  `repeatConf` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任務配置',
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名稱',
+  `cron` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'cron',
+  `limit` int(11) DEFAULT NULL COMMENT '最大執行次數 不傳為無限次',
+  `every` int(11) DEFAULT NULL COMMENT '每間隔多少毫秒執行一次 如果cron設置了 這項設置就無效',
+  `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '備註',
+  `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '狀態 0:停止 1：運行',
+  `startDate` datetime DEFAULT NULL COMMENT '開始時間',
+  `endDate` datetime DEFAULT NULL COMMENT '結束時間',
+  `data` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '數據',
+  `service` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '執行的service實例ID',
+  `type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '狀態 0:系統 1：用戶',
+  `nextRunTime` datetime DEFAULT NULL COMMENT '下一次執行時間',
+  `taskType` tinyint(4) NOT NULL DEFAULT 0 COMMENT '狀態 0:cron 1：時間間隔',
+  PRIMARY KEY (`id`),
+  KEY `IDX_6ced02f467e59bd6306b549bb0` (`createTime`),
+  KEY `IDX_2adc6f9c241391126f27dac145` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `task_log`;
+CREATE TABLE `task_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `taskId` bigint(20) DEFAULT NULL COMMENT '任务ID',
+  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '状态 0:失败 1：成功',
+  `detail` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '详情描述',
+  PRIMARY KEY (`id`),
+  KEY `IDX_b9af0e100be034924b270aab31` (`createTime`),
+  KEY `IDX_8857d8d43d38bebd7159af1fa6` (`updateTime`),
+  KEY `IDX_1142dfec452e924b346f060fda` (`taskId`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `tip`;
+CREATE TABLE `tip` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '標題',
+  `publishDate` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '發布日期',
+  `status` enum('draft','published') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft' COMMENT '狀態',
+  `content` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '內容',
+  PRIMARY KEY (`id`),
+  KEY `IDX_def3234e0a0f6f6cc76e7393e3` (`createTime`),
+  KEY `IDX_8abd3a4b5c0010cb338091b8f4` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `tip_category`;
+CREATE TABLE `tip_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `tipId` bigint(20) NOT NULL COMMENT '小知識ID',
+  `categoryId` bigint(20) NOT NULL COMMENT '分類ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_068920b1090cbb0c7ccf2dba57` (`createTime`),
+  KEY `IDX_50e8fe8d0a30bcba80526e2dad` (`updateTime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `tip_collection`;
+CREATE TABLE `tip_collection` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `tipId` bigint(20) NOT NULL COMMENT '小知識ID',
+  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_1fa7a4f407b6bf3bda104ef5bf` (`createTime`),
+  KEY `IDX_7a2bc2777a58faab0983d08455` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `tip_view`;
+CREATE TABLE `tip_view` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
+  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
+  `tipId` bigint(20) NOT NULL COMMENT '小知識ID',
+  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
+  PRIMARY KEY (`id`),
+  KEY `IDX_1c1e85a2f0e6602e239d81ad67` (`createTime`),
+  KEY `IDX_40a90c49e1358d470def40ae03` (`updateTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `base_sys_conf` (`id`, `createTime`, `updateTime`, `cKey`, `cValue`) VALUES
+(1, '2021-02-25 14:23:26.810981', '2021-02-25 14:23:26.810981', 'logKeep', '31');
+
+INSERT INTO `base_sys_department` (`id`, `createTime`, `updateTime`, `name`, `parentId`, `orderNum`) VALUES
+(1, '2021-02-24 21:17:11.971397', '2022-05-30 19:38:50.000000', '鍵結科技', NULL, 0),
+(11, '2021-02-26 14:17:06.690613', '2022-05-30 19:38:50.000000', '開發', 1, 2),
+(12, '2021-02-26 14:17:11.576369', '2022-05-30 19:38:50.000000', '管理', 1, 1),
+(13, '2021-02-26 14:28:59.685177', '2022-05-30 19:38:50.000000', '用戶', 1, 3),
+(15, '2022-07-02 17:46:03.239000', '2022-07-02 17:46:03.239000', '創作者', 13, 1),
+(16, '2022-07-02 17:46:10.826000', '2022-07-02 17:48:36.366781', '一般用戶', 13, 0),
+(17, '2022-07-02 17:49:31.327000', '2022-07-02 17:49:48.871000', '系統', 12, 0),
+(18, '2022-07-02 17:49:39.465000', '2022-07-02 17:49:39.465000', '編輯', 12, 1);
+
+INSERT INTO `base_sys_log` (`id`, `createTime`, `updateTime`, `userId`, `action`, `ip`, `ipAddr`, `params`) VALUES
+(600, '2022-11-08 19:44:35.118395', '2022-11-08 19:44:35.118395', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(601, '2022-11-08 22:34:19.169966', '2022-11-08 22:34:19.169966', NULL, '/app/news/article/categories', '::1', '無法獲取地址信息', NULL),
+(602, '2022-11-09 00:26:38.511291', '2022-11-09 00:26:38.511291', NULL, '/app/auth/login', '::1', '無法獲取地址信息', '{\"phone\":\"0953705508\",\"password\":\"qwe123596\"}'),
+(603, '2022-11-09 00:31:13.105147', '2022-11-09 00:31:13.105147', NULL, '/app/auth/login', '::1', '無法獲取地址信息', '{\"phone\":\"0953705508\",\"password\":\"qwe123596\"}'),
+(604, '2022-11-15 00:36:00.304915', '2022-11-15 00:36:00.304915', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(605, '2022-11-15 00:37:43.336377', '2022-11-15 00:37:43.336377', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(606, '2022-11-15 00:40:22.165564', '2022-11-15 00:40:22.165564', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(607, '2022-11-15 00:51:47.684246', '2022-11-15 00:51:47.684246', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(608, '2022-11-15 00:52:13.813956', '2022-11-15 00:52:13.813956', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(609, '2022-11-15 00:52:53.462205', '2022-11-15 00:52:53.462205', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(610, '2022-11-15 00:52:59.033613', '2022-11-15 00:52:59.033613', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(611, '2022-11-15 00:53:54.436337', '2022-11-15 00:53:54.436337', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(612, '2022-11-15 00:55:05.117292', '2022-11-15 00:55:05.117292', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(613, '2022-11-15 01:07:01.844444', '2022-11-15 01:07:01.844444', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(614, '2022-11-15 01:12:50.160359', '2022-11-15 01:12:50.160359', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(615, '2022-11-15 01:18:27.377315', '2022-11-15 01:18:27.377315', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(616, '2022-11-15 01:19:42.510009', '2022-11-15 01:19:42.510009', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(617, '2022-11-15 01:21:21.834292', '2022-11-15 01:21:21.834292', NULL, '/app/auth/forgot', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"password\":\"q556678s\",\"passwordConfirm\":\"q556678s\",\"verifyCode\":\"327041\"}'),
+(618, '2022-11-15 01:21:24.618523', '2022-11-15 01:21:24.618523', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(619, '2022-11-15 01:21:27.511590', '2022-11-15 01:21:27.511590', NULL, '/app/user/logout', '127.0.0.1', '本機地址', NULL),
+(620, '2022-11-15 01:21:36.520522', '2022-11-15 01:21:36.520522', NULL, '/app/auth/login', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"password\":\"q556678s\"}'),
+(621, '2022-11-15 01:21:36.579893', '2022-11-15 01:21:36.579893', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(622, '2022-11-15 01:21:39.265271', '2022-11-15 01:21:39.265271', NULL, '/app/user/logout', '127.0.0.1', '本機地址', NULL),
+(623, '2022-11-15 01:24:30.282376', '2022-11-15 01:24:30.282376', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(624, '2022-11-15 01:29:56.355335', '2022-11-15 01:29:56.355335', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(625, '2022-11-15 01:31:31.798500', '2022-11-15 01:31:31.798500', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(626, '2022-11-15 01:32:23.355466', '2022-11-15 01:32:23.355466', NULL, '/app/auth/captcha', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"type\":\"forgot\"}'),
+(627, '2022-11-15 01:32:56.451325', '2022-11-15 01:32:56.451325', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"uv\",\"client\":true}'),
+(628, '2022-11-15 01:32:56.588441', '2022-11-15 01:32:56.588441', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"uv\",\"client\":true}'),
+(629, '2022-11-15 01:32:56.629201', '2022-11-15 01:32:56.629201', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"articleId\":21}'),
+(630, '2022-11-15 01:32:56.701580', '2022-11-15 01:32:56.701580', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":21,\"page\":1,\"size\":12}'),
+(631, '2022-11-15 01:32:58.769302', '2022-11-15 01:32:58.769302', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(632, '2022-11-15 01:32:58.814804', '2022-11-15 01:32:58.814804', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(633, '2022-11-15 01:32:58.862117', '2022-11-15 01:32:58.862117', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(634, '2022-11-15 01:33:04.577150', '2022-11-15 01:33:04.577150', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(635, '2022-11-15 01:33:04.612298', '2022-11-15 01:33:04.612298', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(636, '2022-11-15 01:33:04.629916', '2022-11-15 01:33:04.629916', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(637, '2022-11-15 01:33:04.653742', '2022-11-15 01:33:04.653742', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(638, '2022-11-15 01:33:04.681477', '2022-11-15 01:33:04.681477', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(639, '2022-11-15 01:41:48.898811', '2022-11-15 01:41:48.898811', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(640, '2022-11-15 01:41:48.982510', '2022-11-15 01:41:48.982510', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(641, '2022-11-15 01:41:49.080257', '2022-11-15 01:41:49.080257', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(642, '2022-11-15 01:41:49.111786', '2022-11-15 01:41:49.111786', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(643, '2022-11-15 01:41:49.147568', '2022-11-15 01:41:49.147568', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(644, '2022-11-15 01:45:16.975367', '2022-11-15 01:45:16.975367', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(645, '2022-11-15 01:45:17.081977', '2022-11-15 01:45:17.081977', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(646, '2022-11-15 01:45:17.255162', '2022-11-15 01:45:17.255162', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(647, '2022-11-15 01:45:17.379504', '2022-11-15 01:45:17.379504', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(648, '2022-11-15 01:45:17.406377', '2022-11-15 01:45:17.406377', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(649, '2022-11-15 01:45:20.492941', '2022-11-15 01:45:20.492941', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(650, '2022-11-15 01:45:20.527850', '2022-11-15 01:45:20.527850', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"醣科學-生技疫苗新契機\",\"client\":false}'),
+(651, '2022-11-15 01:45:20.579227', '2022-11-15 01:45:20.579227', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"醣科學-生技疫苗新契機\",\"client\":false}'),
+(652, '2022-11-15 01:45:20.596470', '2022-11-15 01:45:20.596470', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"articleId\":15}'),
+(653, '2022-11-15 01:45:20.630540', '2022-11-15 01:45:20.630540', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":15,\"page\":1,\"size\":12}'),
+(654, '2022-11-15 01:45:22.584810', '2022-11-15 01:45:22.584810', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(655, '2022-11-15 01:45:22.633184', '2022-11-15 01:45:22.633184', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(656, '2022-11-15 01:45:22.698521', '2022-11-15 01:45:22.698521', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(657, '2022-11-15 01:45:22.750123', '2022-11-15 01:45:22.750123', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(658, '2022-11-15 01:45:22.820489', '2022-11-15 01:45:22.820489', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(659, '2022-11-15 01:48:43.457192', '2022-11-15 01:48:43.457192', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(660, '2022-11-15 01:48:43.535007', '2022-11-15 01:48:43.535007', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(661, '2022-11-15 01:48:43.595380', '2022-11-15 01:48:43.595380', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(662, '2022-11-15 01:48:43.725665', '2022-11-15 01:48:43.725665', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(663, '2022-11-15 01:48:43.771689', '2022-11-15 01:48:43.771689', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(664, '2022-11-15 01:49:28.702556', '2022-11-15 01:49:28.702556', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(665, '2022-11-15 01:49:28.747047', '2022-11-15 01:49:28.747047', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(666, '2022-11-15 01:49:28.825987', '2022-11-15 01:49:28.825987', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(667, '2022-11-15 01:49:28.884541', '2022-11-15 01:49:28.884541', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(668, '2022-11-15 01:49:28.912662', '2022-11-15 01:49:28.912662', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(669, '2022-11-15 01:49:29.063313', '2022-11-15 01:49:29.063313', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(670, '2022-11-15 01:49:29.108168', '2022-11-15 01:49:29.108168', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(671, '2022-11-15 01:49:29.138402', '2022-11-15 01:49:29.138402', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(672, '2022-11-15 01:49:29.162809', '2022-11-15 01:49:29.162809', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(673, '2022-11-15 01:49:29.188679', '2022-11-15 01:49:29.188679', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(674, '2022-11-15 01:49:59.211583', '2022-11-15 01:49:59.211583', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(675, '2022-11-15 01:49:59.244256', '2022-11-15 01:49:59.244256', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(676, '2022-11-15 01:49:59.270215', '2022-11-15 01:49:59.270215', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(677, '2022-11-15 01:49:59.348765', '2022-11-15 01:49:59.348765', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(678, '2022-11-15 01:49:59.397904', '2022-11-15 01:49:59.397904', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(679, '2022-11-15 01:51:53.781160', '2022-11-15 01:51:53.781160', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(680, '2022-11-15 01:51:53.841745', '2022-11-15 01:51:53.841745', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(681, '2022-11-15 01:51:54.098927', '2022-11-15 01:51:54.098927', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(682, '2022-11-15 01:51:54.132684', '2022-11-15 01:51:54.132684', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(683, '2022-11-15 01:51:54.212129', '2022-11-15 01:51:54.212129', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(684, '2022-11-15 01:52:18.394974', '2022-11-15 01:52:18.394974', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(685, '2022-11-15 01:52:18.432426', '2022-11-15 01:52:18.432426', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(686, '2022-11-15 01:52:18.478277', '2022-11-15 01:52:18.478277', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(687, '2022-11-15 01:52:18.504698', '2022-11-15 01:52:18.504698', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(688, '2022-11-15 01:52:18.522999', '2022-11-15 01:52:18.522999', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(689, '2022-11-15 01:52:20.489197', '2022-11-15 01:52:20.489197', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(690, '2022-11-15 01:52:20.518016', '2022-11-15 01:52:20.518016', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(691, '2022-11-15 01:52:20.560493', '2022-11-15 01:52:20.560493', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(692, '2022-11-15 01:52:20.586318', '2022-11-15 01:52:20.586318', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(693, '2022-11-15 01:52:20.642000', '2022-11-15 01:52:20.642000', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(694, '2022-11-15 01:52:24.242067', '2022-11-15 01:52:24.242067', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(695, '2022-11-15 01:52:24.312795', '2022-11-15 01:52:24.312795', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(696, '2022-11-15 01:52:24.339801', '2022-11-15 01:52:24.339801', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(697, '2022-11-15 01:52:24.574228', '2022-11-15 01:52:24.574228', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(698, '2022-11-15 01:52:24.601511', '2022-11-15 01:52:24.601511', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(699, '2022-11-15 01:58:40.567506', '2022-11-15 01:58:40.567506', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(700, '2022-11-15 01:58:40.787500', '2022-11-15 01:58:40.787500', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(701, '2022-11-15 01:58:40.879019', '2022-11-15 01:58:40.879019', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(702, '2022-11-15 01:58:40.895138', '2022-11-15 01:58:40.895138', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(703, '2022-11-15 01:58:40.941231', '2022-11-15 01:58:40.941231', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(704, '2022-11-15 07:52:17.791249', '2022-11-15 07:52:17.791249', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(705, '2022-11-15 07:52:17.879203', '2022-11-15 07:52:17.879203', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(706, '2022-11-15 07:52:17.935194', '2022-11-15 07:52:17.935194', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(707, '2022-11-15 07:52:17.975604', '2022-11-15 07:52:17.975604', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(708, '2022-11-15 07:52:17.988961', '2022-11-15 07:52:17.988961', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(709, '2022-11-15 08:04:19.838670', '2022-11-15 08:04:19.838670', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(710, '2022-11-15 08:04:19.879919', '2022-11-15 08:04:19.879919', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(711, '2022-11-15 08:04:19.931837', '2022-11-15 08:04:19.931837', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(712, '2022-11-15 08:04:19.974925', '2022-11-15 08:04:19.974925', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(713, '2022-11-15 08:04:19.989856', '2022-11-15 08:04:19.989856', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(714, '2022-11-15 08:05:03.978988', '2022-11-15 08:05:03.978988', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(715, '2022-11-15 08:05:04.008047', '2022-11-15 08:05:04.008047', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(716, '2022-11-15 08:05:04.049980', '2022-11-15 08:05:04.049980', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(717, '2022-11-15 08:05:04.082695', '2022-11-15 08:05:04.082695', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(718, '2022-11-15 08:05:04.102299', '2022-11-15 08:05:04.102299', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(719, '2022-11-15 08:05:34.711233', '2022-11-15 08:05:34.711233', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(720, '2022-11-15 08:05:34.747754', '2022-11-15 08:05:34.747754', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(721, '2022-11-15 08:05:34.779264', '2022-11-15 08:05:34.779264', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(722, '2022-11-15 08:05:34.808705', '2022-11-15 08:05:34.808705', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(723, '2022-11-15 08:05:41.319901', '2022-11-15 08:05:41.319901', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(724, '2022-11-15 08:05:41.337144', '2022-11-15 08:05:41.337144', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(725, '2022-11-15 08:05:41.364501', '2022-11-15 08:05:41.364501', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(726, '2022-11-15 08:05:41.385331', '2022-11-15 08:05:41.385331', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(727, '2022-11-15 08:05:50.158882', '2022-11-15 08:05:50.158882', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(728, '2022-11-15 08:05:50.176632', '2022-11-15 08:05:50.176632', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(729, '2022-11-15 08:05:50.203996', '2022-11-15 08:05:50.203996', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(730, '2022-11-15 08:05:50.223063', '2022-11-15 08:05:50.223063', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(731, '2022-11-15 08:05:50.238985', '2022-11-15 08:05:50.238985', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(732, '2022-11-15 08:05:54.687935', '2022-11-15 08:05:54.687935', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(733, '2022-11-15 08:05:57.023223', '2022-11-15 08:05:57.023223', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"page\":null,\"type\":\"normal\"}'),
+(734, '2022-11-15 08:06:24.763669', '2022-11-15 08:06:24.763669', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(735, '2022-11-15 08:06:24.834998', '2022-11-15 08:06:24.834998', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(736, '2022-11-15 08:06:24.868681', '2022-11-15 08:06:24.868681', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(737, '2022-11-15 08:06:24.916254', '2022-11-15 08:06:24.916254', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(738, '2022-11-15 08:06:24.968979', '2022-11-15 08:06:24.968979', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(739, '2022-11-15 08:06:52.233589', '2022-11-15 08:06:52.233589', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"page\":2,\"size\":8,\"type\":\"normal\"}'),
+(740, '2022-11-15 08:07:07.529689', '2022-11-15 08:07:07.529689', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(741, '2022-11-15 08:07:07.563271', '2022-11-15 08:07:07.563271', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(742, '2022-11-15 08:07:07.633186', '2022-11-15 08:07:07.633186', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(743, '2022-11-15 08:07:07.657134', '2022-11-15 08:07:07.657134', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(744, '2022-11-15 08:07:07.691255', '2022-11-15 08:07:07.691255', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(745, '2022-11-15 08:08:17.344724', '2022-11-15 08:08:17.344724', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(746, '2022-11-15 08:08:42.775968', '2022-11-15 08:08:42.775968', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(747, '2022-11-15 08:08:42.834038', '2022-11-15 08:08:42.834038', NULL, '/app/industry-category/info', '127.0.0.1', '本機地址', NULL),
+(748, '2022-11-15 08:08:42.906547', '2022-11-15 08:08:42.906547', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(749, '2022-11-15 08:08:42.927718', '2022-11-15 08:08:42.927718', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(750, '2022-11-15 08:08:55.575281', '2022-11-15 08:08:55.575281', NULL, '/app/industry-category/info', '127.0.0.1', '本機地址', '{\"slug\":\"polyimide\"}'),
+(751, '2022-11-15 08:08:55.618944', '2022-11-15 08:08:55.618944', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\",\"category\":\"polyimide\"}'),
+(752, '2022-11-15 08:08:55.747985', '2022-11-15 08:08:55.747985', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\",\"category\":\"polyimide\"}'),
+(753, '2022-11-15 08:08:56.659888', '2022-11-15 08:08:56.659888', NULL, '/app/industry-category/info', '127.0.0.1', '本機地址', '{\"slug\":\"chemical-raw-materials\"}'),
+(754, '2022-11-15 08:08:56.674132', '2022-11-15 08:08:56.674132', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\",\"category\":\"chemical-raw-materials\"}'),
+(755, '2022-11-15 08:08:56.728311', '2022-11-15 08:08:56.728311', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\",\"category\":\"chemical-raw-materials\"}'),
+(756, '2022-11-15 08:09:15.231013', '2022-11-15 08:09:15.231013', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(757, '2022-11-15 08:09:15.257419', '2022-11-15 08:09:15.257419', NULL, '/app/industry-category/info', '127.0.0.1', '本機地址', '{\"slug\":\"chemical-raw-materials\"}'),
+(758, '2022-11-15 08:09:15.304958', '2022-11-15 08:09:15.304958', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\",\"category\":\"chemical-raw-materials\"}'),
+(759, '2022-11-15 08:09:15.329331', '2022-11-15 08:09:15.329331', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\",\"category\":\"chemical-raw-materials\"}'),
+(760, '2022-11-15 08:09:26.960298', '2022-11-15 08:09:26.960298', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(761, '2022-11-15 08:09:26.978303', '2022-11-15 08:09:26.978303', NULL, '/app/industry-category/info', '127.0.0.1', '本機地址', '{\"slug\":\"chemical-raw-materials\"}'),
+(762, '2022-11-15 08:09:26.990198', '2022-11-15 08:09:26.990198', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\",\"category\":\"chemical-raw-materials\"}'),
+(763, '2022-11-15 08:09:27.027363', '2022-11-15 08:09:27.027363', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\",\"category\":\"chemical-raw-materials\"}'),
+(764, '2022-11-15 08:09:59.723726', '2022-11-15 08:09:59.723726', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(765, '2022-11-15 08:09:59.753159', '2022-11-15 08:09:59.753159', NULL, '/app/industry-category/info', '127.0.0.1', '本機地址', '{\"slug\":\"chemical-raw-materials\"}'),
+(766, '2022-11-15 08:09:59.769280', '2022-11-15 08:09:59.769280', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\",\"category\":\"chemical-raw-materials\"}'),
+(767, '2022-11-15 08:09:59.790030', '2022-11-15 08:09:59.790030', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\",\"category\":\"chemical-raw-materials\"}'),
+(768, '2022-11-15 08:12:30.633885', '2022-11-15 08:12:30.633885', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(769, '2022-11-15 08:12:30.654580', '2022-11-15 08:12:30.654580', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(770, '2022-11-15 08:12:30.676981', '2022-11-15 08:12:30.676981', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(771, '2022-11-15 08:12:30.698134', '2022-11-15 08:12:30.698134', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(772, '2022-11-15 08:12:30.714750', '2022-11-15 08:12:30.714750', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(773, '2022-11-15 08:13:46.548132', '2022-11-15 08:13:46.548132', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(774, '2022-11-15 08:13:46.571611', '2022-11-15 08:13:46.571611', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(775, '2022-11-15 08:13:46.588471', '2022-11-15 08:13:46.588471', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(776, '2022-11-15 08:13:46.606364', '2022-11-15 08:13:46.606364', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(777, '2022-11-15 08:13:46.619516', '2022-11-15 08:13:46.619516', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(778, '2022-11-15 08:14:16.200862', '2022-11-15 08:14:16.200862', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(779, '2022-11-15 08:14:16.331811', '2022-11-15 08:14:16.331811', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(780, '2022-11-15 08:14:16.421223', '2022-11-15 08:14:16.421223', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(781, '2022-11-15 08:14:16.489518', '2022-11-15 08:14:16.489518', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(782, '2022-11-15 08:14:16.541945', '2022-11-15 08:14:16.541945', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(783, '2022-11-15 08:15:59.414493', '2022-11-15 08:15:59.414493', NULL, '/app/industry-category/info', '127.0.0.1', '本機地址', '{\"slug\":\"solvent-related\"}'),
+(784, '2022-11-15 08:15:59.458977', '2022-11-15 08:15:59.458977', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\",\"category\":\"solvent-related\"}'),
+(785, '2022-11-15 08:15:59.587224', '2022-11-15 08:15:59.587224', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\",\"category\":\"solvent-related\"}'),
+(786, '2022-11-15 08:16:01.090035', '2022-11-15 08:16:01.090035', NULL, '/app/industry-category/info', '127.0.0.1', '本機地址', '{\"slug\":\"chemical-raw-materials\"}'),
+(787, '2022-11-15 08:16:01.111661', '2022-11-15 08:16:01.111661', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\",\"category\":\"chemical-raw-materials\"}'),
+(788, '2022-11-15 08:16:01.262598', '2022-11-15 08:16:01.262598', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\",\"category\":\"chemical-raw-materials\"}'),
+(789, '2022-11-15 08:16:02.182357', '2022-11-15 08:16:02.182357', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(790, '2022-11-15 08:16:02.351906', '2022-11-15 08:16:02.351906', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(791, '2022-11-15 08:16:02.398242', '2022-11-15 08:16:02.398242', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(792, '2022-11-15 08:16:02.424260', '2022-11-15 08:16:02.424260', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(793, '2022-11-15 08:16:10.298724', '2022-11-15 08:16:10.298724', NULL, '/app/industry-category/info', '127.0.0.1', '本機地址', '{\"slug\":\"grind\"}'),
+(794, '2022-11-15 08:16:10.321452', '2022-11-15 08:16:10.321452', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\",\"category\":\"grind\"}'),
+(795, '2022-11-15 08:16:10.364230', '2022-11-15 08:16:10.364230', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\",\"category\":\"grind\"}'),
+(796, '2022-11-15 08:16:17.878670', '2022-11-15 08:16:17.878670', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(797, '2022-11-15 08:16:17.921254', '2022-11-15 08:16:17.921254', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(798, '2022-11-15 08:16:17.953582', '2022-11-15 08:16:17.953582', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(799, '2022-11-15 08:16:18.062785', '2022-11-15 08:16:18.062785', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(800, '2022-11-15 08:16:22.130408', '2022-11-15 08:16:22.130408', NULL, '/app/industry-category/info', '127.0.0.1', '本機地址', '{\"slug\":\"petroleum-monomer\"}'),
+(801, '2022-11-15 08:16:22.175054', '2022-11-15 08:16:22.175054', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\",\"category\":\"petroleum-monomer\"}'),
+(802, '2022-11-15 08:16:22.197465', '2022-11-15 08:16:22.197465', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\",\"category\":\"petroleum-monomer\"}'),
+(803, '2022-11-15 08:16:25.047157', '2022-11-15 08:16:25.047157', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(804, '2022-11-15 08:16:25.084672', '2022-11-15 08:16:25.084672', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(805, '2022-11-15 08:16:25.182062', '2022-11-15 08:16:25.182062', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(806, '2022-11-15 08:16:25.223384', '2022-11-15 08:16:25.223384', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(807, '2022-11-15 08:16:32.270392', '2022-11-15 08:16:32.270392', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"page\":2,\"size\":8,\"type\":\"normal\"}'),
+(808, '2022-11-15 08:16:33.704785', '2022-11-15 08:16:33.704785', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"量子電腦加速未來化學\",\"client\":true}'),
+(809, '2022-11-15 08:16:33.738614', '2022-11-15 08:16:33.738614', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"量子電腦加速未來化學\",\"client\":true}'),
+(810, '2022-11-15 08:16:33.794961', '2022-11-15 08:16:33.794961', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":14}'),
+(811, '2022-11-15 08:16:33.881536', '2022-11-15 08:16:33.881536', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":14,\"page\":1,\"size\":12}'),
+(812, '2022-11-15 08:17:23.839404', '2022-11-15 08:17:23.839404', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(813, '2022-11-15 08:17:23.881391', '2022-11-15 08:17:23.881391', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(814, '2022-11-15 08:17:23.931224', '2022-11-15 08:17:23.931224', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(815, '2022-11-15 08:17:24.064096', '2022-11-15 08:17:24.064096', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(816, '2022-11-15 08:17:47.292640', '2022-11-15 08:17:47.292640', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(817, '2022-11-15 08:17:47.338573', '2022-11-15 08:17:47.338573', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(818, '2022-11-15 08:17:47.363035', '2022-11-15 08:17:47.363035', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(819, '2022-11-15 08:17:47.431074', '2022-11-15 08:17:47.431074', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(820, '2022-11-15 08:17:47.455557', '2022-11-15 08:17:47.455557', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(821, '2022-11-15 13:28:16.590229', '2022-11-15 13:28:16.590229', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"uv\",\"client\":true}'),
+(822, '2022-11-15 13:28:16.746896', '2022-11-15 13:28:16.746896', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"uv\",\"client\":true}'),
+(823, '2022-11-15 13:28:16.822674', '2022-11-15 13:28:16.822674', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":21}'),
+(824, '2022-11-15 13:28:16.962586', '2022-11-15 13:28:16.962586', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":21,\"page\":1,\"size\":12}'),
+(825, '2022-11-15 13:28:27.674059', '2022-11-15 13:28:27.674059', NULL, '/app/auth/login', '127.0.0.1', '本機地址', '{\"phone\":\"0953705508\",\"password\":\"q556678s\"}'),
+(826, '2022-11-15 13:28:27.767353', '2022-11-15 13:28:27.767353', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(827, '2022-11-15 13:28:27.783398', '2022-11-15 13:28:27.783398', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"uv\",\"client\":true}'),
+(828, '2022-11-15 13:28:38.045525', '2022-11-15 13:28:38.045525', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(829, '2022-11-15 13:28:38.121620', '2022-11-15 13:28:38.121620', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(830, '2022-11-15 13:28:38.252779', '2022-11-15 13:28:38.252779', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(831, '2022-11-15 13:28:38.306925', '2022-11-15 13:28:38.306925', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(832, '2022-11-15 13:28:38.355258', '2022-11-15 13:28:38.355258', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(833, '2022-11-15 13:28:49.595079', '2022-11-15 13:28:49.595079', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(834, '2022-11-15 13:28:49.680832', '2022-11-15 13:28:49.680832', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(835, '2022-11-15 13:28:49.727946', '2022-11-15 13:28:49.727946', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(836, '2022-11-15 13:30:05.140746', '2022-11-15 13:30:05.140746', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(837, '2022-11-15 13:30:05.233669', '2022-11-15 13:30:05.233669', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(838, '2022-11-15 13:30:05.314683', '2022-11-15 13:30:05.314683', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(839, '2022-11-15 13:30:05.348111', '2022-11-15 13:30:05.348111', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(840, '2022-11-15 13:30:09.342078', '2022-11-15 13:30:09.342078', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(841, '2022-11-15 13:30:09.388689', '2022-11-15 13:30:09.388689', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(842, '2022-11-15 13:30:09.454436', '2022-11-15 13:30:09.454436', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(843, '2022-11-15 13:30:09.485956', '2022-11-15 13:30:09.485956', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(844, '2022-11-15 13:30:09.529703', '2022-11-15 13:30:09.529703', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(845, '2022-11-15 13:30:52.631656', '2022-11-15 13:30:52.631656', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(846, '2022-11-15 13:30:52.713367', '2022-11-15 13:30:52.713367', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(847, '2022-11-15 13:30:53.203278', '2022-11-15 13:30:53.203278', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(848, '2022-11-15 13:31:41.411713', '2022-11-15 13:31:41.411713', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(849, '2022-11-15 13:31:41.578159', '2022-11-15 13:31:41.578159', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(850, '2022-11-15 13:31:42.558571', '2022-11-15 13:31:42.558571', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(851, '2022-11-15 13:31:42.572465', '2022-11-15 13:31:42.572465', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(852, '2022-11-15 13:32:08.553433', '2022-11-15 13:32:08.553433', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(853, '2022-11-15 13:32:08.702482', '2022-11-15 13:32:08.702482', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(854, '2022-11-15 13:32:09.702811', '2022-11-15 13:32:09.702811', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(855, '2022-11-15 13:32:09.747217', '2022-11-15 13:32:09.747217', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(856, '2022-11-15 13:32:40.670687', '2022-11-15 13:32:40.670687', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(857, '2022-11-15 13:32:40.724373', '2022-11-15 13:32:40.724373', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(858, '2022-11-15 13:32:41.274175', '2022-11-15 13:32:41.274175', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(859, '2022-11-15 13:32:41.293399', '2022-11-15 13:32:41.293399', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(860, '2022-11-15 13:32:52.849687', '2022-11-15 13:32:52.849687', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(861, '2022-11-15 13:32:53.191860', '2022-11-15 13:32:53.191860', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(862, '2022-11-15 13:32:53.409970', '2022-11-15 13:32:53.409970', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(863, '2022-11-15 13:32:53.418555', '2022-11-15 13:32:53.418555', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(864, '2022-11-15 13:33:02.538138', '2022-11-15 13:33:02.538138', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(865, '2022-11-15 13:33:02.755076', '2022-11-15 13:33:02.755076', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(866, '2022-11-15 13:33:03.451649', '2022-11-15 13:33:03.451649', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(867, '2022-11-15 13:33:03.472205', '2022-11-15 13:33:03.472205', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(868, '2022-11-15 13:33:49.729661', '2022-11-15 13:33:49.729661', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(869, '2022-11-15 13:33:49.949089', '2022-11-15 13:33:49.949089', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(870, '2022-11-15 13:33:50.933707', '2022-11-15 13:33:50.933707', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(871, '2022-11-15 13:33:50.959535', '2022-11-15 13:33:50.959535', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(872, '2022-11-15 13:34:07.953638', '2022-11-15 13:34:07.953638', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(873, '2022-11-15 13:34:08.251320', '2022-11-15 13:34:08.251320', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(874, '2022-11-15 13:34:09.307840', '2022-11-15 13:34:09.307840', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(875, '2022-11-15 13:34:09.336704', '2022-11-15 13:34:09.336704', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(876, '2022-11-15 13:34:20.785851', '2022-11-15 13:34:20.785851', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(877, '2022-11-15 13:34:22.041217', '2022-11-15 13:34:22.041217', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(878, '2022-11-15 13:34:22.287153', '2022-11-15 13:34:22.287153', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(879, '2022-11-15 13:34:22.323621', '2022-11-15 13:34:22.323621', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(880, '2022-11-15 13:34:47.814697', '2022-11-15 13:34:47.814697', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(881, '2022-11-15 13:34:47.840846', '2022-11-15 13:34:47.840846', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(882, '2022-11-15 13:34:47.897426', '2022-11-15 13:34:47.897426', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(883, '2022-11-15 13:34:47.921726', '2022-11-15 13:34:47.921726', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(884, '2022-11-15 13:34:47.941360', '2022-11-15 13:34:47.941360', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(885, '2022-11-15 13:34:52.788883', '2022-11-15 13:34:52.788883', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(886, '2022-11-15 13:34:52.935612', '2022-11-15 13:34:52.935612', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(887, '2022-11-15 13:35:00.159466', '2022-11-15 13:35:00.159466', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(888, '2022-11-15 13:35:00.198692', '2022-11-15 13:35:00.198692', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(889, '2022-11-15 13:35:00.350344', '2022-11-15 13:35:00.350344', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(890, '2022-11-15 13:35:10.601832', '2022-11-15 13:35:10.601832', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(891, '2022-11-15 13:35:10.650864', '2022-11-15 13:35:10.650864', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(892, '2022-11-15 13:35:10.774720', '2022-11-15 13:35:10.774720', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(893, '2022-11-15 13:35:10.815849', '2022-11-15 13:35:10.815849', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(894, '2022-11-15 13:35:23.367572', '2022-11-15 13:35:23.367572', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(895, '2022-11-15 13:35:23.399775', '2022-11-15 13:35:23.399775', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(896, '2022-11-15 13:35:23.428363', '2022-11-15 13:35:23.428363', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(897, '2022-11-15 13:35:23.449322', '2022-11-15 13:35:23.449322', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(898, '2022-11-15 13:35:23.465842', '2022-11-15 13:35:23.465842', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(899, '2022-11-15 13:35:26.424761', '2022-11-15 13:35:26.424761', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(900, '2022-11-15 13:35:26.491302', '2022-11-15 13:35:26.491302', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(901, '2022-11-15 13:35:34.061033', '2022-11-15 13:35:34.061033', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(902, '2022-11-15 13:35:34.349102', '2022-11-15 13:35:34.349102', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(903, '2022-11-15 13:35:34.479769', '2022-11-15 13:35:34.479769', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(904, '2022-11-15 13:35:34.538678', '2022-11-15 13:35:34.538678', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(905, '2022-11-15 13:36:17.715686', '2022-11-15 13:36:17.715686', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(906, '2022-11-15 13:36:17.813362', '2022-11-15 13:36:17.813362', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(907, '2022-11-15 13:36:18.179051', '2022-11-15 13:36:18.179051', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(908, '2022-11-15 13:36:18.287094', '2022-11-15 13:36:18.287094', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(909, '2022-11-15 13:36:29.899605', '2022-11-15 13:36:29.899605', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(910, '2022-11-15 13:36:34.723114', '2022-11-15 13:36:34.723114', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(911, '2022-11-15 13:36:39.523513', '2022-11-15 13:36:39.523513', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(912, '2022-11-15 13:36:39.606440', '2022-11-15 13:36:39.606440', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":12,\"type\":\"video\"}'),
+(913, '2022-11-15 13:36:43.657310', '2022-11-15 13:36:43.657310', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(914, '2022-11-15 13:36:43.717951', '2022-11-15 13:36:43.717951', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(915, '2022-11-15 13:36:43.805427', '2022-11-15 13:36:43.805427', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(916, '2022-11-15 13:36:43.837357', '2022-11-15 13:36:43.837357', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(917, '2022-11-15 13:36:43.878357', '2022-11-15 13:36:43.878357', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(918, '2022-11-15 13:36:50.902164', '2022-11-15 13:36:50.902164', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(919, '2022-11-15 13:36:51.383751', '2022-11-15 13:36:51.383751', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(920, '2022-11-15 13:36:52.437124', '2022-11-15 13:36:52.437124', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(921, '2022-11-15 13:44:24.521966', '2022-11-15 13:44:24.521966', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(922, '2022-11-15 13:44:24.572527', '2022-11-15 13:44:24.572527', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(923, '2022-11-15 13:44:24.623360', '2022-11-15 13:44:24.623360', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(924, '2022-11-15 13:44:24.656804', '2022-11-15 13:44:24.656804', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(925, '2022-11-15 13:44:24.682548', '2022-11-15 13:44:24.682548', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(926, '2022-11-15 13:44:28.678354', '2022-11-15 13:44:28.678354', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(927, '2022-11-15 13:44:28.755793', '2022-11-15 13:44:28.755793', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(928, '2022-11-15 13:44:28.921951', '2022-11-15 13:44:28.921951', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(929, '2022-11-15 15:26:42.953737', '2022-11-15 15:26:42.953737', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(930, '2022-11-15 15:26:43.003577', '2022-11-15 15:26:43.003577', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(931, '2022-11-15 15:26:43.051920', '2022-11-15 15:26:43.051920', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(932, '2022-11-15 15:26:43.121476', '2022-11-15 15:26:43.121476', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(933, '2022-11-15 15:26:43.140806', '2022-11-15 15:26:43.140806', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(934, '2022-11-15 15:26:45.715742', '2022-11-15 15:26:45.715742', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(935, '2022-11-15 15:26:45.760048', '2022-11-15 15:26:45.760048', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(936, '2022-11-15 16:21:37.735816', '2022-11-15 16:21:37.735816', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(937, '2022-11-15 16:21:37.786916', '2022-11-15 16:21:37.786916', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(938, '2022-11-15 16:21:37.842052', '2022-11-15 16:21:37.842052', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(939, '2022-11-15 16:21:37.873300', '2022-11-15 16:21:37.873300', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(940, '2022-11-15 16:21:37.910023', '2022-11-15 16:21:37.910023', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(941, '2022-11-15 16:21:41.234449', '2022-11-15 16:21:41.234449', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(942, '2022-11-15 16:21:41.340808', '2022-11-15 16:21:41.340808', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(943, '2022-11-15 16:24:12.244468', '2022-11-15 16:24:12.244468', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(944, '2022-11-15 16:24:12.274119', '2022-11-15 16:24:12.274119', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(945, '2022-11-15 16:24:12.321571', '2022-11-15 16:24:12.321571', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(946, '2022-11-15 16:24:12.369763', '2022-11-15 16:24:12.369763', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(947, '2022-11-15 16:24:12.423926', '2022-11-15 16:24:12.423926', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(948, '2022-11-15 16:24:16.067604', '2022-11-15 16:24:16.067604', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(949, '2022-11-15 16:24:16.099230', '2022-11-15 16:24:16.099230', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(950, '2022-11-15 16:24:16.146793', '2022-11-15 16:24:16.146793', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(951, '2022-11-15 16:24:16.170292', '2022-11-15 16:24:16.170292', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(952, '2022-11-15 16:24:16.192198', '2022-11-15 16:24:16.192198', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(953, '2022-11-15 16:24:19.208896', '2022-11-15 16:24:19.208896', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(954, '2022-11-15 16:24:19.349761', '2022-11-15 16:24:19.349761', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(955, '2022-11-15 16:24:33.660759', '2022-11-15 16:24:33.660759', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(956, '2022-11-15 16:24:33.692408', '2022-11-15 16:24:33.692408', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(957, '2022-11-15 16:24:33.729318', '2022-11-15 16:24:33.729318', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(958, '2022-11-15 16:24:33.755447', '2022-11-15 16:24:33.755447', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(959, '2022-11-15 16:24:33.770389', '2022-11-15 16:24:33.770389', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(960, '2022-11-15 16:24:36.619147', '2022-11-15 16:24:36.619147', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(961, '2022-11-15 16:24:36.685717', '2022-11-15 16:24:36.685717', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(962, '2022-11-15 16:25:31.508220', '2022-11-15 16:25:31.508220', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(963, '2022-11-15 16:25:31.512456', '2022-11-15 16:25:31.512456', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(964, '2022-11-15 16:25:31.579887', '2022-11-15 16:25:31.579887', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(965, '2022-11-15 16:25:31.607315', '2022-11-15 16:25:31.607315', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(966, '2022-11-15 16:25:31.637072', '2022-11-15 16:25:31.637072', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(967, '2022-11-15 16:25:31.659211', '2022-11-15 16:25:31.659211', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(968, '2022-11-15 16:25:31.681537', '2022-11-15 16:25:31.681537', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(969, '2022-11-15 16:25:31.694299', '2022-11-15 16:25:31.694299', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(970, '2022-11-15 16:25:36.866000', '2022-11-15 16:25:36.866000', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(971, '2022-11-15 16:25:36.882597', '2022-11-15 16:25:36.882597', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(972, '2022-11-15 16:25:36.900966', '2022-11-15 16:25:36.900966', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(973, '2022-11-15 16:25:36.926118', '2022-11-15 16:25:36.926118', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(974, '2022-11-15 16:25:36.943360', '2022-11-15 16:25:36.943360', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(975, '2022-11-15 16:25:38.537269', '2022-11-15 16:25:38.537269', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(976, '2022-11-15 16:25:38.914496', '2022-11-15 16:25:38.914496', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(977, '2022-11-15 16:25:39.074017', '2022-11-15 16:25:39.074017', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(978, '2022-11-15 16:26:10.931810', '2022-11-15 16:26:10.931810', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(979, '2022-11-15 16:26:10.975236', '2022-11-15 16:26:10.975236', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(980, '2022-11-15 16:26:10.989953', '2022-11-15 16:26:10.989953', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(981, '2022-11-15 16:26:11.008362', '2022-11-15 16:26:11.008362', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(982, '2022-11-15 16:26:11.034637', '2022-11-15 16:26:11.034637', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(983, '2022-11-15 16:26:12.192728', '2022-11-15 16:26:12.192728', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(984, '2022-11-15 16:27:40.010156', '2022-11-15 16:27:40.010156', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(985, '2022-11-15 16:27:40.054459', '2022-11-15 16:27:40.054459', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(986, '2022-11-15 16:27:40.077666', '2022-11-15 16:27:40.077666', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(987, '2022-11-15 16:27:40.129785', '2022-11-15 16:27:40.129785', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(988, '2022-11-15 16:27:40.192154', '2022-11-15 16:27:40.192154', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(989, '2022-11-15 16:27:42.482385', '2022-11-15 16:27:42.482385', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(990, '2022-11-15 16:27:42.579246', '2022-11-15 16:27:42.579246', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(991, '2022-11-15 16:27:43.106824', '2022-11-15 16:27:43.106824', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(992, '2022-11-15 16:27:47.239657', '2022-11-15 16:27:47.239657', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(993, '2022-11-15 16:27:47.280182', '2022-11-15 16:27:47.280182', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(994, '2022-11-15 16:27:47.322445', '2022-11-15 16:27:47.322445', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(995, '2022-11-15 16:27:47.346767', '2022-11-15 16:27:47.346767', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(996, '2022-11-15 16:27:47.374143', '2022-11-15 16:27:47.374143', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(997, '2022-11-15 16:27:50.032610', '2022-11-15 16:27:50.032610', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(998, '2022-11-15 16:27:50.071716', '2022-11-15 16:27:50.071716', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(999, '2022-11-15 16:27:50.151574', '2022-11-15 16:27:50.151574', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1000, '2022-11-15 16:27:59.357616', '2022-11-15 16:27:59.357616', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1001, '2022-11-15 16:27:59.411216', '2022-11-15 16:27:59.411216', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1002, '2022-11-15 16:27:59.441111', '2022-11-15 16:27:59.441111', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1003, '2022-11-15 16:27:59.466550', '2022-11-15 16:27:59.466550', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1004, '2022-11-15 16:27:59.539063', '2022-11-15 16:27:59.539063', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1005, '2022-11-15 16:28:01.460930', '2022-11-15 16:28:01.460930', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1006, '2022-11-15 16:28:01.582032', '2022-11-15 16:28:01.582032', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1007, '2022-11-15 16:28:01.663621', '2022-11-15 16:28:01.663621', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1008, '2022-11-15 16:28:06.471488', '2022-11-15 16:28:06.471488', NULL, '/app/industry-category/info', '127.0.0.1', '本機地址', '{\"slug\":\"chemical-raw-materials\"}'),
+(1009, '2022-11-15 16:28:06.497087', '2022-11-15 16:28:06.497087', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\",\"category\":\"chemical-raw-materials\"}'),
+(1010, '2022-11-15 16:28:06.573840', '2022-11-15 16:28:06.573840', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\",\"category\":\"chemical-raw-materials\"}'),
+(1011, '2022-11-15 16:28:07.340012', '2022-11-15 16:28:07.340012', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(1012, '2022-11-15 16:28:07.391171', '2022-11-15 16:28:07.391171', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(1013, '2022-11-15 16:28:07.431009', '2022-11-15 16:28:07.431009', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(1014, '2022-11-15 16:28:07.477081', '2022-11-15 16:28:07.477081', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(1015, '2022-11-15 16:28:08.677671', '2022-11-15 16:28:08.677671', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1016, '2022-11-15 16:28:08.725196', '2022-11-15 16:28:08.725196', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1017, '2022-11-15 16:28:08.758120', '2022-11-15 16:28:08.758120', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1018, '2022-11-15 16:28:15.310282', '2022-11-15 16:28:15.310282', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(1019, '2022-11-15 16:28:15.398777', '2022-11-15 16:28:15.398777', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(1020, '2022-11-15 16:28:15.465471', '2022-11-15 16:28:15.465471', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(1021, '2022-11-15 16:28:15.523375', '2022-11-15 16:28:15.523375', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(1022, '2022-11-15 16:28:17.301660', '2022-11-15 16:28:17.301660', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1023, '2022-11-15 16:28:17.359735', '2022-11-15 16:28:17.359735', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1024, '2022-11-15 16:28:17.398744', '2022-11-15 16:28:17.398744', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1025, '2022-11-15 16:28:20.417998', '2022-11-15 16:28:20.417998', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(1026, '2022-11-15 16:28:20.462572', '2022-11-15 16:28:20.462572', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(1027, '2022-11-15 16:28:20.544153', '2022-11-15 16:28:20.544153', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(1028, '2022-11-15 16:28:20.575720', '2022-11-15 16:28:20.575720', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(1029, '2022-11-15 16:28:32.712953', '2022-11-15 16:28:32.712953', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1030, '2022-11-15 16:28:32.743132', '2022-11-15 16:28:32.743132', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1031, '2022-11-15 16:28:32.792001', '2022-11-15 16:28:32.792001', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1032, '2022-11-15 16:28:44.234436', '2022-11-15 16:28:44.234436', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1033, '2022-11-15 16:28:44.274959', '2022-11-15 16:28:44.274959', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1034, '2022-11-15 16:28:44.319527', '2022-11-15 16:28:44.319527', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1035, '2022-11-15 16:28:59.438204', '2022-11-15 16:28:59.438204', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1036, '2022-11-15 16:28:59.477888', '2022-11-15 16:28:59.477888', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1037, '2022-11-15 16:28:59.572322', '2022-11-15 16:28:59.572322', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1038, '2022-11-15 16:29:12.055596', '2022-11-15 16:29:12.055596', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1039, '2022-11-15 16:29:12.100004', '2022-11-15 16:29:12.100004', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1040, '2022-11-15 16:29:12.137900', '2022-11-15 16:29:12.137900', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1041, '2022-11-15 16:29:15.420162', '2022-11-15 16:29:15.420162', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(1042, '2022-11-15 16:29:15.489682', '2022-11-15 16:29:15.489682', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(1043, '2022-11-15 16:29:15.575729', '2022-11-15 16:29:15.575729', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(1044, '2022-11-15 16:29:15.607655', '2022-11-15 16:29:15.607655', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(1045, '2022-11-15 16:33:14.749986', '2022-11-15 16:33:14.749986', NULL, '/admin/base/open/eps', '127.0.0.1', '本機地址', NULL),
+(1046, '2022-11-15 16:33:14.937124', '2022-11-15 16:33:14.937124', NULL, '/admin/base/open/captcha', '127.0.0.1', '本機地址', '{\"height\":\"40\",\"width\":\"150\"}'),
+(1047, '2022-11-15 16:33:17.577216', '2022-11-15 16:33:17.577216', NULL, '/admin/base/open/eps', '127.0.0.1', '本機地址', NULL),
+(1048, '2022-11-15 16:33:17.595497', '2022-11-15 16:33:17.595497', NULL, '/admin/base/open/captcha', '127.0.0.1', '本機地址', '{\"height\":\"40\",\"width\":\"150\"}'),
+(1049, '2022-11-15 16:37:04.880078', '2022-11-15 16:37:04.880078', NULL, '/admin/base/open/login', '127.0.0.1', '本機地址', '{\"username\":\"admin\",\"password\":\"123123\",\"captchaId\":\"27674090-64c0-11ed-bc57-c707f66e409c\",\"verifyCode\":\"9291\"}'),
+(1050, '2022-11-15 16:37:04.941339', '2022-11-15 16:37:04.941339', 1, '/admin/base/comm/person', '127.0.0.1', '本機地址', NULL),
+(1051, '2022-11-15 16:37:04.960751', '2022-11-15 16:37:04.960751', 1, '/admin/base/comm/permmenu', '127.0.0.1', '本機地址', NULL),
+(1052, '2022-11-15 16:37:05.295113', '2022-11-15 16:37:05.295113', 1, '/admin/tip/index/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20}'),
+(1053, '2022-11-15 16:37:07.677379', '2022-11-15 16:37:07.677379', 1, '/admin/news/article/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20}'),
+(1054, '2022-11-15 16:37:17.530259', '2022-11-15 16:37:17.530259', 1, '/admin/news/comment/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"articleId\":19}'),
+(1055, '2022-11-15 16:37:21.190814', '2022-11-15 16:37:21.190814', 1, '/admin/news/article/info', '127.0.0.1', '本機地址', '{\"id\":\"19\"}'),
+(1056, '2022-11-15 16:37:21.197420', '2022-11-15 16:37:21.197420', 1, '/admin/base/sys/user/list', '127.0.0.1', '本機地址', NULL),
+(1057, '2022-11-15 16:37:22.817783', '2022-11-15 16:37:22.817783', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1058, '2022-11-15 16:37:22.828989', '2022-11-15 16:37:22.828989', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1059, '2022-11-15 16:37:22.912654', '2022-11-15 16:37:22.912654', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1060, '2022-11-15 16:37:22.921401', '2022-11-15 16:37:22.921401', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1061, '2022-11-15 16:37:24.525856', '2022-11-15 16:37:24.525856', 1, '/admin/news/article/info', '127.0.0.1', '本機地址', '{\"id\":\"19\"}'),
+(1062, '2022-11-15 16:37:24.533947', '2022-11-15 16:37:24.533947', 1, '/admin/base/sys/user/list', '127.0.0.1', '本機地址', NULL),
+(1063, '2022-11-15 16:37:26.011818', '2022-11-15 16:37:26.011818', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1064, '2022-11-15 16:37:26.015804', '2022-11-15 16:37:26.015804', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1065, '2022-11-15 16:37:26.044299', '2022-11-15 16:37:26.044299', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1066, '2022-11-15 16:37:26.087845', '2022-11-15 16:37:26.087845', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1067, '2022-11-15 16:37:34.262374', '2022-11-15 16:37:34.262374', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1068, '2022-11-15 16:37:34.337116', '2022-11-15 16:37:34.337116', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1069, '2022-11-15 16:37:35.448286', '2022-11-15 16:37:35.448286', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1070, '2022-11-15 16:37:35.467315', '2022-11-15 16:37:35.467315', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1071, '2022-11-15 16:37:35.532353', '2022-11-15 16:37:35.532353', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1072, '2022-11-15 16:37:35.558029', '2022-11-15 16:37:35.558029', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1073, '2022-11-15 16:37:35.588152', '2022-11-15 16:37:35.588152', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1074, '2022-11-15 16:37:37.176298', '2022-11-15 16:37:37.176298', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1075, '2022-11-15 16:37:37.220223', '2022-11-15 16:37:37.220223', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1076, '2022-11-15 16:37:37.274069', '2022-11-15 16:37:37.274069', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1077, '2022-11-15 16:38:20.703308', '2022-11-15 16:38:20.703308', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1078, '2022-11-15 16:38:20.745837', '2022-11-15 16:38:20.745837', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1079, '2022-11-15 16:38:20.833495', '2022-11-15 16:38:20.833495', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1080, '2022-11-15 16:38:20.855947', '2022-11-15 16:38:20.855947', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1081, '2022-11-15 16:38:20.884247', '2022-11-15 16:38:20.884247', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1082, '2022-11-15 16:38:21.003917', '2022-11-15 16:38:21.003917', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1083, '2022-11-15 16:38:21.067951', '2022-11-15 16:38:21.067951', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1084, '2022-11-15 16:38:21.147480', '2022-11-15 16:38:21.147480', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1085, '2022-11-15 16:38:21.218585', '2022-11-15 16:38:21.218585', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1086, '2022-11-15 16:38:21.308426', '2022-11-15 16:38:21.308426', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1087, '2022-11-15 16:38:26.962112', '2022-11-15 16:38:26.962112', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1088, '2022-11-15 16:38:27.107628', '2022-11-15 16:38:27.107628', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1089, '2022-11-15 16:38:27.317181', '2022-11-15 16:38:27.317181', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1090, '2022-11-15 16:38:29.001552', '2022-11-15 16:38:29.001552', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1091, '2022-11-15 16:38:40.681040', '2022-11-15 16:38:40.681040', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1092, '2022-11-15 16:38:40.716124', '2022-11-15 16:38:40.716124', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1093, '2022-11-15 16:38:40.766048', '2022-11-15 16:38:40.766048', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1094, '2022-11-15 16:38:40.806843', '2022-11-15 16:38:40.806843', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1095, '2022-11-15 16:38:40.849284', '2022-11-15 16:38:40.849284', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1096, '2022-11-15 16:38:40.859925', '2022-11-15 16:38:40.859925', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1097, '2022-11-15 16:38:40.941100', '2022-11-15 16:38:40.941100', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1098, '2022-11-15 16:38:40.963911', '2022-11-15 16:38:40.963911', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1099, '2022-11-15 16:38:41.001960', '2022-11-15 16:38:41.001960', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}');
+
+INSERT INTO `base_sys_log` (`id`, `createTime`, `updateTime`, `userId`, `action`, `ip`, `ipAddr`, `params`) VALUES
+(1100, '2022-11-15 16:38:41.030680', '2022-11-15 16:38:41.030680', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1101, '2022-11-15 16:38:43.691227', '2022-11-15 16:38:43.691227', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1102, '2022-11-15 16:38:44.889874', '2022-11-15 16:38:44.889874', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1103, '2022-11-15 16:38:44.897495', '2022-11-15 16:38:44.897495', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1104, '2022-11-15 16:38:44.980214', '2022-11-15 16:38:44.980214', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1105, '2022-11-15 16:38:44.996216', '2022-11-15 16:38:44.996216', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1106, '2022-11-15 16:39:03.118074', '2022-11-15 16:39:03.118074', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1107, '2022-11-15 16:39:03.142614', '2022-11-15 16:39:03.142614', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1108, '2022-11-15 16:39:03.166027', '2022-11-15 16:39:03.166027', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1109, '2022-11-15 16:39:03.236378', '2022-11-15 16:39:03.236378', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1110, '2022-11-15 16:39:03.290078', '2022-11-15 16:39:03.290078', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1111, '2022-11-15 16:39:03.385731', '2022-11-15 16:39:03.385731', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1112, '2022-11-15 16:39:03.494653', '2022-11-15 16:39:03.494653', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1113, '2022-11-15 16:39:03.586254', '2022-11-15 16:39:03.586254', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1114, '2022-11-15 16:39:03.604518', '2022-11-15 16:39:03.604518', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1115, '2022-11-15 16:39:03.698210', '2022-11-15 16:39:03.698210', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1116, '2022-11-15 16:39:08.472898', '2022-11-15 16:39:08.472898', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1117, '2022-11-15 16:39:08.479242', '2022-11-15 16:39:08.479242', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1118, '2022-11-15 16:39:08.533940', '2022-11-15 16:39:08.533940', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1119, '2022-11-15 16:39:08.551910', '2022-11-15 16:39:08.551910', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1120, '2022-11-15 16:39:08.595678', '2022-11-15 16:39:08.595678', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1121, '2022-11-15 16:39:08.627597', '2022-11-15 16:39:08.627597', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1122, '2022-11-15 16:39:08.752125', '2022-11-15 16:39:08.752125', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1123, '2022-11-15 16:39:08.764015', '2022-11-15 16:39:08.764015', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1124, '2022-11-15 16:39:08.921609', '2022-11-15 16:39:08.921609', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1125, '2022-11-15 16:39:08.933925', '2022-11-15 16:39:08.933925', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1126, '2022-11-15 16:39:13.309246', '2022-11-15 16:39:13.309246', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1127, '2022-11-15 16:39:13.416867', '2022-11-15 16:39:13.416867', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1128, '2022-11-15 16:39:13.650647', '2022-11-15 16:39:13.650647', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1129, '2022-11-15 16:39:13.689185', '2022-11-15 16:39:13.689185', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1130, '2022-11-15 16:39:13.703341', '2022-11-15 16:39:13.703341', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3}'),
+(1131, '2022-11-15 16:39:13.715828', '2022-11-15 16:39:13.715828', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":12}'),
+(1132, '2022-11-15 16:39:13.771566', '2022-11-15 16:39:13.771566', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1133, '2022-11-15 16:39:42.163198', '2022-11-15 16:39:42.163198', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1134, '2022-11-15 16:39:42.186341', '2022-11-15 16:39:42.186341', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1135, '2022-11-15 16:39:42.215420', '2022-11-15 16:39:42.215420', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1136, '2022-11-15 16:39:42.232899', '2022-11-15 16:39:42.232899', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1137, '2022-11-15 16:39:42.289667', '2022-11-15 16:39:42.289667', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1138, '2022-11-15 16:39:42.355605', '2022-11-15 16:39:42.355605', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1139, '2022-11-15 16:39:42.395296', '2022-11-15 16:39:42.395296', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1140, '2022-11-15 16:39:42.438779', '2022-11-15 16:39:42.438779', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1141, '2022-11-15 16:39:42.461176', '2022-11-15 16:39:42.461176', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1142, '2022-11-15 16:39:42.491386', '2022-11-15 16:39:42.491386', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1143, '2022-11-15 16:39:47.347017', '2022-11-15 16:39:47.347017', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1144, '2022-11-15 16:39:47.973392', '2022-11-15 16:39:47.973392', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1145, '2022-11-15 16:39:48.372780', '2022-11-15 16:39:48.372780', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1146, '2022-11-15 16:39:48.476926', '2022-11-15 16:39:48.476926', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1147, '2022-11-15 16:40:19.995984', '2022-11-15 16:40:19.995984', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1148, '2022-11-15 16:40:20.011922', '2022-11-15 16:40:20.011922', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1149, '2022-11-15 16:40:20.099877', '2022-11-15 16:40:20.099877', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1150, '2022-11-15 16:40:20.122064', '2022-11-15 16:40:20.122064', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1151, '2022-11-15 16:40:20.348579', '2022-11-15 16:40:20.348579', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1152, '2022-11-15 16:40:20.359803', '2022-11-15 16:40:20.359803', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1153, '2022-11-15 16:40:20.377653', '2022-11-15 16:40:20.377653', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1154, '2022-11-15 16:40:20.469168', '2022-11-15 16:40:20.469168', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1155, '2022-11-15 16:40:20.526653', '2022-11-15 16:40:20.526653', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1156, '2022-11-15 16:40:20.598046', '2022-11-15 16:40:20.598046', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1157, '2022-11-15 16:40:20.631240', '2022-11-15 16:40:20.631240', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1158, '2022-11-15 16:40:20.717898', '2022-11-15 16:40:20.717898', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1159, '2022-11-15 16:40:20.746672', '2022-11-15 16:40:20.746672', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1160, '2022-11-15 16:40:20.806481', '2022-11-15 16:40:20.806481', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1161, '2022-11-15 16:40:20.876010', '2022-11-15 16:40:20.876010', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1162, '2022-11-15 16:40:23.453678', '2022-11-15 16:40:23.453678', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1163, '2022-11-15 16:40:24.098703', '2022-11-15 16:40:24.098703', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1164, '2022-11-15 16:40:24.164260', '2022-11-15 16:40:24.164260', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1165, '2022-11-15 16:40:24.267252', '2022-11-15 16:40:24.267252', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1166, '2022-11-15 16:40:24.279660', '2022-11-15 16:40:24.279660', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1167, '2022-11-15 16:40:25.727166', '2022-11-15 16:40:25.727166', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1168, '2022-11-15 16:40:25.773028', '2022-11-15 16:40:25.773028', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1169, '2022-11-15 16:40:25.781073', '2022-11-15 16:40:25.781073', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3}'),
+(1170, '2022-11-15 16:40:25.792358', '2022-11-15 16:40:25.792358', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":12}'),
+(1171, '2022-11-15 16:40:55.009708', '2022-11-15 16:40:55.009708', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1172, '2022-11-15 16:40:55.067543', '2022-11-15 16:40:55.067543', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1173, '2022-11-15 16:40:55.084989', '2022-11-15 16:40:55.084989', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1174, '2022-11-15 16:40:55.099007', '2022-11-15 16:40:55.099007', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1175, '2022-11-15 16:40:55.124191', '2022-11-15 16:40:55.124191', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1176, '2022-11-15 16:40:55.156047', '2022-11-15 16:40:55.156047', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1177, '2022-11-15 16:40:55.175746', '2022-11-15 16:40:55.175746', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1178, '2022-11-15 16:40:55.188580', '2022-11-15 16:40:55.188580', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1179, '2022-11-15 16:40:55.200576', '2022-11-15 16:40:55.200576', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1180, '2022-11-15 16:40:55.265745', '2022-11-15 16:40:55.265745', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1181, '2022-11-15 16:40:58.828711', '2022-11-15 16:40:58.828711', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1182, '2022-11-15 16:41:00.231622', '2022-11-15 16:41:00.231622', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1183, '2022-11-15 16:41:00.367469', '2022-11-15 16:41:00.367469', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1184, '2022-11-15 16:41:01.825073', '2022-11-15 16:41:01.825073', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1185, '2022-11-15 16:41:32.155555', '2022-11-15 16:41:32.155555', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1186, '2022-11-15 16:41:32.229157', '2022-11-15 16:41:32.229157', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1187, '2022-11-15 16:41:32.286698', '2022-11-15 16:41:32.286698', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1188, '2022-11-15 16:41:32.328972', '2022-11-15 16:41:32.328972', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1189, '2022-11-15 16:41:32.368300', '2022-11-15 16:41:32.368300', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1190, '2022-11-15 16:41:32.472267', '2022-11-15 16:41:32.472267', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1191, '2022-11-15 16:41:32.511232', '2022-11-15 16:41:32.511232', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1192, '2022-11-15 16:41:32.602263', '2022-11-15 16:41:32.602263', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1193, '2022-11-15 16:41:32.622725', '2022-11-15 16:41:32.622725', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1194, '2022-11-15 16:41:32.647511', '2022-11-15 16:41:32.647511', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1195, '2022-11-15 16:41:34.864413', '2022-11-15 16:41:34.864413', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1196, '2022-11-15 16:41:36.144664', '2022-11-15 16:41:36.144664', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1197, '2022-11-15 16:41:36.225915', '2022-11-15 16:41:36.225915', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1198, '2022-11-15 16:41:37.699966', '2022-11-15 16:41:37.699966', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1199, '2022-11-15 16:41:51.073100', '2022-11-15 16:41:51.073100', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1200, '2022-11-15 16:41:51.095088', '2022-11-15 16:41:51.095088', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1201, '2022-11-15 16:41:51.135828', '2022-11-15 16:41:51.135828', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1202, '2022-11-15 16:41:51.160893', '2022-11-15 16:41:51.160893', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1203, '2022-11-15 16:41:51.184998', '2022-11-15 16:41:51.184998', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1204, '2022-11-15 16:41:51.277498', '2022-11-15 16:41:51.277498', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1205, '2022-11-15 16:41:51.295957', '2022-11-15 16:41:51.295957', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1206, '2022-11-15 16:41:51.334023', '2022-11-15 16:41:51.334023', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1207, '2022-11-15 16:41:51.458469', '2022-11-15 16:41:51.458469', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1208, '2022-11-15 16:41:51.480622', '2022-11-15 16:41:51.480622', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1209, '2022-11-15 16:41:55.066111', '2022-11-15 16:41:55.066111', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1210, '2022-11-15 16:41:55.236112', '2022-11-15 16:41:55.236112', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1211, '2022-11-15 16:41:55.500098', '2022-11-15 16:41:55.500098', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1212, '2022-11-15 16:41:55.580006', '2022-11-15 16:41:55.580006', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1213, '2022-11-15 16:42:07.187219', '2022-11-15 16:42:07.187219', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1214, '2022-11-15 16:42:07.208902', '2022-11-15 16:42:07.208902', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1215, '2022-11-15 16:42:07.221108', '2022-11-15 16:42:07.221108', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1216, '2022-11-15 16:42:07.260673', '2022-11-15 16:42:07.260673', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1217, '2022-11-15 16:42:07.296005', '2022-11-15 16:42:07.296005', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1218, '2022-11-15 16:42:07.344666', '2022-11-15 16:42:07.344666', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1219, '2022-11-15 16:42:07.397057', '2022-11-15 16:42:07.397057', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1220, '2022-11-15 16:42:07.410735', '2022-11-15 16:42:07.410735', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1221, '2022-11-15 16:42:07.426548', '2022-11-15 16:42:07.426548', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1222, '2022-11-15 16:42:07.457111', '2022-11-15 16:42:07.457111', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1223, '2022-11-15 16:42:10.867923', '2022-11-15 16:42:10.867923', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1224, '2022-11-15 16:42:10.918943', '2022-11-15 16:42:10.918943', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1225, '2022-11-15 16:42:10.953073', '2022-11-15 16:42:10.953073', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1226, '2022-11-15 16:42:11.057810', '2022-11-15 16:42:11.057810', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1227, '2022-11-15 16:42:11.172852', '2022-11-15 16:42:11.172852', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1228, '2022-11-15 16:42:11.528099', '2022-11-15 16:42:11.528099', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1229, '2022-11-15 16:42:11.581637', '2022-11-15 16:42:11.581637', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1230, '2022-11-15 16:42:11.622176', '2022-11-15 16:42:11.622176', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1231, '2022-11-15 16:42:11.657067', '2022-11-15 16:42:11.657067', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1232, '2022-11-15 16:42:11.732772', '2022-11-15 16:42:11.732772', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1233, '2022-11-15 16:42:15.686387', '2022-11-15 16:42:15.686387', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1234, '2022-11-15 16:42:15.896829', '2022-11-15 16:42:15.896829', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1235, '2022-11-15 16:42:15.975860', '2022-11-15 16:42:15.975860', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1236, '2022-11-15 16:42:16.118816', '2022-11-15 16:42:16.118816', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1237, '2022-11-15 16:42:59.802418', '2022-11-15 16:42:59.802418', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1238, '2022-11-15 16:42:59.818416', '2022-11-15 16:42:59.818416', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1239, '2022-11-15 16:42:59.830019', '2022-11-15 16:42:59.830019', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1240, '2022-11-15 16:42:59.856821', '2022-11-15 16:42:59.856821', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1241, '2022-11-15 16:42:59.886071', '2022-11-15 16:42:59.886071', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1242, '2022-11-15 16:42:59.898741', '2022-11-15 16:42:59.898741', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1243, '2022-11-15 16:42:59.931653', '2022-11-15 16:42:59.931653', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1244, '2022-11-15 16:42:59.965255', '2022-11-15 16:42:59.965255', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1245, '2022-11-15 16:42:59.978618', '2022-11-15 16:42:59.978618', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1246, '2022-11-15 16:43:00.042091', '2022-11-15 16:43:00.042091', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1247, '2022-11-15 16:43:03.675319', '2022-11-15 16:43:03.675319', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1248, '2022-11-15 16:43:03.741218', '2022-11-15 16:43:03.741218', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1249, '2022-11-15 16:43:03.781802', '2022-11-15 16:43:03.781802', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1250, '2022-11-15 16:43:03.852804', '2022-11-15 16:43:03.852804', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1251, '2022-11-15 16:43:04.024421', '2022-11-15 16:43:04.024421', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1252, '2022-11-15 16:43:07.101392', '2022-11-15 16:43:07.101392', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1253, '2022-11-15 16:43:07.128607', '2022-11-15 16:43:07.128607', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1254, '2022-11-15 16:43:07.158632', '2022-11-15 16:43:07.158632', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1255, '2022-11-15 16:43:07.168409', '2022-11-15 16:43:07.168409', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1256, '2022-11-15 16:43:07.214773', '2022-11-15 16:43:07.214773', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1257, '2022-11-15 16:43:07.220707', '2022-11-15 16:43:07.220707', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1258, '2022-11-15 16:43:07.277742', '2022-11-15 16:43:07.277742', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1259, '2022-11-15 16:43:07.302153', '2022-11-15 16:43:07.302153', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1260, '2022-11-15 16:43:07.548367', '2022-11-15 16:43:07.548367', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1261, '2022-11-15 16:43:07.570809', '2022-11-15 16:43:07.570809', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1262, '2022-11-15 16:43:11.122056', '2022-11-15 16:43:11.122056', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1263, '2022-11-15 16:43:11.216630', '2022-11-15 16:43:11.216630', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1264, '2022-11-15 16:43:11.383627', '2022-11-15 16:43:11.383627', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1265, '2022-11-15 16:43:11.524116', '2022-11-15 16:43:11.524116', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1266, '2022-11-15 16:43:11.587207', '2022-11-15 16:43:11.587207', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1267, '2022-11-15 16:43:13.590533', '2022-11-15 16:43:13.590533', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":2,\"size\":10}'),
+(1268, '2022-11-15 16:43:13.875843', '2022-11-15 16:43:13.875843', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":3,\"size\":10}'),
+(1269, '2022-11-15 16:43:19.503949', '2022-11-15 16:43:19.503949', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"parentId\":1,\"page\":1,\"size\":10}'),
+(1270, '2022-11-15 16:43:24.960616', '2022-11-15 16:43:24.960616', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"parentId\":5,\"page\":1,\"size\":10}'),
+(1271, '2022-11-15 16:43:26.510409', '2022-11-15 16:43:26.510409', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"parentId\":5,\"page\":1,\"size\":10}'),
+(1272, '2022-11-15 16:43:31.466381', '2022-11-15 16:43:31.466381', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"parentId\":20,\"page\":1,\"size\":10}'),
+(1273, '2022-11-15 16:43:43.273846', '2022-11-15 16:43:43.273846', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1274, '2022-11-15 16:43:43.295538', '2022-11-15 16:43:43.295538', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1275, '2022-11-15 16:43:43.316110', '2022-11-15 16:43:43.316110', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1276, '2022-11-15 16:43:43.359648', '2022-11-15 16:43:43.359648', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1277, '2022-11-15 16:43:43.426838', '2022-11-15 16:43:43.426838', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1278, '2022-11-15 16:43:43.445062', '2022-11-15 16:43:43.445062', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1279, '2022-11-15 16:43:43.625570', '2022-11-15 16:43:43.625570', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1280, '2022-11-15 16:43:43.695542', '2022-11-15 16:43:43.695542', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1281, '2022-11-15 16:43:43.833291', '2022-11-15 16:43:43.833291', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1282, '2022-11-15 16:43:43.870177', '2022-11-15 16:43:43.870177', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1283, '2022-11-15 16:43:46.386251', '2022-11-15 16:43:46.386251', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1284, '2022-11-15 16:43:46.622753', '2022-11-15 16:43:46.622753', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1285, '2022-11-15 16:43:47.226603', '2022-11-15 16:43:47.226603', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1286, '2022-11-15 16:43:47.373516', '2022-11-15 16:43:47.373516', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1287, '2022-11-15 16:43:48.332087', '2022-11-15 16:43:48.332087', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1288, '2022-11-15 16:43:49.883065', '2022-11-15 16:43:49.883065', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":2,\"size\":10}'),
+(1289, '2022-11-15 16:43:50.114848', '2022-11-15 16:43:50.114848', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":3,\"size\":10}'),
+(1290, '2022-11-15 16:44:20.359274', '2022-11-15 16:44:20.359274', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1291, '2022-11-15 16:44:20.383954', '2022-11-15 16:44:20.383954', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1292, '2022-11-15 16:44:20.407055', '2022-11-15 16:44:20.407055', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1293, '2022-11-15 16:44:20.435097', '2022-11-15 16:44:20.435097', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1294, '2022-11-15 16:44:20.468633', '2022-11-15 16:44:20.468633', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1295, '2022-11-15 16:44:20.476451', '2022-11-15 16:44:20.476451', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1296, '2022-11-15 16:44:20.539334', '2022-11-15 16:44:20.539334', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1297, '2022-11-15 16:44:20.553699', '2022-11-15 16:44:20.553699', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1298, '2022-11-15 16:44:20.571883', '2022-11-15 16:44:20.571883', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1299, '2022-11-15 16:44:20.622024', '2022-11-15 16:44:20.622024', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1300, '2022-11-15 16:44:23.717338', '2022-11-15 16:44:23.717338', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1301, '2022-11-15 16:44:23.810528', '2022-11-15 16:44:23.810528', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1302, '2022-11-15 16:44:23.849316', '2022-11-15 16:44:23.849316', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1303, '2022-11-15 16:44:24.009355', '2022-11-15 16:44:24.009355', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1304, '2022-11-15 16:44:24.113670', '2022-11-15 16:44:24.113670', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1305, '2022-11-15 16:44:47.141634', '2022-11-15 16:44:47.141634', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1306, '2022-11-15 16:44:47.166760', '2022-11-15 16:44:47.166760', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1307, '2022-11-15 16:44:47.199256', '2022-11-15 16:44:47.199256', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1308, '2022-11-15 16:44:47.237290', '2022-11-15 16:44:47.237290', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1309, '2022-11-15 16:44:47.263144', '2022-11-15 16:44:47.263144', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":12}'),
+(1310, '2022-11-15 16:44:47.327036', '2022-11-15 16:44:47.327036', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1311, '2022-11-15 16:44:47.345224', '2022-11-15 16:44:47.345224', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1312, '2022-11-15 16:44:47.424600', '2022-11-15 16:44:47.424600', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1313, '2022-11-15 16:44:47.450184', '2022-11-15 16:44:47.450184', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1314, '2022-11-15 16:44:47.478448', '2022-11-15 16:44:47.478448', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":12}'),
+(1315, '2022-11-15 16:44:52.132041', '2022-11-15 16:44:52.132041', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1316, '2022-11-15 16:44:52.431358', '2022-11-15 16:44:52.431358', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1317, '2022-11-15 16:44:52.604126', '2022-11-15 16:44:52.604126', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1318, '2022-11-15 16:44:57.368290', '2022-11-15 16:44:57.368290', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1319, '2022-11-15 16:44:57.392199', '2022-11-15 16:44:57.392199', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1320, '2022-11-15 16:44:57.420649', '2022-11-15 16:44:57.420649', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1321, '2022-11-15 16:44:57.434891', '2022-11-15 16:44:57.434891', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1322, '2022-11-15 16:44:57.477321', '2022-11-15 16:44:57.477321', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1323, '2022-11-15 16:44:57.483579', '2022-11-15 16:44:57.483579', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":10}'),
+(1324, '2022-11-15 16:44:57.502920', '2022-11-15 16:44:57.502920', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1325, '2022-11-15 16:44:57.531089', '2022-11-15 16:44:57.531089', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1326, '2022-11-15 16:44:57.553294', '2022-11-15 16:44:57.553294', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1327, '2022-11-15 16:44:57.617932', '2022-11-15 16:44:57.617932', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":10}'),
+(1328, '2022-11-15 16:45:01.556208', '2022-11-15 16:45:01.556208', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1329, '2022-11-15 16:45:01.713489', '2022-11-15 16:45:01.713489', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1330, '2022-11-15 16:45:01.857423', '2022-11-15 16:45:01.857423', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1331, '2022-11-15 16:45:03.595199', '2022-11-15 16:45:03.595199', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1332, '2022-11-15 16:45:03.652082', '2022-11-15 16:45:03.652082', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":10}'),
+(1333, '2022-11-15 16:45:04.659139', '2022-11-15 16:45:04.659139', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":2,\"size\":28}'),
+(1334, '2022-11-15 16:46:30.566163', '2022-11-15 16:46:30.566163', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1335, '2022-11-15 16:46:30.634269', '2022-11-15 16:46:30.634269', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1336, '2022-11-15 16:46:30.676607', '2022-11-15 16:46:30.676607', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1337, '2022-11-15 16:46:30.693746', '2022-11-15 16:46:30.693746', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1338, '2022-11-15 16:46:30.759715', '2022-11-15 16:46:30.759715', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":10}'),
+(1339, '2022-11-15 16:46:30.824128', '2022-11-15 16:46:30.824128', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1340, '2022-11-15 16:46:30.857156', '2022-11-15 16:46:30.857156', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1341, '2022-11-15 16:46:30.975779', '2022-11-15 16:46:30.975779', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1342, '2022-11-15 16:46:31.135179', '2022-11-15 16:46:31.135179', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1343, '2022-11-15 16:46:31.161150', '2022-11-15 16:46:31.161150', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":10}'),
+(1344, '2022-11-15 16:46:34.136414', '2022-11-15 16:46:34.136414', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1345, '2022-11-15 16:46:34.378374', '2022-11-15 16:46:34.378374', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1346, '2022-11-15 16:46:34.598426', '2022-11-15 16:46:34.598426', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1347, '2022-11-15 16:46:36.193172', '2022-11-15 16:46:36.193172', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1348, '2022-11-15 16:46:38.577853', '2022-11-15 16:46:38.577853', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":2,\"size\":10}'),
+(1349, '2022-11-15 16:46:39.077915', '2022-11-15 16:46:39.077915', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":3,\"size\":10}'),
+(1350, '2022-11-15 16:46:49.540724', '2022-11-15 16:46:49.540724', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1351, '2022-11-15 16:46:49.569899', '2022-11-15 16:46:49.569899', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1352, '2022-11-15 16:46:49.627241', '2022-11-15 16:46:49.627241', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1353, '2022-11-15 16:46:49.641837', '2022-11-15 16:46:49.641837', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1354, '2022-11-15 16:46:49.666059', '2022-11-15 16:46:49.666059', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":7}'),
+(1355, '2022-11-15 16:46:50.622301', '2022-11-15 16:46:50.622301', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1356, '2022-11-15 16:46:50.627549', '2022-11-15 16:46:50.627549', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1357, '2022-11-15 16:46:50.683285', '2022-11-15 16:46:50.683285', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1358, '2022-11-15 16:46:50.692617', '2022-11-15 16:46:50.692617', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1359, '2022-11-15 16:46:50.738901', '2022-11-15 16:46:50.738901', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1360, '2022-11-15 16:46:50.742638', '2022-11-15 16:46:50.742638', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1361, '2022-11-15 16:46:50.771343', '2022-11-15 16:46:50.771343', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1362, '2022-11-15 16:46:50.806500', '2022-11-15 16:46:50.806500', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1363, '2022-11-15 16:46:50.811808', '2022-11-15 16:46:50.811808', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1364, '2022-11-15 16:46:50.818558', '2022-11-15 16:46:50.818558', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1365, '2022-11-15 16:46:50.890477', '2022-11-15 16:46:50.890477', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":8}'),
+(1366, '2022-11-15 16:46:50.904262', '2022-11-15 16:46:50.904262', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":8}'),
+(1367, '2022-11-15 16:46:50.964302', '2022-11-15 16:46:50.964302', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1368, '2022-11-15 16:46:51.015760', '2022-11-15 16:46:51.015760', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1369, '2022-11-15 16:46:51.056370', '2022-11-15 16:46:51.056370', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":8}'),
+(1370, '2022-11-15 16:46:54.156938', '2022-11-15 16:46:54.156938', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1371, '2022-11-15 16:46:54.744246', '2022-11-15 16:46:54.744246', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1372, '2022-11-15 16:46:54.862024', '2022-11-15 16:46:54.862024', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1373, '2022-11-15 16:46:56.270162', '2022-11-15 16:46:56.270162', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1374, '2022-11-15 16:46:56.296228', '2022-11-15 16:46:56.296228', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1375, '2022-11-15 16:46:56.304857', '2022-11-15 16:46:56.304857', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3}'),
+(1376, '2022-11-15 16:46:56.317862', '2022-11-15 16:46:56.317862', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":8}'),
+(1377, '2022-11-15 16:46:57.641864', '2022-11-15 16:46:57.641864', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":2,\"size\":8}'),
+(1378, '2022-11-15 16:46:58.146807', '2022-11-15 16:46:58.146807', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":3,\"size\":8}'),
+(1379, '2022-11-15 16:46:58.726093', '2022-11-15 16:46:58.726093', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":4,\"size\":8}'),
+(1380, '2022-11-15 16:47:06.764932', '2022-11-15 16:47:06.764932', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1381, '2022-11-15 16:47:06.835832', '2022-11-15 16:47:06.835832', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1382, '2022-11-15 16:47:06.864560', '2022-11-15 16:47:06.864560', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1383, '2022-11-15 16:47:06.890930', '2022-11-15 16:47:06.890930', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1384, '2022-11-15 16:47:06.915694', '2022-11-15 16:47:06.915694', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":10}'),
+(1385, '2022-11-15 16:47:07.017644', '2022-11-15 16:47:07.017644', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1386, '2022-11-15 16:47:07.053221', '2022-11-15 16:47:07.053221', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1387, '2022-11-15 16:47:07.144549', '2022-11-15 16:47:07.144549', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1388, '2022-11-15 16:47:07.194328', '2022-11-15 16:47:07.194328', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1389, '2022-11-15 16:47:07.258916', '2022-11-15 16:47:07.258916', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":10}'),
+(1390, '2022-11-15 16:47:09.964115', '2022-11-15 16:47:09.964115', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1391, '2022-11-15 16:47:10.469037', '2022-11-15 16:47:10.469037', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1392, '2022-11-15 16:47:10.582912', '2022-11-15 16:47:10.582912', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1393, '2022-11-15 16:47:10.646498', '2022-11-15 16:47:10.646498', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1394, '2022-11-15 16:47:12.522193', '2022-11-15 16:47:12.522193', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":2,\"size\":10}'),
+(1395, '2022-11-15 16:47:12.855848', '2022-11-15 16:47:12.855848', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":3,\"size\":10}'),
+(1396, '2022-11-15 16:47:21.034556', '2022-11-15 16:47:21.034556', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isTop\":true}'),
+(1397, '2022-11-15 16:47:21.067761', '2022-11-15 16:47:21.067761', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"isHot\":true}'),
+(1398, '2022-11-15 16:47:21.136488', '2022-11-15 16:47:21.136488', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"video\"}'),
+(1399, '2022-11-15 16:47:21.158088', '2022-11-15 16:47:21.158088', NULL, '/app/news/article/page', '127.0.0.1', '本機地址', '{\"size\":8,\"type\":\"normal\"}'),
+(1400, '2022-11-15 16:47:30.912263', '2022-11-15 16:47:30.912263', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1401, '2022-11-15 16:47:30.978314', '2022-11-15 16:47:30.978314', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1402, '2022-11-15 16:47:31.018086', '2022-11-15 16:47:31.018086', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":false}'),
+(1403, '2022-11-15 16:47:31.051891', '2022-11-15 16:47:31.051891', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":26}'),
+(1404, '2022-11-15 16:47:31.075683', '2022-11-15 16:47:31.075683', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":26,\"page\":1,\"size\":10}'),
+(1405, '2022-11-15 16:47:35.891924', '2022-11-15 16:47:35.891924', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1406, '2022-11-15 16:47:35.934136', '2022-11-15 16:47:35.934136', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1407, '2022-11-15 16:47:36.028709', '2022-11-15 16:47:36.028709', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"video\",\"client\":true}'),
+(1408, '2022-11-15 16:48:24.954966', '2022-11-15 16:48:24.954966', 1, '/admin/news/article/update', '127.0.0.1', '本機地址', '{\"type\":\"normal\",\"authorId\":30,\"title\":\"在UV固化丙烯酸樹酯配方中,要如何挑選好分散的無機粉體及溶劑?原理為何?\",\"slug\":\"reskin-plastic-skin\",\"content\":\"<h2><strong>一、ReSkin 是什麼?</strong></h2><p><br></p><p><a href=\\\"https://google.com\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\"><strong><img src=\\\"https://lh6.googleusercontent.com/iJa0WcnSW46sPI0GCK7UBETYmomZPmOLpLNPTANPeywZ8XVKJ7-Od0z65t1bg9jVCBJveh7SZGyS3T6DyIWYjI3tR7bPQPunZHbahofS3whr4d8hb10BasdTIyiiz4YrcJb7fR6M\\\" alt=\\\"一張含有 文字, 差異, 螢幕擷取畫面 的圖片\\n\\n自動產生的描述\\\"></strong></a></p><p><strong>塑膠皮膚(ReSkin)，簡單來說就是一個 \\\"柔軟的傳感器 (Soft Sensor) \\\"，其價格便宜，尺寸輕巧，耐用度持久，且即便換掉了汰換也方便，除了能夠蒐集兩個物件之間的被動密合接觸(passive conformal contact)數據外，更可以蒐集「主動接觸(active contact)的數據」。有了這些數據，未來的機器人就可以從事許多動作比較輕巧且複雜的工作，像是抱小孩、包餃子….等工作。</strong></p><p><br></p><p><strong>那到底 ReSkin在機器手臂的表現上，有什麼差別呢?</strong></p><p><strong>可以看一下以下兩張圖片，沒有ReSkin 的機器手臂，在拿小藍莓的時候會直接把它捏爆，因為他們被輸入的運算太粗糙簡單，沒辦法用適當力道抓取小藍莓；但有ReSkin的機器手臂，就可以用很輕巧的動作把小藍莓拿起來了!</strong></p><p><strong><img src=\\\"https://lh3.googleusercontent.com/BgcdhKIJl3naax2bQO5tknlw25DliP2pz6ghvyZvzjIMQex25_p0IyokzwyM2M3yGcv4iT-COSMAYElec0kkPFF-vOSOy07RkkNQc5FDUZJlRCUkA9LgV3rBCljdnRa8xxTP01JM\\\">&nbsp;&nbsp;&nbsp;<img src=\\\"https://lh3.googleusercontent.com/lkb3fjzM-6d9ETYkCQv-gADTUpuia-RyjtOf52ZgX1vmsiiSW-vOkpSeoZHQi2NFzcvheevWj-yesFt1m6F3kwUb16Tu6r6mp0zeGy49LTDv8zKCXIRC8g0gMEnyX9RVwTdzJxEs\\\" alt=\\\"一張含有 文字 的圖片\\n\\n自動產生的描述\\\"></strong></p><p><strong>圖片來源 |&nbsp;</strong><a href=\\\"https://youtu.be/SxT_G-Im_CA\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>https://youtu.be/SxT_G-Im_CA</strong></a></p><p><br></p><p>&nbsp;</p><p><strong>二、ReSkin 規格及優勢</strong></p><p><strong>一個好的塑膠皮膚須具備哪些能力呢?</strong></p><ol><li><strong>可用於穩定抓取/操作的密合接觸</strong></li><li><br></li><li><strong>可以精準的量測壓縮力及剪切力</strong></li><li><br></li><li><strong>擁有強力&lt;0.1N與時間分辨率(Temporal Resolution) &gt;100Hz</strong></li><li><br></li><li><strong>在大面積覆蓋時 (&gt;4cm2)，每個接觸點都可以有好的空間解析度(Spatial Resolution)</strong></li></ol><p><strong>而從實用性來看的話，還須具備</strong></p><ol><li><strong>可以緊貼物件表面以及多方應用的</strong></li><li><br></li><li><strong>便宜</strong></li><li><br></li><li><strong>耐用</strong></li></ol><p>&nbsp;</p><p><strong>ReSkin是結合了磁性材材料與拉伸彈性材料，所有使ReSkin變形的作用力及剪切力，都會因材料磁場的改變被讀取，這些數據會被追蹤回每一個接觸點進而讓AI進行學習</strong></p><p><strong>ReSkin 的優勢</strong></p><ol><li><strong>價格便宜 (&lt;30USD，量產可&lt;6USD)</strong></li><li><br></li><li><strong>厚度 2-3mm</strong></li><li><br></li><li><strong>時間分辨率高達 400Hz</strong></li><li><br></li><li><strong>空間解析度 1mm精度達90%</strong></li></ol><p>&nbsp;</p><p><strong>其實，市面上已經有許多類似的產品，但 ReSkin 確實有相當的優勢，產品分析表請參考以下原文圖表囉!</strong></p><p><strong><img src=\\\"https://lh6.googleusercontent.com/RpDW2Ec7Fada5tu38D8HiYQJnB8wiib_h9i85-L_r8f6FhN2Oxn6akNj7JObiTlmpq3B9JFAP1PyUApO7NlRBK0I-EDe9U_zgnPNfcMIDz4yMbp91rZTY0KRFhpccgG6mNBy9QSK\\\"></strong></p><p><strong>三、Reskin 使用的材料與合作對象</strong></p><p><strong>1. 磁性粉體 ( Magnetic Particles )</strong></p><p><strong>商品型號: MQP-15-7-20065-070</strong></p><p><strong>製造商: Magnequench</strong></p><p><strong>產品資料:&nbsp;</strong><a href=\\\"https://mqitechnology.com/wp-content/uploads/2017/09/mqp-15-7-20065-070.pdf\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>https://mqitechnology.com/wp-content/uploads/2017/09/mqp-15-7-20065-070.pdf</strong></a></p><p>&nbsp;</p><p><strong><img src=\\\"https://lh4.googleusercontent.com/Zx3pQ3BoAXnCLXTYcLt1CNuN6LaIG-Zy0ey5_Wk1lSLRQnyjvTbPLl3gYS2HllQusT7V41V6C48uSXsh_zYItNY4qgOUVHibzioBnRH8YpqR8bhIVWpUxxgQABfz_aQH3rlj2JO4\\\"></strong></p><p>&nbsp;</p><p><strong>2. 矽橡膠( Silicone Rubber )</strong></p><p><strong>商品型號: Dragon Skin™ 10 NV</strong></p><p><strong>製造商: Smooth-On</strong></p><p><strong>產品資料:&nbsp;</strong><a href=\\\"https://www.smooth-on.com/products/dragon-skin-10-nv/\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>https://www.smooth-on.com/products/dragon-skin-10-nv/</strong></a></p><p><strong><img src=\\\"https://lh6.googleusercontent.com/_RyOE6uwulQqzERU1HZ6hUJHjWhjwQk61q8bASUOF6s1kMOieCHkSEbkVOTDoQqnRjS5yfAOwN929DxxgMYosTO5H3kLCUOMIpNp4ed34tPGDaVeJ0vV4F_8BQDvJOHZ_WvxGnOy\\\" alt=\\\"一張含有 文字 的圖片\\n\\n自動產生的描述\\\"></strong></p><p>&nbsp;</p><ol><li><strong>可編程磁場感測器 ( Magnetometer )</strong></li></ol><p><br></p><p><strong>商品編號: MLX90393</strong></p><p><strong>製造商: Melexis</strong></p><p><strong>產品資料:&nbsp;</strong><a href=\\\"https://www.digikey.tw/zh/product-highlight/m/melexis/mlx90393-programmable-triaxis-magnetic-field-sensor\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>https://www.digikey.tw/zh/product-highlight/m/melexis/mlx90393-programmable-triaxis-magnetic-field-sensor</strong></a></p><p><strong><img src=\\\"https://lh3.googleusercontent.com/nQxXuoM54lkZasMMAGcizUOqx1L2igz83MYDQcCeiXpmjsBRHgMeJJT89ai4sFBaqZb_X6YYcwKFFvnhPfFod3WAP7KhIjilT6XTc8uHiEWJfpPwTShhsU_PLSzzZocPe-S9TJPe\\\"></strong></p><p>&nbsp;</p><ol><li><strong>協作機器人 ( Sawyer robot )</strong></li></ol><p><br></p><p><strong>Soft Machines LAB in Carnegie Mellon University @USA</strong></p><p><strong>網址:&nbsp;</strong><a href=\\\"http://sml.me.cmu.edu/\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>http://sml.me.cmu.edu/</strong></a></p><p>&nbsp;</p><p><strong>AGI Labs @India</strong></p><p><strong>網址:&nbsp;</strong><a href=\\\"https://agilabsindia.com/index.html\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>https://agilabsindia.com/index.html</strong></a></p>\",\"excerpt\":\"<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>\",\"categories\":[10,5],\"thumbnail\":\"http://127.0.0.1:8001/public/uploads/20220816/83342bca-6cc3-4093-a1bf-f012c889521a_WBCSD-Chemicals-Grou_i1140.jpeg\",\"metaTitle\":\"meta title\",\"metaDescription\":\"meta description\",\"commentOpen\":true,\"isTop\":false,\"isHot\":true,\"status\":\"published\",\"publishTime\":\"2022-07-05 23:06:57\",\"id\":19,\"createTime\":\"2022-05-25 23:05:16\",\"updateTime\":\"2022-10-14 22:22:56\",\"createBy\":\"30\",\"updateBy\":\"1\",\"deleteBy\":\"0\",\"deleteTime\":null,\"content_preview\":\"<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>\"}'),
+(1409, '2022-11-15 16:48:25.349892', '2022-11-15 16:48:25.349892', 1, '/admin/news/article/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20}'),
+(1410, '2022-11-15 16:48:29.667188', '2022-11-15 16:48:29.667188', 1, '/admin/news/article/info', '127.0.0.1', '本機地址', '{\"id\":\"22\"}'),
+(1411, '2022-11-15 16:48:29.676794', '2022-11-15 16:48:29.676794', 1, '/admin/base/sys/user/list', '127.0.0.1', '本機地址', NULL),
+(1412, '2022-11-15 16:48:29.921423', '2022-11-15 16:48:29.921423', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1413, '2022-11-15 16:48:29.932537', '2022-11-15 16:48:29.932537', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1414, '2022-11-15 16:48:29.989527', '2022-11-15 16:48:29.989527', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1415, '2022-11-15 16:48:30.024082', '2022-11-15 16:48:30.024082', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1416, '2022-11-15 16:48:36.183380', '2022-11-15 16:48:36.183380', 1, '/admin/news/article/info', '127.0.0.1', '本機地址', '{\"id\":\"21\"}'),
+(1417, '2022-11-15 16:48:36.189533', '2022-11-15 16:48:36.189533', 1, '/admin/base/sys/user/list', '127.0.0.1', '本機地址', NULL),
+(1418, '2022-11-15 16:48:36.431833', '2022-11-15 16:48:36.431833', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1419, '2022-11-15 16:48:36.442137', '2022-11-15 16:48:36.442137', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1420, '2022-11-15 16:48:36.454475', '2022-11-15 16:48:36.454475', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1421, '2022-11-15 16:48:36.461318', '2022-11-15 16:48:36.461318', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1422, '2022-11-15 16:48:39.726919', '2022-11-15 16:48:39.726919', 1, '/admin/news/article/info', '127.0.0.1', '本機地址', '{\"id\":\"19\"}'),
+(1423, '2022-11-15 16:48:39.741134', '2022-11-15 16:48:39.741134', 1, '/admin/base/sys/user/list', '127.0.0.1', '本機地址', NULL),
+(1424, '2022-11-15 16:48:41.118558', '2022-11-15 16:48:41.118558', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1425, '2022-11-15 16:48:41.129652', '2022-11-15 16:48:41.129652', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1426, '2022-11-15 16:48:41.145320', '2022-11-15 16:48:41.145320', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1427, '2022-11-15 16:48:41.200833', '2022-11-15 16:48:41.200833', 1, '/admin/space/info/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20,\"total\":0,\"classifyId\":null}'),
+(1428, '2022-11-15 16:48:46.552553', '2022-11-15 16:48:46.552553', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1429, '2022-11-15 16:48:46.578894', '2022-11-15 16:48:46.578894', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1430, '2022-11-15 16:48:46.618323', '2022-11-15 16:48:46.618323', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1431, '2022-11-15 16:48:46.628767', '2022-11-15 16:48:46.628767', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1432, '2022-11-15 16:48:46.664697', '2022-11-15 16:48:46.664697', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":10}'),
+(1433, '2022-11-15 16:48:49.077719', '2022-11-15 16:48:49.077719', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1434, '2022-11-15 16:48:49.157230', '2022-11-15 16:48:49.157230', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1435, '2022-11-15 16:48:49.644367', '2022-11-15 16:48:49.644367', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1436, '2022-11-15 16:49:01.627437', '2022-11-15 16:49:01.627437', 1, '/admin/news/article/update', '127.0.0.1', '本機地址', '{\"type\":\"normal\",\"authorId\":30,\"title\":\"在UV固化丙烯酸樹酯配方中,要如何挑選好分散的無機粉體及溶劑?原理為何?\",\"slug\":\"reskin-plastic-skin\",\"content\":\"<h2><strong>一、ReSkin 是什麼?</strong></h2><p><a href=\\\"https://google.com\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\"><strong><img src=\\\"https://lh6.googleusercontent.com/iJa0WcnSW46sPI0GCK7UBETYmomZPmOLpLNPTANPeywZ8XVKJ7-Od0z65t1bg9jVCBJveh7SZGyS3T6DyIWYjI3tR7bPQPunZHbahofS3whr4d8hb10BasdTIyiiz4YrcJb7fR6M\\\" alt=\\\"一張含有 文字, 差異, 螢幕擷取畫面 的圖片\\n\\n自動產生的描述\\\"></strong></a></p><p><strong>塑膠皮膚(ReSkin)，簡單來說就是一個 \\\"柔軟的傳感器 (Soft Sensor) \\\"，其價格便宜，尺寸輕巧，耐用度持久，且即便換掉了汰換也方便，除了能夠蒐集兩個物件之間的被動密合接觸(passive conformal contact)數據外，更可以蒐集「主動接觸(active contact)的數據」。有了這些數據，未來的機器人就可以從事許多動作比較輕巧且複雜的工作，像是抱小孩、包餃子….等工作。</strong></p><p><br></p><p><strong>那到底 ReSkin在機器手臂的表現上，有什麼差別呢?</strong></p><p><strong>可以看一下以下兩張圖片，沒有ReSkin 的機器手臂，在拿小藍莓的時候會直接把它捏爆，因為他們被輸入的運算太粗糙簡單，沒辦法用適當力道抓取小藍莓；但有ReSkin的機器手臂，就可以用很輕巧的動作把小藍莓拿起來了!</strong></p><p><strong><img src=\\\"https://lh3.googleusercontent.com/BgcdhKIJl3naax2bQO5tknlw25DliP2pz6ghvyZvzjIMQex25_p0IyokzwyM2M3yGcv4iT-COSMAYElec0kkPFF-vOSOy07RkkNQc5FDUZJlRCUkA9LgV3rBCljdnRa8xxTP01JM\\\">&nbsp;&nbsp;&nbsp;<img src=\\\"https://lh3.googleusercontent.com/lkb3fjzM-6d9ETYkCQv-gADTUpuia-RyjtOf52ZgX1vmsiiSW-vOkpSeoZHQi2NFzcvheevWj-yesFt1m6F3kwUb16Tu6r6mp0zeGy49LTDv8zKCXIRC8g0gMEnyX9RVwTdzJxEs\\\" alt=\\\"一張含有 文字 的圖片\\n\\n自動產生的描述\\\"></strong></p><p><strong>圖片來源 |&nbsp;</strong><a href=\\\"https://youtu.be/SxT_G-Im_CA\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>https://youtu.be/SxT_G-Im_CA</strong></a></p><p><br></p><p>&nbsp;</p><p><strong>二、ReSkin 規格及優勢</strong></p><p><strong>一個好的塑膠皮膚須具備哪些能力呢?</strong></p><ol><li><strong>可用於穩定抓取/操作的密合接觸</strong></li><li><br></li><li><strong>可以精準的量測壓縮力及剪切力</strong></li><li><br></li><li><strong>擁有強力&lt;0.1N與時間分辨率(Temporal Resolution) &gt;100Hz</strong></li><li><br></li><li><strong>在大面積覆蓋時 (&gt;4cm2)，每個接觸點都可以有好的空間解析度(Spatial Resolution)</strong></li></ol><p><strong>而從實用性來看的話，還須具備</strong></p><ol><li><strong>可以緊貼物件表面以及多方應用的</strong></li><li><br></li><li><strong>便宜</strong></li><li><br></li><li><strong>耐用</strong></li></ol><p>&nbsp;</p><p><strong>ReSkin是結合了磁性材材料與拉伸彈性材料，所有使ReSkin變形的作用力及剪切力，都會因材料磁場的改變被讀取，這些數據會被追蹤回每一個接觸點進而讓AI進行學習</strong></p><p><strong>ReSkin 的優勢</strong></p><ol><li><strong>價格便宜 (&lt;30USD，量產可&lt;6USD)</strong></li><li><br></li><li><strong>厚度 2-3mm</strong></li><li><br></li><li><strong>時間分辨率高達 400Hz</strong></li><li><br></li><li><strong>空間解析度 1mm精度達90%</strong></li></ol><p>&nbsp;</p><p><strong>其實，市面上已經有許多類似的產品，但 ReSkin 確實有相當的優勢，產品分析表請參考以下原文圖表囉!</strong></p><p><strong><img src=\\\"https://lh6.googleusercontent.com/RpDW2Ec7Fada5tu38D8HiYQJnB8wiib_h9i85-L_r8f6FhN2Oxn6akNj7JObiTlmpq3B9JFAP1PyUApO7NlRBK0I-EDe9U_zgnPNfcMIDz4yMbp91rZTY0KRFhpccgG6mNBy9QSK\\\"></strong></p><p><strong>三、Reskin 使用的材料與合作對象</strong></p><p><strong>1. 磁性粉體 ( Magnetic Particles )</strong></p><p><strong>商品型號: MQP-15-7-20065-070</strong></p><p><strong>製造商: Magnequench</strong></p><p><strong>產品資料:&nbsp;</strong><a href=\\\"https://mqitechnology.com/wp-content/uploads/2017/09/mqp-15-7-20065-070.pdf\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>https://mqitechnology.com/wp-content/uploads/2017/09/mqp-15-7-20065-070.pdf</strong></a></p><p>&nbsp;</p><p><strong><img src=\\\"https://lh4.googleusercontent.com/Zx3pQ3BoAXnCLXTYcLt1CNuN6LaIG-Zy0ey5_Wk1lSLRQnyjvTbPLl3gYS2HllQusT7V41V6C48uSXsh_zYItNY4qgOUVHibzioBnRH8YpqR8bhIVWpUxxgQABfz_aQH3rlj2JO4\\\"></strong></p><p>&nbsp;</p><p><strong>2. 矽橡膠( Silicone Rubber )</strong></p><p><strong>商品型號: Dragon Skin™ 10 NV</strong></p><p><strong>製造商: Smooth-On</strong></p><p><strong>產品資料:&nbsp;</strong><a href=\\\"https://www.smooth-on.com/products/dragon-skin-10-nv/\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>https://www.smooth-on.com/products/dragon-skin-10-nv/</strong></a></p><p><strong><img src=\\\"https://lh6.googleusercontent.com/_RyOE6uwulQqzERU1HZ6hUJHjWhjwQk61q8bASUOF6s1kMOieCHkSEbkVOTDoQqnRjS5yfAOwN929DxxgMYosTO5H3kLCUOMIpNp4ed34tPGDaVeJ0vV4F_8BQDvJOHZ_WvxGnOy\\\" alt=\\\"一張含有 文字 的圖片\\n\\n自動產生的描述\\\"></strong></p><p>&nbsp;</p><ol><li><strong>可編程磁場感測器 ( Magnetometer )</strong></li></ol><p><br></p><p><strong>商品編號: MLX90393</strong></p><p><strong>製造商: Melexis</strong></p><p><strong>產品資料:&nbsp;</strong><a href=\\\"https://www.digikey.tw/zh/product-highlight/m/melexis/mlx90393-programmable-triaxis-magnetic-field-sensor\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>https://www.digikey.tw/zh/product-highlight/m/melexis/mlx90393-programmable-triaxis-magnetic-field-sensor</strong></a></p><p><strong><img src=\\\"https://lh3.googleusercontent.com/nQxXuoM54lkZasMMAGcizUOqx1L2igz83MYDQcCeiXpmjsBRHgMeJJT89ai4sFBaqZb_X6YYcwKFFvnhPfFod3WAP7KhIjilT6XTc8uHiEWJfpPwTShhsU_PLSzzZocPe-S9TJPe\\\"></strong></p><p>&nbsp;</p><ol><li><strong>協作機器人 ( Sawyer robot )</strong></li></ol><p><br></p><p><strong>Soft Machines LAB in Carnegie Mellon University @USA</strong></p><p><strong>網址:&nbsp;</strong><a href=\\\"http://sml.me.cmu.edu/\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>http://sml.me.cmu.edu/</strong></a></p><p>&nbsp;</p><p><strong>AGI Labs @India</strong></p><p><strong>網址:&nbsp;</strong><a href=\\\"https://agilabsindia.com/index.html\\\" rel=\\\"noopener noreferrer\\\" target=\\\"_blank\\\" style=\\\"color: inherit;\\\"><strong>https://agilabsindia.com/index.html</strong></a></p>\",\"excerpt\":\"<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>\",\"categories\":[10,5],\"thumbnail\":\"http://127.0.0.1:8001/public/uploads/20220816/83342bca-6cc3-4093-a1bf-f012c889521a_WBCSD-Chemicals-Grou_i1140.jpeg\",\"metaTitle\":\"meta title\",\"metaDescription\":\"meta description\",\"commentOpen\":true,\"isTop\":false,\"isHot\":true,\"status\":\"published\",\"publishTime\":\"2022-07-05 23:06:57\",\"id\":19,\"createTime\":\"2022-05-25 23:05:16\",\"updateTime\":\"2022-10-14 22:22:56\",\"createBy\":\"30\",\"updateBy\":\"1\",\"deleteBy\":\"0\",\"deleteTime\":null,\"content_preview\":\"<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>\"}'),
+(1437, '2022-11-15 16:49:01.887231', '2022-11-15 16:49:01.887231', 1, '/admin/news/article/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20}'),
+(1438, '2022-11-15 17:06:08.071288', '2022-11-15 17:06:08.071288', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":2,\"size\":10}'),
+(1439, '2022-11-15 17:06:09.182746', '2022-11-15 17:06:09.182746', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":3,\"size\":10}'),
+(1440, '2022-11-15 17:06:12.689814', '2022-11-15 17:06:12.689814', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"parentId\":1,\"page\":1,\"size\":10}'),
+(1441, '2022-11-15 17:06:18.863244', '2022-11-15 17:06:18.863244', NULL, '/app/news/article/collection', '127.0.0.1', '本機地址', '{\"id\":19}'),
+(1442, '2022-11-15 17:06:19.730627', '2022-11-15 17:06:19.730627', NULL, '/app/news/article/categories', '127.0.0.1', '本機地址', NULL),
+(1443, '2022-11-15 17:06:19.933917', '2022-11-15 17:06:19.933917', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1444, '2022-11-15 17:06:19.956918', '2022-11-15 17:06:19.956918', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":false}'),
+(1445, '2022-11-15 17:06:19.975965', '2022-11-15 17:06:19.975965', NULL, '/app/news/article/list', '127.0.0.1', '本機地址', '{\"size\":3,\"articleId\":19}'),
+(1446, '2022-11-15 17:06:20.001624', '2022-11-15 17:06:20.001624', NULL, '/app/news/article/comment/page', '127.0.0.1', '本機地址', '{\"articleId\":19,\"page\":1,\"size\":10}'),
+(1447, '2022-11-15 17:06:23.497305', '2022-11-15 17:06:23.497305', NULL, '/app/user/person', '127.0.0.1', '本機地址', NULL),
+(1448, '2022-11-15 17:06:24.055169', '2022-11-15 17:06:24.055169', NULL, '/app/tip/today', '127.0.0.1', '本機地址', '{\"client\":true}'),
+(1449, '2022-11-15 17:06:24.306834', '2022-11-15 17:06:24.306834', NULL, '/app/news/article/info', '127.0.0.1', '本機地址', '{\"slug\":\"reskin-plastic-skin\",\"client\":true}'),
+(1450, '2022-11-15 18:12:52.465341', '2022-11-15 18:12:52.465341', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1451, '2022-11-15 18:13:12.170146', '2022-11-15 18:13:12.170146', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[12]}'),
+(1452, '2022-11-15 18:13:12.342354', '2022-11-15 18:13:12.342354', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1453, '2022-11-15 18:13:28.219499', '2022-11-15 18:13:28.219499', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[28]}'),
+(1454, '2022-11-15 18:13:28.281453', '2022-11-15 18:13:28.281453', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1455, '2022-11-15 18:13:32.250545', '2022-11-15 18:13:32.250545', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[16]}'),
+(1456, '2022-11-15 18:13:32.313583', '2022-11-15 18:13:32.313583', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1457, '2022-11-15 18:13:38.603291', '2022-11-15 18:13:38.603291', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[13]}'),
+(1458, '2022-11-15 18:13:38.678274', '2022-11-15 18:13:38.678274', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1459, '2022-11-15 18:13:41.444958', '2022-11-15 18:13:41.444958', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[6]}'),
+(1460, '2022-11-15 18:13:41.520788', '2022-11-15 18:13:41.520788', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1461, '2022-11-15 18:13:42.501521', '2022-11-15 18:13:42.501521', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[7]}'),
+(1462, '2022-11-15 18:13:42.579835', '2022-11-15 18:13:42.579835', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1463, '2022-11-15 18:13:43.630700', '2022-11-15 18:13:43.630700', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[8]}'),
+(1464, '2022-11-15 18:13:43.731824', '2022-11-15 18:13:43.731824', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1465, '2022-11-15 18:13:45.874862', '2022-11-15 18:13:45.874862', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[9]}'),
+(1466, '2022-11-15 18:13:45.920925', '2022-11-15 18:13:45.920925', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1467, '2022-11-15 18:13:47.334102', '2022-11-15 18:13:47.334102', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[10]}'),
+(1468, '2022-11-15 18:13:47.391379', '2022-11-15 18:13:47.391379', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1469, '2022-11-15 18:13:48.596348', '2022-11-15 18:13:48.596348', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[11]}'),
+(1470, '2022-11-15 18:13:48.661153', '2022-11-15 18:13:48.661153', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1471, '2022-11-15 18:13:49.900373', '2022-11-15 18:13:49.900373', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[14]}'),
+(1472, '2022-11-15 18:13:49.974007', '2022-11-15 18:13:49.974007', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1473, '2022-11-15 18:13:53.900243', '2022-11-15 18:13:53.900243', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[15]}'),
+(1474, '2022-11-15 18:13:53.948043', '2022-11-15 18:13:53.948043', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1475, '2022-11-15 18:14:02.637196', '2022-11-15 18:14:02.637196', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1476, '2022-11-15 18:14:09.276341', '2022-11-15 18:14:09.276341', 1, '/admin/industry/category/add', '127.0.0.1', '本機地址', '{\"name\":\"有機小分子\",\"parentId\":[5],\"type\":null,\"keepAlive\":true,\"isShow\":true}'),
+(1477, '2022-11-15 18:14:09.369013', '2022-11-15 18:14:09.369013', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1478, '2022-11-15 18:14:11.425847', '2022-11-15 18:14:11.425847', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1479, '2022-11-15 18:14:18.174068', '2022-11-15 18:14:18.174068', 1, '/admin/base/open/eps', '127.0.0.1', '本機地址', NULL),
+(1480, '2022-11-15 18:14:18.181499', '2022-11-15 18:14:18.181499', 1, '/admin/base/comm/person', '127.0.0.1', '本機地址', NULL),
+(1481, '2022-11-15 18:14:18.195000', '2022-11-15 18:14:18.195000', 1, '/admin/base/comm/permmenu', '127.0.0.1', '本機地址', NULL),
+(1482, '2022-11-15 18:14:18.504192', '2022-11-15 18:14:18.504192', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1483, '2022-11-15 18:14:21.131168', '2022-11-15 18:14:21.131168', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1484, '2022-11-15 18:14:25.821423', '2022-11-15 18:14:25.821423', 1, '/admin/industry/category/add', '127.0.0.1', '本機地址', '{\"name\":\"有機小分子\",\"parentId\":5,\"type\":null,\"keepAlive\":true,\"isShow\":true}'),
+(1485, '2022-11-15 18:14:25.895970', '2022-11-15 18:14:25.895970', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1486, '2022-11-15 18:14:28.718424', '2022-11-15 18:14:28.718424', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1487, '2022-11-15 18:14:33.854300', '2022-11-15 18:14:33.854300', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1488, '2022-11-15 18:14:44.217951', '2022-11-15 18:14:44.217951', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1489, '2022-11-15 18:14:54.257300', '2022-11-15 18:14:54.257300', 1, '/admin/industry/category/info', '127.0.0.1', '本機地址', '{\"id\":\"5\"}'),
+(1490, '2022-11-15 18:14:54.270033', '2022-11-15 18:14:54.270033', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1491, '2022-11-15 18:14:58.032414', '2022-11-15 18:14:58.032414', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1492, '2022-11-15 18:15:03.261681', '2022-11-15 18:15:03.261681', 1, '/admin/industry/category/add', '127.0.0.1', '本機地址', '{\"name\":\"有機小分子\",\"parentId\":[5],\"type\":null,\"keepAlive\":true,\"isShow\":true}'),
+(1493, '2022-11-15 18:15:03.364474', '2022-11-15 18:15:03.364474', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1494, '2022-11-15 18:15:07.249017', '2022-11-15 18:15:07.249017', 1, '/admin/industry/category/info', '127.0.0.1', '本機地址', '{\"id\":\"5\"}'),
+(1495, '2022-11-15 18:15:07.255788', '2022-11-15 18:15:07.255788', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1496, '2022-11-15 18:15:09.377745', '2022-11-15 18:15:09.377745', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1497, '2022-11-15 18:15:21.475856', '2022-11-15 18:15:21.475856', 1, '/admin/industry/category/add', '127.0.0.1', '本機地址', '{\"name\":\"有機小分子\",\"parentId\":[5],\"type\":null,\"keepAlive\":true,\"isShow\":true}'),
+(1498, '2022-11-15 18:15:21.575268', '2022-11-15 18:15:21.575268', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1499, '2022-11-15 18:16:09.508081', '2022-11-15 18:16:09.508081', 1, '/admin/base/open/eps', '127.0.0.1', '本機地址', NULL),
+(1500, '2022-11-15 18:16:09.604253', '2022-11-15 18:16:09.604253', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1501, '2022-11-15 18:16:11.758675', '2022-11-15 18:16:11.758675', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1502, '2022-11-15 18:16:26.501919', '2022-11-15 18:16:26.501919', 1, '/admin/base/open/eps', '127.0.0.1', '本機地址', NULL),
+(1503, '2022-11-15 18:16:26.508396', '2022-11-15 18:16:26.508396', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1504, '2022-11-15 18:17:03.093050', '2022-11-15 18:17:03.093050', 1, '/admin/base/open/eps', '127.0.0.1', '本機地址', NULL),
+(1505, '2022-11-15 18:17:03.112360', '2022-11-15 18:17:03.112360', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1506, '2022-11-15 18:17:06.112513', '2022-11-15 18:17:06.112513', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1507, '2022-11-15 18:17:47.075422', '2022-11-15 18:17:47.075422', 1, '/admin/industry/category/add', '127.0.0.1', '本機地址', '{\"name\":\"有機小分子\",\"slug\":\"small-organic-molecules\",\"parentId\":[5],\"type\":null,\"keepAlive\":true,\"isShow\":true}'),
+(1508, '2022-11-15 18:17:47.315541', '2022-11-15 18:17:47.315541', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1509, '2022-11-15 18:17:49.397889', '2022-11-15 18:17:49.397889', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1510, '2022-11-15 18:18:07.364246', '2022-11-15 18:18:07.364246', 1, '/admin/industry/category/add', '127.0.0.1', '本機地址', '{\"name\":\"有機高分子\",\"slug\":\"organic-polymer\",\"parentId\":[5,30],\"orderNum\":1,\"type\":null,\"keepAlive\":true,\"isShow\":true}'),
+(1511, '2022-11-15 18:18:07.470365', '2022-11-15 18:18:07.470365', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1512, '2022-11-15 18:18:09.937449', '2022-11-15 18:18:09.937449', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1513, '2022-11-15 18:18:12.736633', '2022-11-15 18:18:12.736633', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1514, '2022-11-15 18:18:17.101770', '2022-11-15 18:18:17.101770', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1515, '2022-11-15 18:18:34.287158', '2022-11-15 18:18:34.287158', 1, '/admin/industry/category/add', '127.0.0.1', '本機地址', '{\"name\":\"有幾高分子\",\"slug\":\"organic-polymer\",\"parentId\":[5,30],\"orderNum\":2,\"type\":null,\"keepAlive\":true,\"isShow\":true}'),
+(1516, '2022-11-15 18:18:34.415438', '2022-11-15 18:18:34.415438', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1517, '2022-11-15 18:18:49.976258', '2022-11-15 18:18:49.976258', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1518, '2022-11-15 18:18:59.913001', '2022-11-15 18:18:59.913001', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1519, '2022-11-15 18:19:04.905765', '2022-11-15 18:19:04.905765', 1, '/admin/industry/category/add', '127.0.0.1', '本機地址', '{\"name\":\"test\",\"slug\":\"test\",\"parentId\":[5,30],\"type\":null,\"keepAlive\":true,\"isShow\":true}'),
+(1520, '2022-11-15 18:19:05.019471', '2022-11-15 18:19:05.019471', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1521, '2022-11-15 18:19:39.643630', '2022-11-15 18:19:39.643630', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1522, '2022-11-15 18:19:44.197517', '2022-11-15 18:19:44.197517', 1, '/admin/industry/category/add', '127.0.0.1', '本機地址', '{\"name\":\"satset\",\"slug\":\"sat\",\"parentId\":30,\"type\":null,\"keepAlive\":true,\"isShow\":true}'),
+(1523, '2022-11-15 18:19:46.745266', '2022-11-15 18:19:46.745266', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1524, '2022-11-15 18:19:52.808607', '2022-11-15 18:19:52.808607', 1, '/admin/industry/category/delete', '127.0.0.1', '本機地址', '{\"ids\":[31]}'),
+(1525, '2022-11-15 18:19:52.866254', '2022-11-15 18:19:52.866254', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1526, '2022-11-15 18:19:54.702534', '2022-11-15 18:19:54.702534', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1527, '2022-11-15 18:20:22.074311', '2022-11-15 18:20:22.074311', 1, '/admin/industry/category/add', '127.0.0.1', '本機地址', '{\"name\":\"有機高分子\",\"slug\":\"organic-polymer\",\"parentId\":[],\"type\":null,\"keepAlive\":true,\"isShow\":true}'),
+(1528, '2022-11-15 18:20:22.156603', '2022-11-15 18:20:22.156603', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1529, '2022-11-15 18:20:35.740647', '2022-11-15 18:20:35.740647', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1530, '2022-11-15 18:22:08.827941', '2022-11-15 18:22:08.827941', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1531, '2022-11-15 18:40:02.968610', '2022-11-15 18:40:02.968610', 1, '/admin/base/comm/permmenu', '127.0.0.1', '本機地址', NULL),
+(1532, '2022-11-15 18:40:03.008579', '2022-11-15 18:40:03.008579', 1, '/admin/base/comm/person', '127.0.0.1', '本機地址', NULL),
+(1533, '2022-11-15 18:40:03.010256', '2022-11-15 18:40:03.010256', 1, '/admin/base/open/eps', '127.0.0.1', '本機地址', NULL),
+(1534, '2022-11-15 18:41:22.634965', '2022-11-15 18:41:22.634965', 1, '/admin/news/article/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20}'),
+(1535, '2022-11-15 18:41:24.790886', '2022-11-15 18:41:24.790886', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1536, '2022-11-15 18:41:38.133039', '2022-11-15 18:41:38.133039', 1, '/admin/news/article/delete', '127.0.0.1', '本機地址', '{\"ids\":[26,22,21,19,18,17,16,15,14,13,12]}'),
+(1537, '2022-11-15 18:41:38.209296', '2022-11-15 18:41:38.209296', 1, '/admin/news/article/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20}'),
+(1538, '2022-11-15 18:41:39.658139', '2022-11-15 18:41:39.658139', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1539, '2022-11-15 18:42:21.324894', '2022-11-15 18:42:21.324894', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1540, '2022-11-15 18:43:06.694955', '2022-11-15 18:43:06.694955', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1541, '2022-11-15 18:43:23.729934', '2022-11-15 18:43:23.729934', 1, '/admin/industry/category/info', '127.0.0.1', '本機地址', '{\"id\":\"17\"}'),
+(1542, '2022-11-15 18:43:23.746080', '2022-11-15 18:43:23.746080', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1543, '2022-11-15 18:43:49.938233', '2022-11-15 18:43:49.938233', 1, '/admin/base/open/eps', '127.0.0.1', '本機地址', NULL),
+(1544, '2022-11-15 18:43:49.955457', '2022-11-15 18:43:49.955457', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1545, '2022-11-15 18:43:51.862920', '2022-11-15 18:43:51.862920', 1, '/admin/base/open/eps', '127.0.0.1', '本機地址', NULL),
+(1546, '2022-11-15 18:43:51.874154', '2022-11-15 18:43:51.874154', 1, '/admin/base/comm/person', '127.0.0.1', '本機地址', NULL),
+(1547, '2022-11-15 18:43:51.906601', '2022-11-15 18:43:51.906601', 1, '/admin/base/comm/permmenu', '127.0.0.1', '本機地址', NULL),
+(1548, '2022-11-15 18:43:52.314420', '2022-11-15 18:43:52.314420', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1549, '2022-11-15 18:43:54.711246', '2022-11-15 18:43:54.711246', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1550, '2022-11-15 18:43:54.724047', '2022-11-15 18:43:54.724047', 1, '/admin/industry/category/info', '127.0.0.1', '本機地址', '{\"id\":\"5\"}'),
+(1551, '2022-11-15 18:43:57.197310', '2022-11-15 18:43:57.197310', 1, '/admin/industry/category/info', '127.0.0.1', '本機地址', '{\"id\":\"17\"}'),
+(1552, '2022-11-15 18:43:57.203069', '2022-11-15 18:43:57.203069', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1553, '2022-11-15 18:44:00.114444', '2022-11-15 18:44:00.114444', 1, '/admin/industry/category/update', '127.0.0.1', '本機地址', '{\"name\":\"應用科技趨勢\",\"slug\":\"applied-tech-trend\",\"description\":\"<p>應用科技趨勢</p>\",\"parentId\":null,\"icon\":null,\"orderNum\":1,\"id\":17,\"createTime\":\"2022-05-23 23:17:55\",\"updateTime\":\"2022-05-25 21:53:44\"}'),
+(1554, '2022-11-15 18:44:00.213286', '2022-11-15 18:44:00.213286', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1555, '2022-11-15 18:44:01.818003', '2022-11-15 18:44:01.818003', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1556, '2022-11-15 18:44:09.410890', '2022-11-15 18:44:09.410890', 1, '/admin/news/article/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20}'),
+(1557, '2022-11-15 18:44:12.734138', '2022-11-15 18:44:12.734138', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1558, '2022-11-15 18:44:28.293534', '2022-11-15 18:44:28.293534', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1559, '2022-11-15 18:44:28.559603', '2022-11-15 18:44:28.559603', 1, '/admin/base/open/eps', '127.0.0.1', '本機地址', NULL),
+(1560, '2022-11-15 18:44:28.708405', '2022-11-15 18:44:28.708405', 1, '/admin/news/article/page', '127.0.0.1', '本機地址', '{\"page\":1,\"size\":20}'),
+(1561, '2022-11-15 18:44:29.694003', '2022-11-15 18:44:29.694003', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL),
+(1562, '2022-11-15 18:44:30.722251', '2022-11-15 18:44:30.722251', 1, '/admin/industry/category/list', '127.0.0.1', '本機地址', NULL);
 
 INSERT INTO `base_sys_menu` (`id`, `createTime`, `updateTime`, `parentId`, `name`, `router`, `perms`, `type`, `icon`, `orderNum`, `viewPath`, `keepAlive`, `isShow`) VALUES
 (1, '2019-09-11 11:14:44.000000', '2022-05-25 17:47:09.618000', NULL, '工作台', '/', NULL, 0, 'icon-workbench', 11, NULL, 1, 0),
@@ -241,51 +1608,9 @@ INSERT INTO `base_sys_menu` (`id`, `createTime`, `updateTime`, `parentId`, `name
 (200, '2022-06-30 01:21:32.990561', '2022-06-30 01:21:32.990561', 195, '分页查询', NULL, 'tip:index:page', 2, NULL, 0, NULL, 1, 1),
 (201, '2022-06-30 01:21:32.993378', '2022-06-30 01:21:32.993378', 195, '新增', NULL, 'tip:index:add', 2, NULL, 0, NULL, 1, 1);
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `base_sys_param`
---
-
-CREATE TABLE `base_sys_param` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `keyName` varchar(255) NOT NULL COMMENT '键位',
-  `name` varchar(255) NOT NULL COMMENT '名称',
-  `data` text NOT NULL COMMENT '数据',
-  `dataType` tinyint(4) NOT NULL DEFAULT 0 COMMENT '数据类型 0:字符串 1：数组 2：键值对',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- 傾印資料表的資料 `base_sys_param`
---
-
 INSERT INTO `base_sys_param` (`id`, `createTime`, `updateTime`, `keyName`, `name`, `data`, `dataType`, `remark`) VALUES
 (1, '2021-02-26 13:53:05.000000', '2021-03-03 17:50:04.000000', 'text', '富文本参数', '<p><strong class=\"ql-size-huge\">111xxxxx2222<span class=\"ql-cursor\">﻿﻿</span></strong></p>', 0, NULL),
 (2, '2021-02-26 13:53:18.000000', '2021-02-26 13:53:18.000000', 'json', 'JSON参数', '{\n    code: 111\n}', 0, NULL);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `base_sys_role`
---
-
-CREATE TABLE `base_sys_role` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `userId` varchar(255) NOT NULL COMMENT '用户ID',
-  `name` varchar(255) NOT NULL COMMENT '名称',
-  `label` varchar(50) DEFAULT NULL COMMENT '角色标签',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `relevance` int(11) NOT NULL DEFAULT 1 COMMENT '数据权限是否关联上下级'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- 傾印資料表的資料 `base_sys_role`
---
 
 INSERT INTO `base_sys_role` (`id`, `createTime`, `updateTime`, `userId`, `name`, `label`, `remark`, `relevance`) VALUES
 (1, '2021-02-24 21:18:39.682358', '2021-02-24 21:18:39.682358', '1', '超管', 'admin', '最高权限的角色', 1),
@@ -295,24 +1620,6 @@ INSERT INTO `base_sys_role` (`id`, `createTime`, `updateTime`, `userId`, `name`,
 (13, '2021-02-26 14:27:58.000000', '2022-05-18 17:57:30.549000', '1', '測試', 'test', NULL, 0),
 (14, '2022-07-02 17:44:20.921000', '2022-07-02 17:45:03.700000', '1', '創作者', 'creator', NULL, 1),
 (15, '2022-07-02 17:51:28.510000', '2022-07-02 17:51:28.510000', '1', '編輯', 'editor', '後台系統文章新增、編輯、修改權限', 1);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `base_sys_role_department`
---
-
-CREATE TABLE `base_sys_role_department` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `roleId` bigint(20) NOT NULL COMMENT '角色ID',
-  `departmentId` bigint(20) NOT NULL COMMENT '部门ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- 傾印資料表的資料 `base_sys_role_department`
---
 
 INSERT INTO `base_sys_role_department` (`id`, `createTime`, `updateTime`, `roleId`, `departmentId`) VALUES
 (1, '2021-02-26 12:00:23.787939', '2021-02-26 12:00:23.787939', 8, 4),
@@ -326,24 +1633,6 @@ INSERT INTO `base_sys_role_department` (`id`, `createTime`, `updateTime`, `roleI
 (35, '2022-06-30 22:01:09.956947', '2022-06-30 22:01:09.956947', 12, 11),
 (37, '2022-07-02 17:45:03.723541', '2022-07-02 17:45:03.723541', 14, 13),
 (38, '2022-07-02 17:51:28.530321', '2022-07-02 17:51:28.530321', 15, 18);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `base_sys_role_menu`
---
-
-CREATE TABLE `base_sys_role_menu` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `roleId` bigint(20) NOT NULL COMMENT '角色ID',
-  `menuId` bigint(20) NOT NULL COMMENT '菜单ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- 傾印資料表的資料 `base_sys_role_menu`
---
 
 INSERT INTO `base_sys_role_menu` (`id`, `createTime`, `updateTime`, `roleId`, `menuId`) VALUES
 (1, '2021-02-26 12:00:18.240154', '2021-02-26 12:00:18.240154', 8, 1),
@@ -592,44 +1881,6 @@ INSERT INTO `base_sys_role_menu` (`id`, `createTime`, `updateTime`, `roleId`, `m
 (910, '2022-06-30 22:01:09.941498', '2022-06-30 22:01:09.941498', 12, 90),
 (911, '2022-06-30 22:01:09.947655', '2022-06-30 22:01:09.947655', 12, 85);
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `base_sys_user`
---
-
-CREATE TABLE `base_sys_user` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `departmentId` bigint(20) DEFAULT NULL COMMENT '部門ID',
-  `username` varchar(100) NOT NULL COMMENT '用戶名',
-  `password` varchar(255) NOT NULL COMMENT '密碼',
-  `passwordV` int(11) NOT NULL DEFAULT 1 COMMENT '密碼版本, 作用是改完密碼, 讓原來的token失效',
-  `phone` varchar(20) DEFAULT NULL COMMENT '電話(帶區碼)',
-  `email` varchar(255) DEFAULT NULL COMMENT 'Email',
-  `socketId` varchar(255) DEFAULT NULL COMMENT 'socketId',
-  `createBy` bigint(20) NOT NULL COMMENT '建立用戶ID',
-  `updateBy` bigint(20) NOT NULL COMMENT '更新用戶ID',
-  `status` enum('normal','suspend','delete') NOT NULL DEFAULT 'normal',
-  `firstName` varchar(255) NOT NULL COMMENT '姓',
-  `lastName` varchar(255) NOT NULL COMMENT '名',
-  `idCard` varchar(255) DEFAULT NULL COMMENT '身分證',
-  `birthday` varchar(255) DEFAULT NULL COMMENT '生日',
-  `headImg` varchar(255) DEFAULT NULL COMMENT '頭像',
-  `gender` enum('male','female','intersex') NOT NULL,
-  `remark` varchar(255) DEFAULT NULL COMMENT '備注',
-  `intro` varchar(255) DEFAULT NULL COMMENT '簡介',
-  `deleteBy` bigint(20) DEFAULT NULL COMMENT '刪除用戶ID',
-  `deleteTime` datetime(6) DEFAULT NULL COMMENT '刪除時間',
-  `emailVerify` enum('unverified','verify','pending') NOT NULL DEFAULT 'unverified',
-  `identifyVerify` enum('unverified','pending','rejected','verify') NOT NULL DEFAULT 'unverified'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- 傾印資料表的資料 `base_sys_user`
---
-
 INSERT INTO `base_sys_user` (`id`, `createTime`, `updateTime`, `departmentId`, `username`, `password`, `passwordV`, `phone`, `email`, `socketId`, `createBy`, `updateBy`, `status`, `firstName`, `lastName`, `idCard`, `birthday`, `headImg`, `gender`, `remark`, `intro`, `deleteBy`, `deleteTime`, `emailVerify`, `identifyVerify`) VALUES
 (1, '2021-02-24 21:16:41.525157', '2022-11-01 15:53:39.005818', 1, 'admin', '4297f44b13955235245b2497399d7a93', 16, NULL, NULL, NULL, 0, 0, 'normal', 'Bryan', 'Chang', NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 'unverified', 'unverified'),
 (30, '2022-05-15 23:08:18.000000', '2022-09-05 15:42:40.000000', 15, '2084ca74ab8a', 'bdc87b9c894da5168059e00ebffb9077', 9, '0900000001', NULL, NULL, 0, 1, 'normal', '王', '大明', NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 'unverified', 'unverified'),
@@ -639,51 +1890,11 @@ INSERT INTO `base_sys_user` (`id`, `createTime`, `updateTime`, `departmentId`, `
 (46, '2022-06-30 21:45:11.000000', '2022-07-02 17:49:59.000000', 17, 'yunfan', '4297f44b13955235245b2497399d7a93', 1, NULL, NULL, NULL, 1, 1, 'normal', '黃', '韻凡', NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 'unverified', 'unverified'),
 (52, '2022-07-05 22:59:22.000000', '2022-07-05 22:59:22.000000', 15, 'zhen168', '4297f44b13955235245b2497399d7a93', 1, NULL, NULL, NULL, 1, 1, 'normal', '曾', '小米', NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 'unverified', 'unverified'),
 (59, '2022-07-06 15:08:18.000000', '2022-11-03 22:59:18.215449', 15, '886953705508', '02edcc5d0cd445b1682c3346829eb79d', 9, '0953705503', 'zz02846584zz2@gmail.com', NULL, 59, 1, 'normal', '張', '懿人', 'H124738082', '1994-08-06', NULL, 'male', NULL, '<p>這是阿仁的自我介紹~~~~</p>', NULL, NULL, 'verify', 'pending'),
-(61, '2022-11-03 22:42:22.178401', '2022-11-04 01:48:26.000000', 16, '951af265d3b53d3b', '46fb75d0f58a5fb0d5dd47abe716ee08', 3, '0953705508', 'zz02846584zz@gmail.com', NULL, 61, 61, 'normal', '張', '懿人', 'H124638086', '1994-08-06', NULL, 'male', NULL, '<p>我阿仁啦</p>', NULL, NULL, 'verify', 'pending');
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `base_sys_user_identity`
---
-
-CREATE TABLE `base_sys_user_identity` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `positive` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '正面照',
-  `negative` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '背面照',
-  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
-  `createBy` bigint(20) NOT NULL COMMENT '建立用戶ID',
-  `updateBy` bigint(20) NOT NULL COMMENT '更新用戶ID',
-  `idCard` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '身分證號'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `base_sys_user_identity`
---
+(61, '2022-11-03 22:42:22.178401', '2022-11-15 01:21:24.000000', 16, '951af265d3b53d3b', '02edcc5d0cd445b1682c3346829eb79d', 4, '0953705508', 'zz02846584zz@gmail.com', NULL, 61, 61, 'normal', '張', '懿人', 'H124638086', '1994-08-06', NULL, 'male', NULL, '<p>我阿仁啦</p>', NULL, NULL, 'verify', 'pending');
 
 INSERT INTO `base_sys_user_identity` (`id`, `createTime`, `updateTime`, `positive`, `negative`, `userId`, `createBy`, `updateBy`, `idCard`) VALUES
 (2, '2022-07-06 15:58:16.907554', '2022-11-03 20:23:32.000000', 'http://127.0.0.1:8001/public/uploads/20221103/ca6d1333-b0c5-481a-991b-120692fadea1.png', 'http://127.0.0.1:8001/public/uploads/20221103/17388b4f-a641-4b48-8004-c7805b4de05c.png', 59, 59, 59, 'H124738082'),
 (9, '2022-11-03 23:00:38.093673', '2022-11-03 23:00:38.093673', 'http://127.0.0.1:8001/public/uploads/20221103/1b4d50f0-25a0-4f56-8f0b-81a4f16eaa60.png', 'http://127.0.0.1:8001/public/uploads/20221103/b87c581d-96d9-4ce5-9047-5e08603bace0.png', 61, 61, 61, 'H124638086');
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `base_sys_user_role`
---
-
-CREATE TABLE `base_sys_user_role` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `userId` bigint(20) NOT NULL COMMENT '用户ID',
-  `roleId` bigint(20) NOT NULL COMMENT '角色ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- 傾印資料表的資料 `base_sys_user_role`
---
 
 INSERT INTO `base_sys_user_role` (`id`, `createTime`, `updateTime`, `userId`, `roleId`) VALUES
 (1, '2021-02-24 22:03:11.665805', '2021-02-24 22:03:11.665805', 1, 1),
@@ -743,100 +1954,9 @@ INSERT INTO `base_sys_user_role` (`id`, `createTime`, `updateTime`, `userId`, `r
 (100, '2022-09-05 15:42:54.543050', '2022-09-05 15:42:54.543050', 52, 11),
 (101, '2022-11-03 22:42:22.205908', '2022-11-03 22:42:22.205908', 61, 11);
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `collection_article`
---
-
-CREATE TABLE `collection_article` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
-  `userId` bigint(20) NOT NULL COMMENT '用戶ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `collection_award_tip`
---
-
-CREATE TABLE `collection_award_tip` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `awardTipId` bigint(20) NOT NULL COMMENT '文章ID',
-  `userId` bigint(20) NOT NULL COMMENT '用戶ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `collection_tip`
---
-
-CREATE TABLE `collection_tip` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `tipId` bigint(20) NOT NULL COMMENT '小知識ID',
-  `userId` bigint(20) NOT NULL COMMENT '用戶ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `demo_goods`
---
-
-CREATE TABLE `demo_goods` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '标题',
-  `pic` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '图片',
-  `price` decimal(5,2) NOT NULL COMMENT '价格',
-  `type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '分类'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `industry_category`
---
-
-CREATE TABLE `industry_category` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '分類名稱',
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '分類描述',
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '分類代稱',
-  `parentId` int(11) DEFAULT NULL COMMENT '上層分類',
-  `icon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Icon',
-  `orderNum` int(11) DEFAULT NULL COMMENT '排序號'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `industry_category`
---
-
 INSERT INTO `industry_category` (`id`, `createTime`, `updateTime`, `name`, `description`, `slug`, `parentId`, `icon`, `orderNum`) VALUES
 (5, '2022-05-23 15:55:23.574000', '2022-05-25 21:53:44.636597', '化學品原物料', '<p>化學品原物料</p>', 'chemical-raw-materials', NULL, NULL, 0),
-(6, '2022-05-23 23:12:55.907000', '2022-05-25 21:53:44.636597', '丙烯酸樹脂', '<p>丙烯酸樹脂</p>', 'acrylic-resin', 5, NULL, 0),
-(7, '2022-05-23 23:13:30.394000', '2022-05-25 21:53:44.636597', '環氧樹酯', '<p>環氧樹酯</p>', 'epoxy-resin', 5, NULL, 1),
-(8, '2022-05-23 23:13:50.526000', '2022-05-25 21:53:44.636597', '橡膠', '<p>橡膠</p>', 'rubber', 5, NULL, 2),
-(9, '2022-05-23 23:14:14.744000', '2022-05-25 21:53:44.636597', '聚醯亞胺', '<p>聚醯亞胺</p>', 'polyimide', 5, NULL, 3),
-(10, '2022-05-23 23:14:45.158000', '2022-05-25 21:53:44.636597', '溶劑相關', '<p>溶劑相關</p>', 'solvent-related', 5, NULL, 4),
-(11, '2022-05-23 23:15:05.031000', '2022-05-25 21:53:44.636597', '石油單體', '<p>石油單體</p>', 'petroleum-monomer', 5, NULL, 5),
-(12, '2022-05-23 23:16:01.983000', '2022-05-25 21:53:44.636597', '化學原物料加工', '<p>化學原物料加工</p>', 'chemical-raw-material-processing', NULL, NULL, 1),
-(13, '2022-05-23 23:16:34.755000', '2022-05-25 21:53:44.636597', '攪拌', '<p>攪拌</p>', 'stir', 12, NULL, 0),
-(14, '2022-05-23 23:16:50.605000', '2022-05-25 21:53:44.636597', '研磨', '<p>研磨</p>', 'grind', 12, NULL, 1),
-(15, '2022-05-23 23:17:08.393000', '2022-05-25 21:53:44.636597', '分散', '<p>分散</p>', 'dispersion', 12, NULL, 2),
-(16, '2022-05-23 23:17:20.254000', '2022-05-25 21:53:44.636597', '塗裝', '<p>塗裝</p>', 'painting', 12, NULL, 3),
-(17, '2022-05-23 23:17:55.588000', '2022-05-25 21:53:44.636597', '應用科技趨勢', '<p>應用科技趨勢</p>', 'applied-tech-trend', NULL, NULL, 2),
+(17, '2022-05-23 23:17:55.588000', '2022-11-15 18:44:00.111000', '應用科技趨勢', '<p>應用科技趨勢</p>', 'applied-tech-trend', NULL, NULL, 1),
 (18, '2022-05-23 23:18:24.442000', '2022-05-25 21:53:44.636597', '航太-衛星材料', '<p>航太-衛星材料</p>', 'aerospace-satellite-materials', 17, NULL, 0),
 (19, '2022-05-23 23:19:09.741000', '2022-05-25 21:53:44.636597', '元宇宙-拉伸可修復塗料', '<p>元宇宙-拉伸可修復塗料</p>', 'metaverse-stretch-repairable-paint', 17, NULL, 1),
 (20, '2022-05-23 23:19:47.376000', '2022-05-25 21:53:44.636597', '消費性電子', '<p>消費性電子</p>', 'consumer-electronics', 17, NULL, 2),
@@ -847,117 +1967,14 @@ INSERT INTO `industry_category` (`id`, `createTime`, `updateTime`, `name`, `desc
 (25, '2022-05-23 23:21:41.372000', '2022-05-25 21:53:44.636597', '電動車+元宇宙', '<p>電動車+元宇宙-拉伸導電塗料</p>', 'electric-vehicle-metaverse', 17, NULL, 7),
 (26, '2022-05-23 23:22:11.359000', '2022-05-25 21:53:44.636597', '軍防', '<p>軍防-隱形塗料(Nano)</p>', 'military-defense', 17, NULL, 8),
 (27, '2022-05-23 23:22:37.771000', '2022-05-25 21:53:44.636597', '綠能循環能', '<p>綠能循環能-新能源</p>', 'green-energy-recycling', 17, NULL, 9),
-(28, '2022-05-23 23:22:54.391000', '2022-05-25 21:53:44.636597', '其他', '<p>其他</p>', 'other', NULL, NULL, 3),
-(29, '2022-05-23 23:23:47.601000', '2022-06-30 01:06:52.544309', '其他應用科技', '<p>其他應用科技</p>', 'other-tech', 17, NULL, 10);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `news_article`
---
-
-CREATE TABLE `news_article` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '標題',
-  `thumbnail` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '縮圖',
-  `commentOpen` tinyint(4) NOT NULL DEFAULT 1 COMMENT '開啟評論',
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '代稱',
-  `publishTime` datetime DEFAULT NULL COMMENT '發布時間',
-  `createBy` bigint(20) NOT NULL COMMENT '建立用戶ID',
-  `updateBy` bigint(20) NOT NULL COMMENT '更新用戶ID',
-  `deleteBy` bigint(20) DEFAULT NULL COMMENT '刪除用戶ID',
-  `deleteTime` datetime(6) DEFAULT NULL COMMENT '刪除時間',
-  `status` enum('draft','pending','reject','published','delete','schedule') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft',
-  `metaTitle` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'meta標題',
-  `content` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '完整文章',
-  `metaDescription` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'meta描述',
-  `authorId` int(11) DEFAULT NULL COMMENT '作者ID',
-  `isTop` tinyint(4) NOT NULL DEFAULT 0 COMMENT '置頂新聞',
-  `isHot` tinyint(4) NOT NULL DEFAULT 0 COMMENT '熱門新聞',
-  `type` enum('normal','video') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'normal',
-  `videoUrl` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '影片網址',
-  `content_preview` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '預覽內容',
-  `excerpt` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '摘錄'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `news_article`
---
-
-INSERT INTO `news_article` (`id`, `createTime`, `updateTime`, `title`, `thumbnail`, `commentOpen`, `slug`, `publishTime`, `createBy`, `updateBy`, `deleteBy`, `deleteTime`, `status`, `metaTitle`, `content`, `metaDescription`, `authorId`, `isTop`, `isHot`, `type`, `videoUrl`, `content_preview`, `excerpt`) VALUES
-(12, '2022-05-25 00:21:04.000000', '2022-10-14 22:22:56.209413', 'UV固化丙烯酸樹酯配方原則,以及化學反應機構', 'https://sa.ylib.com/read/images/%e7%94%9f%e5%91%bd%e5%be%9e%e4%bd%95%e9%96%8b%e5%a7%8b.jpg', 1, '生命從何開始', '2022-07-01 00:13:16', 1, 1, 0, NULL, 'published', '30', '<p>地球生命的存在，究竟是因為幸運，還是依循自然規則的必然結果？在新形成的星球上出現生命，到底是簡單的事，還是一連串不太可能發生的事件所導致的一個幾乎不可能發生的結果？拜天文學、行星科學及化學等各別領域的研究進展所賜，這些深刻的問題現在可望獲得解答。假如能一如科學家所期盼的那樣，在銀河系發現生命一再出現的跡象，這代表通往生命的道路並不那麼艱難。此外，如果事實證明從化學跨越到生物學的途徑並不複雜，那麼宇宙可能充滿生命。</p><p><br></p><p>科學家發現了成千上萬的系外行星，帶動生命起源研究的復興。令人驚訝的是，幾乎所有新發現的「太陽系」都與我們所在的太陽系迥然不同。這是否意味我們的太陽系非常奇特，因此有利於生命的崛起？在繞行某遙遠恆星的一顆行星上檢測生命跡象並不容易，但用來篩選細微「生物印記」（biosignature）的技術正迅速發展，也許在一、二十年內我們將有幸看見遠方的生命。</p><p><br></p><p>要了解生命的可能起源，首先我們必須弄清楚行星如何形成且成份為何。新一代電波望遠鏡，尤其是設置在智利亞他加馬沙漠、備受矚目的「亞他加馬大型毫米／次毫米波陣列」，提供了許多種美麗的原行星盤（protoplanetary disk）圖像及其化學成份分佈圖。這些資訊有助科學家建立更好的模型，以模擬行星如何從原行星盤的灰塵和氣體組合而成。羅塞塔號（Rosetta）已探測了太陽系內的一顆彗星，而太空船OSIRIS-Rex也將探訪一顆小行星，甚至嘗試帶回樣本，可望提供有關行星組成的基本物質列表。</p><p><br></p><p>如同地球這般不太熱也不太冷、不太乾也不太濕的行星一旦形成，之後還需要經過什麼樣的化學過程才能產生構成生命的要素呢？在1950年代，劃時代的米勒－游理實驗（Miller-Urey experiment）以電脈衝電擊（模擬閃電的作用）水與一些簡單化學物質組成的混合物，證明了要製造構成蛋白質的基本分子胺基酸相當容易。然而，要合成其他分子較為困難，顯然我們必須重新澈底思考從化學到生命誕生的途徑。其中關鍵在於RNA的多重功能，RNA是一種非常長的分子，在所有既存生命體內都扮演重要角色。RNA不僅具有酵素的作用，還能儲存及傳遞訊息。特別的是，所有生物體內的所有蛋白質都是藉由核糖體RNA的催化而生成；核糖體是讀取遺傳訊息並製造蛋白質分子的胞器。這項觀察顯示，RNA在生命演化的早期階段居於主導地位。</p><p><br></p><p>目前，關於初生的地球如何形成RNA、進而發展出以RNA為基礎的細胞，這個化學過程已成為生命起源研究的核心問題。一些科學家認為，最初的生命使用的是更簡單的分子，後來才演化出RNA。然而，也有研究人員著眼於生命直接起源自RNA的可能性，令人興奮的新想法正在顛覆這個原本靜如一灘死水的化學研究領域。有利於生命形成的地球化學環境，包括火山活動區域或隕石撞擊坑洞，這些地方具有複雜的有機化學特性、多重能量來源，以及劇烈的光－暗、冷－熱和乾－濕循環變化。值得注意的是，在形成RNA的過程中會產生許多化學中間產物，這些物質是從各種反應物中結晶而出、純化，並在早期地球上以有機礦物質的型式不斷蓄積、蟄伏，直到環境條件改變之際才形成生命。</p><p><br></p><p>即使關鍵問題已經解決，我們仍需了解在第一個原始細胞內RNA是如何開始複製的。研究人員才剛找出能使RNA自我複製的一些化學能來源，但還有許多研究尚未進行。如果這些障礙也能克服，我們將有機會在實驗室中模擬以RNA為基礎的細胞其自我複製、演變的過程，重現生命起源的可能途徑。</p><p><br></p><p>下一步是什麼？化學家已經開始尋思，像我們這樣的生命是否只能透過單一可行的途徑誕生，又或者，從簡單的化學分子到以RNA為基礎的生命，這個過程可能牽涉多重途徑，進而造就了現代生物學？還有其他科學家正在探索生命具有的不同化學本質，在浩瀚宇宙中尋找多樣性生命可能存在的線索。如果一切順利，我們終將了解從化學到生物學的轉換過程有多麼偉大，並藉此得知宇宙是否充滿了生命，抑或除了我們之外──了無生機。</p>', '', 30, 1, 1, 'normal', NULL, '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>', '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>'),
-(13, '2022-05-25 00:22:11.000000', '2022-10-14 22:22:56.195535', '有名的起始劑啟動後,與配方之間會形成什麼具體的結構? ', 'https://sa.ylib.com/read/images/SM239_064.jpg', 1, '10大科技創意助脫碳', '2022-07-01 00:12:40', 1, 1, 0, NULL, 'published', '30', '<p>我們居住的地球正面臨緩解氣候變遷、減少能源消耗、增進全球健康等重大挑戰。這些挑戰大多彼此相關，解決方案也有所關聯。因此聯合國把「夥伴關係」（Partnership）列為第17項永續發展目標（Sustainable Development Goal）。</p><p><br></p><p>Scientific American與世界經濟論壇（World Economic Forum）合作的第10屆10大新興科技中，這種關聯十分重要，當各國政府和經濟產業正著手加速脫碳（decarbonization）之際，許多新興技術一一出現在我們眼前，包括低碳運輸、住宅及商用基礎設施以及工業化製程。「綠氨」和能自行製造肥料的基因工程作物這兩項科技將提升農業永續性。而在偏遠地區，以當地土壤當原料的3D列印將能以更少的能源建造更堅固的房屋。</p><p><br></p><p>健康是所有人關注的話題，所以本期的10大新興科技特別提及偵測新冠病毒和其他疾病的呼吸感測器，以及讓我們更容易監測慢性病的無線生物標記檢測器。基因組學領域的新研究成果有助於延長健康長壽（healthspan）、按需製藥可訂做個人專屬藥物，同時協助解決大規模產製藥物所面臨的問題。</p><p><br></p><p>構成物聯網的新裝置正迅速增加，以隨時得知即時狀況。這些裝置將透過繞行地球的奈米衛星彼此連結，同時由無線網路訊號取得電力，未來世界彼此的連結將更加緊密。</p><p><br></p><p>──迪克里斯汀納（Mariette DiChristina）、 邁爾森（Bernard S. Meyerson）</p><p><br></p><p class=\"ql-align-center\">氣候變遷</p><h2><span style=\"color: rgb(0, 0, 0);\"><img src=\"https://sa.ylib.com/read/images/SM239_066.jpg\"></span><strong>脫碳技術當紅</strong></h2><h3><strong>全球積極因應席捲氣候變遷，將促成新科技誕生。</strong></h3><p><span style=\"color: rgb(0, 0, 0);\">邁爾森（Bernard S. Meyerson）</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">100多年前，首度有科學家主張二氧化碳可能使大量的熱積聚在大氣中；幾十年前，氣候變遷這個詞成為日常用語；現在，世界各國和經濟產業持續提出新承諾，宣示將縮減碳足跡。2021年，位居全世界排碳量第二名的美國，承諾將在2030年降低排碳量至2005年的50%；英國則宣佈更積極的目標：2030年排碳量比1990年減少68%。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">歐洲議會剛通過法案，規定歐盟各國2030年的排碳量至少必須比1990年減少55%。儘管石油和航空等產業較為抗拒，但2015年以來，加入科學減碳目標（Science-Based Target）計畫的企業比率已提高到兩倍。這項計畫的目標是協助企業減少排碳以遵守巴黎氣候協定。通用汽車、福斯汽車和其他汽車大廠也在近一年內訂定積極的減碳目標。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">這些積極承諾以及隨之而來的挑戰，在在凸顯出全世界對脫碳的急迫程度。它將促使各式各樣的科技問世，在未來3~5年內展現出大規模運作的潛力。為了實現這個目標，已經提出的解決方案必須加速發展及擴大規模。全球現有科技的不足之處需持續突破，我們預期有幾大領域將獲關注並有重大發展.......</span></p><p><br></p><p class=\"ql-align-center\">農業</p><h2><span style=\"color: rgb(0, 0, 0);\"><img src=\"https://sa.ylib.com/read/images/SM239_068.jpg\"></span><strong>固氮自肥的作物</strong></h2><h3><strong>植物利用根部固氮取代施灑肥料。</strong></h3><p><span style=\"color: rgb(0, 0, 0);\">韋伯（Wilfried Weber）、 拉堤（Carlo Ratti）（Bernard S. Meyerson）</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">為供應全球不斷增長的人口所需的糧食，我們高度依賴含氮的工業肥料。根據聯合國糧食及農業組織的報告，要維持全球作物生產每年約需1億1000萬公噸的氮。氮肥料的生產是轉化空氣中的氮做為植物可利用的氮，透過這種轉換而生產的肥料支持全球約50%的糧食生產，約是全球初級能源需求的1%，但它也是一項能源密集的製程：約佔全球排碳量的1~2%。此外，這種工業肥料對許多國家的小農來說過於昂貴，以致其產量大幅下降並對自然土地徒增壓力。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">為發展解決之道，研究人員從大自然製造氮肥的方法中尋思靈感。玉米及其他穀物等主要糧食作物，必須依賴土壤中的無機氮，豆科植物例如大豆則有一套自行施肥的聰明辦法。豆科植物的根與土壤細菌發生交互作用，讓細菌在根部長成群落並形成稱為根瘤的共生器官，其中植物提供糖份供養細菌，並相對受益於細菌的固氮能力（把大氣中的氮轉化為氨）。因此，豆科植物透過與土壤細菌在演化上的古老共生關係，得以不必倚賴現代的氮肥。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">研究人員證明，根瘤（天然肥料工廠）的形成涉及土壤細菌與豆科植物根部之間密切的分子溝通。這些相關知識啟發了把固氮工程轉移到非豆科植物的新做法，如今已有令人振奮成果。例如，科學家正嘗試誘使穀物根部與固氮細菌進行共生性的交互作用。研究人員模擬豆科植物與細菌之間的分子溝通，並引導細菌在植物根部形成群落......</span></p><p><br></p><p class=\"ql-align-center\">生物化學</p><h2><span style=\"color: rgb(0, 0, 0);\"><img src=\"https://sa.ylib.com/read/images/SM239_069.jpg\"></span><strong>檢測氣息以診斷疾病</strong></h2><h3><strong>吹氣遠比抽血更簡便。</strong></h3><p><span style=\"color: rgb(0, 0, 0);\">詹德拉瓦地（Rona Chandrawati）、赫塔多（Daniel E. Hurtado）</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">若路上駕駛有酒駕嫌疑，警察可利用呼吸氣息分析儀（一種測量血液酒精含量的手持裝置）進行檢測，疾病的檢測方式是否也可比照？</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">答案是肯定的，人體呼出的氣息含800多種化合物，新近發現顯示，特定化合物的濃度與各種疾病的病理相關性很強。例如，呼吸氣息中丙酮濃度顯著升高，是糖尿病發病的強力指標；呼出一氧化氮濃度偏高，與細胞發炎相關，可做為呼吸道疾病的生化指標；而醛類化合物偏高，與肺癌密切相關。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">當受測者對著採樣器吹氣時，氣息進入呼吸感測器（通常是靠金屬氧化物半導體的電阻變化來檢測），電腦軟體隨即進行分析，幾分鐘內就能得到氣息化合物的成份報告。除了比抽血更快產生結果報告，以檢測氣息來蒐集關鍵健康資訊，更是一種非侵入式做法，能簡化醫療診斷過程。呼吸感測器的用法簡單，攜帶方便且具成本效益，讓醫療資源有限的低收入國家能提供另一種醫療保健。這些設備也可能有助於降低病毒在社區的傳播，如同人們進入超市或餐館等公共室內空間前測量體溫一樣......</span></p><p><br></p><p class=\"ql-align-center\">生化工程</p><h2><span style=\"color: rgb(0, 0, 0);\"><img src=\"https://sa.ylib.com/read/images/SM239_070.jpg\"></span><strong>即時產製你的專屬藥物</strong></h2><h3><strong>依照個人需求即時產製藥物。</strong></h3><p><span style=\"color: rgb(0, 0, 0);\">歐戴（Elizabeth O\'Day）、 歐魯（Mine Orlu）（Bernard S. Meyerson）</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">如果你去附近藥局時，藥劑師能按照確切劑量及處方，為你訂製用藥，而不是從預先製成的藥品配製你的處方，近期按需製藥方面的進展使上述情況可能成真。量產藥物動輒需用數百公噸材料，其挑戰在於必須確保品質和供應可靠度的一致性。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">而從藥物產製地運送到販售處，可能需要數個月。相較之下，按需客製藥物（或稱連續流藥物製程）可一次性完成藥物生產，原理是讓藥物成份經由管子流入一連串小型反應室，在單一地點依照需求來產製藥物。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">2016年，美國麻省理工學院（MIT）的研究人員與美國國防高等研究計畫署（DARPA）合作，首次驗證按需製藥的可行性。他們製造了一台冰箱大小的機器，使用連續流來製造四種常見藥物：用於緩解過敏症狀的鹽酸二苯胺、治療焦慮及肌肉痙攣的二氮平、抗憂鬱藥氟西汀，以及局部麻醉劑利多卡因，在24小時內產製每種藥物各1000劑......</span></p><p><br></p><p class=\"ql-align-center\">能源</p><h2><span style=\"color: rgb(0, 0, 0);\"><img src=\"https://sa.ylib.com/read/images/SM239_071.jpg\"></span><strong>用無線網路傳輸電力</strong></h2><h3><strong>Wi-Fi與第五代行動通訊的訊號將可為物聯網裝置供電。</strong></h3><p><span style=\"color: rgb(0, 0, 0);\">康斯坦丁（Joseph Costantine）</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">構成物聯網（IoT）的無線裝置是高度網路化世界的重要骨幹，這些裝置包括家中的電器、具有生物醫療用途的穿戴式裝置，以及裝設在危險又難以到達地點的感測器等。IoT規模逐漸擴大之後，我們或許能開發出水和殺蟲劑用量更少的農作方法、效率更高的智慧電網、監測可能導致橋樑或混凝土建築損壞的瑕疵感測器，以及偵測土石流和地震這類重大災害的預警感測器等。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">2025年時，IoT裝置預估將達到400億個，為這些裝置提供方便即時的電力將是越來越急迫的挑戰。目前正在研究的解決方案試圖利用Wi-Fi路由器和基地台發射的無線訊號，剛問世的第五代行動通訊（5G）技術將使無線電力傳輸更上一層樓。在5G技術中，美國聯邦通訊委員會（FCC）首度允許行動電話訊號使用更高頻率的毫米波電磁頻譜（但對人體仍屬安全）......</span></p><p><br></p><p class=\"ql-align-center\">基因組學</p><h2><span style=\"color: rgb(0, 0, 0);\"><img src=\"https://sa.ylib.com/read/images/SM239_072.jpg\"></span><strong>老當益壯不是夢</strong></h2><h3><strong>基因組學的新見解啟發延壽的可能性。</strong></h3><p><span style=\"color: rgb(0, 0, 0);\">韋伯（Wilfried Weber）、 多瑞斯瓦米（P. Murali Doraiswamy）</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">根據世界衛生組織（WHO）的資料，全球60歲以上人口比率將從2015年的12%增加到2050年的22%，這對醫療及社會體系都造成巨大挑戰，失智、癌症、第二型糖尿病及動脈硬化等慢性病都與老化有關，人類懷抱逆轉老化或尋找「長生不老藥」的心願由來已久，科學家探索老化的分子機制，可望幫助人類長壽又健康。拜「組學」（omics）技術的出現及進步之賜，科學家得以同時量化所有基因的活性或細胞中所有蛋白質及代謝物的濃度，加上外遺傳學研究提供了新的見解，這些關鍵機制的輪廓現已變得更清晰。令人振奮的例子之一是，涉及了特定外遺傳標記或代謝化合物的組合，可做為生物年齡的指標。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">這些標記也是預測老人各種疾病及隨之而來的死亡風險有力的指標。生物細胞遺傳訊息的定序技術最新的進展顯示，基因突變數量隨老化過程增加；身體對這類突變的修復可能在DNA上留下與老化相關的痕跡，成為另一類型的生物標記。DNA損傷還與驅使細胞老化（意味細胞不能再分裂），或耗損對細胞及組織更新相當重要的幹細胞有關。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">近年來人類對老化機制的了解已逐漸增加，因而推動了標靶治療的發展。例如，最近的一項初步臨床研究顯示，服用包括人類生長激素在內的雞尾酒藥物長達一年，可使「生物時鐘」倒轉1.5年。同樣地，研究人員以齧齒動物模型成功證明，針對三個與壽命有關的基因進行基因療法，可改善或逆轉四種常見的老化相關疾病。科學家還發現把年輕人血液中的一些蛋白質注入老年小鼠體內，能使小鼠隨年齡衰退的一些腦功能生物標記獲得改善，這項研究顯示，人類有可能透過治療來逆轉與老化有關的認知功能退化......</span></p><p><br></p><p class=\"ql-align-center\">化學</p><p class=\"ql-align-center\"><br></p><h2><strong>綠氨</strong></h2><h3><strong>減少生產肥料的碳足跡。</strong></h3><p><span style=\"color: rgb(0, 0, 0);\">馬蒂內茲（Javier Garcia Martinez）、佛塞特（Sarah E. Fawcett）</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">使氨的合成達到工業規模的哈柏包希法（Haber-Bosch process），可說是20世紀最重要的發明之一，以這種方式合成的氨所製成的肥料，支持了全球50%的糧食生產，成為全球糧食安全的關鍵。然而，氨的合成是一種能源密集的化學製程，在用氫來固定氮時，需要催化劑的幫忙。氮氣是空氣中的主要組成分子，但氫氣必須靠合成來生產，目前仍使用化石燃料製備：把天然氣、煤或石油暴露於高溫蒸汽中以產生氫氣。這個過程產生了大量的二氧化碳，佔全球總排碳量的1~2%。使用再生能源來電解水所產生的綠氫，不但減少了上述過程中的排碳量，最終產物也明顯更為純淨，沒有傳統化石燃料製程中摻入的化學物質，例如含有硫及砷的化合物，它們會「毒害」催化劑，使反應效率降低。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">更潔淨的氫氣也意味可開發出更優質的催化劑，因為它們不再受化石燃料中有毒化學物質的影響。事實上，一些公司例如丹麥的托普索（Haldor Topsoe）公司，已宣佈開發出源自完全再生資源的新型催化劑，用於綠氨的生產。西班牙化肥生產商費爾貝利亞正與伊倍爾佐拉再生能源公司合作，大幅擴增綠色製氨計畫，2021年開始啟用一座2000萬瓦試營運工廠，預計到2027年達到八億瓦規模的太陽能電解製氫。這項投資估計將達18億歐元，預計每年可提供4000個工作機會，並減少40萬公噸、約當於六萬輛汽車的碳排量......</span></p><p><br></p><p class=\"ql-align-center\">生物資訊</p><p class=\"ql-align-center\"><br></p><h2><strong>無線裝置監測慢性病</strong></h2><h3><strong>用非侵入性方式檢測生物標記。</strong></h3><p><span style=\"color: rgb(0, 0, 0);\">康斯坦丁（Joseph Costantine）</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">針頭人人不愛，但糖尿病及癌症等慢性病需頻繁檢測血液，以識別並監測特定生物標記。目前已有100多家公司正著手開發可攜式及穿戴式的無線感測器，預計很快就能應用於長期監測這些重要醫療資訊。這些感測器應用多種方法來檢測汗液、眼淚、尿液或血液中的生物標記，有些運用光或低功率電磁輻射（類似手機或智慧手錶），結合天線及電子設備來探測組織內部。有些感測器則使用穿戴式、可彎折、貼在皮膚上的電子感測器，偵測電流、電壓或電化學濃度的變化，以檢測特定生物標記......</span></p><p><br></p><p class=\"ql-align-center\">氣候變遷</p><h2><span style=\"color: rgb(0, 0, 0);\"><img src=\"https://sa.ylib.com/read/images/SM239_074.jpg\"></span><strong>用當地材料列印房屋</strong></h2><h3><strong>推行零廢棄或循環的建築方式。</strong></h3><p><span style=\"color: rgb(0, 0, 0);\">邁爾森（Bernard S. Meyerson）</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">兒童疫苗或眼科雷射手術等科技大幅提高工業化國家許多人的生活品質，但在開發中國家的影響往往較為受限或晚了許多。然而根據聯合國估計，以3D列印機建造房屋將有助於解決全世界16億人口缺乏房屋的問題。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">3D列印房屋的概念其實不算新穎。美國有幾家公司已經在紐約州長島和德州奧斯丁以3D列印方式建造房屋，而且成果相當不錯。把混凝土和沙、塑膠與黏結劑的各種混合物運到工地，送入巨大3D列印機後產出成果。3D列印相當簡單、成本又低，很適合用於紓解偏遠貧窮地區的房屋荒，但基礎建設不足、材料運輸困難，使這種方法不容易普及。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">近年來，多家公司從登上火星的計畫獲得啟發。在火星上需要原料時，唯一的選擇就是當地物資。在義大利小鎮馬薩倫巴達，由馬里奧庫奇內拉建築事務所設計的原型機以當地黏土列印建造房屋的組件，大幅降低建造的複雜程度、成本和能源消耗。土壤與大麻纖維和水黏結劑混合，再由義大利3D列印公司WASP一層層列印出複雜的形狀和表面，用來建造住宅。比起從外地運來工地的物資，使用當地材料通常能減少95%之多......</span></p><p><br></p><p class=\"ql-align-center\">太空科技</p><h2><span style=\"color: rgb(0, 0, 0);\"><img src=\"https://sa.ylib.com/read/images/SM239_075.jpg\"></span><strong>從太空與全球連線</strong></h2><h3><strong>從物聯網轉變成太空物聯網。</strong></h3><p><span style=\"color: rgb(0, 0, 0);\">南達庫瑪（Rajalakshmi Nandakumar）</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">要擴大物聯網（IoT）在通訊和自動化方面的效益，IoT裝置必須遍佈全球大量蒐集資料。不過其中有個問題：行動電話網路涵蓋範圍不到全球的一半，全世界仍有十分廣闊的無網路區域。太空中的物聯網系統將可借助奈米衛星涵蓋這些區域。這類衛星成本低、重量極輕（不到10公斤），在地球上空數百公里的軌道繞行地球運行。太空探索科技公司的星鏈，以及一網通訊（One-Web）、亞馬遜和電星等公司已經採用奈米衛星來達成全球網際網路連線的目標。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">不久後，將可透過地面上以電池供電的小型IoT裝置與繞行地球的奈米衛星通訊。IoT裝置蒐集的資料（例如定位感測器的位置資料）將透過低功率、低成本的通訊協定傳輸給衛星，這類通訊協定類似長程通訊和訊號微弱時依然能解讀的低功耗廣域網路技術Sigfox。資料接著再傳送到地面接收站，在接收站進行分析.......</span></p>', '', 30, 1, 1, 'normal', NULL, '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>', '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>'),
-(14, '2022-05-25 00:23:48.000000', '2022-10-14 22:22:56.194130', '常用的光起始劑各別是變成什麼結構導致會泛黃', 'https://sa.ylib.com/read/images/SM237_028.jpg', 1, '量子電腦加速未來化學', '2022-07-01 00:11:26', 30, 1, 0, NULL, 'published', '30', '<p>身為化學家，我有很大一部份成就要歸功於機緣巧合。2012年，我在對的時間，於對的地點（IBM位於美國加州阿馬丹的研究實驗室），做了「錯誤」的事情。我應該在燒杯裡混合三種成份，以期製造出一種已知的材料。實驗目標是要用一種源自於塑膠廢棄物的成份來取代常用的成份，增加熱固形聚合物（thermoset polymer）這類強韌塑膠的永續性。</p><p><br></p><p>事與願違，當我把兩種成份混在一起，燒杯裡形成了一種堅硬的白色塑膠物質，我必須打破燒杯才能把它拿出來。更有甚者，它浸在稀酸（dilute acid）裡一整夜之後會恢復成原先的材料。</p><p><br></p><p>我陰錯陽差發現了全新系列的可回收熱固形聚合物！如果我認為這項實驗失敗而沒有進行後續的研究，就永遠不知道當時製造出了什麼。這是最美好的科學意外，遵循了美國化學家普倫凱特（Roy Plunkett）的高貴傳統，他在研究冷卻劑氣體的化學作用時無意間發明鐵氟龍（Teflon）。</p><p><br></p><p>現在我有了新的目標：減少憑藉運氣獲致化學發現的情況。氣候危機和嚴重特殊傳染性肺炎（COVID-19）這類挑戰是如此巨大，我們不能單靠運氣。大自然既複雜又強大，如果想要達到必要的科學進展，就必須精準模擬自然。具體而言，如果想推進化學領域的發展，就必須能夠以高度自信理解化學反應的能量學（energetics）。這不是新的洞見，但凸顯了一個主要限制：即使用最強大的傳統電腦也無法完全準確預測簡單分子的行為。這時量子計算就提供了在未來幾年獲得重大進展的可能性。</p><p><br></p><p>以傳統電腦模擬化學反應需採用近似法（approxi-mation），因為就連幾個電子的量子效應，傳統電腦也無法精準計算，這種計算量太過龐大與耗時。每次採取近似法都會降低電腦模型的價值，化學家為了驗證並導引模型，實驗室的工作量也因此增加。</p><p><br></p><p>然而，量子計算的運作方式不一樣。每個量子位元（qubit）都能對應特定電子的自旋軌域（spin orbital）；量子電腦可以利用量子現象（例如纏結），來描述電子之間的交互作用，不需要用到近似法。現在量子電腦已經可以開始模擬氫化鋰（LiH）這類小分子的能量學與特性，拓展了建立電腦模型的諸多可能性，指引一條通往新發現的道路。</p><p><br></p><p><strong>模擬化學反應</strong></p><p><br></p><p>量子化學並不是新的研究領域。20世紀初期，德國化學家例如海特勒（Walter Heitler）和倫敦（Fritz London）就證明，可以透過量子力學了解共價鍵（covalent bond）。20世紀末葉，傳統電腦計算能力的增長，已經讓化學家能進行一些基本模擬。</p><p><br></p><p>即使如此，在2000年代中期，當我在波士頓學院攻讀博士學位時，很少實驗化學家（bench chemist）具有運用電腦進行這類化學模擬的實用知識。這兩個學科（和牽涉其中的技能）差異太大了。與其探索計算方法的見解，實驗化學家仍依循試誤法（trial-and-error），希望能獲得有所根據（但通常是走運）的發現。我有幸能在化學系教授哈維達（Amir Hoveyda）的研究團隊裡工作，他很早就體認到結合實驗研究和理論研究的價值。</p><p><br></p><p>如今，對化學反應進行理論研究和模擬以了解實驗結果已司空見慣，這是理論學科變得更成熟的結果，實驗化學家開始把理論模型整合到研究中。產出的模型與實驗室裡的發現形成有用的回饋迴路。舉例來說，一種名為高通量篩檢（high-throughput screening，又稱高速藥物篩檢）的試誤實驗法，會產生大量的化學資料，科學家能藉此建立完善的化學模型。這些模型能應用於產業，包括藥物開發和材料實驗。</p><p><br></p><p>這些模型受限於必須簡化：在模擬的每個階段，必須選出一個特定範圍，犧牲一些精準度，讓電腦實際能夠處理模型。用專業術語來說，就是處理「粗粒化」（coarse-grained）模型。每次簡化都會減少模型的整體精準度，限制了研究發現的可用性。資料越粗糙，實驗室的工作就更繁重。</p><p><br></p><p>量子計算則不一樣。在最純粹的情況下，量子計算能讓我們照實模擬大自然，而無須使用近似法。很多人引用費曼（Richard Feynman）說過的一句話：「大自然並不是古典的，如果你想要模擬大自然，最好採用量子力學。」最近幾年，量子電腦的效能有了快速進展。量子體積（quantum volume）是評估量子位元在系統中質與量的指標；2020年IBM讓旗下產品的量子體積倍增，並預計在2023年之前生產配備1000多個量子位元的晶片，相較之下，2016年的晶片只有個位數的量子位元。業界其他公司也紛紛對自家旗下量子電腦的效能提出大膽宣言......</p>', '', 52, 0, 1, 'normal', NULL, '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>', '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>'),
-(15, '2022-05-25 00:24:43.000000', '2022-10-14 22:22:56.178780', 'UV固化有哪些系列的材料可以使用?', 'https://sa.ylib.com/read/images/SM236_050.jpg', 1, '醣科學-生技疫苗新契機', '2022-07-01 00:12:00', 1, 1, 0, NULL, 'published', '30', '<p><span style=\"color: rgb(0, 0, 0);\">在國際上，翁啟惠是享譽全球的醣科學專家，帶領醣分子研究從相對冷門的領域，到現在成為炙手可熱的生化研究議題。在國內，他是中央研究院前院長、建制生技法規的主力推手，但最廣為人知的身分，莫過於浩鼎案中以貪污等九大彈劾理由被起訴，耗時兩年才蒙冤昭雪、獲判無罪的「受難者」。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">得知判決後，翁啟惠發佈聲明表示「正義雖到、名譽難復」，字裡行間難掩灰心。幸好科學裡的是非對錯向來分明，經過多年沉潛，如今他再度因學術成就獲得國際肯定。今年9月，堪稱諾貝爾化學獎預告的美國「威爾許化學獎」（Welch Award in Chemistry）公告頒發給翁啟惠，令他成為首位獲得此殊榮的華人科學家。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">威爾許基金會說明，翁啟惠在醣分子領域的一系列研究為相關科學工具發展貢獻良多，像是發明自動化一鍋法、酵素合成法等技術，快速且大量合成多醣體、醣蛋白、均相化抗體等各種醣聚物（glycoconjugate），並進一步運用在癌症免疫療法和傳染病預防與篩檢上。例如他近年發表的廣效性流感疫苗、單醣化棘蛋白廣效疫苗等多項專利技術，若能順利技轉並生產，或許有望改寫流行病防疫史，甚至成為新冠病毒的剋星。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">多年來，翁啟惠除了專注在科學研究上，也從未放棄推動台灣的生技產業向前行，可說是國內少數能把學術成果與產業經驗相互結合的成功案例。在威爾許化學獎得獎消息公開之際，翁啟惠接受《科學人》雜誌視訊連線專訪，與總編輯李家維暢抒胸臆，從浩鼎案前後的心態變化，談到對下階段生技產業前景的預測，並以國際學者的眼光提煉出最誠摯的產業發展方針。以下是專訪紀要：</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">李家維（以下簡稱問）：</strong><span style=\"color: rgb(0, 0, 0);\">恭喜你重獲威爾許化學獎，你如何看待學術生涯至今獲頒的那些重要獎項？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">翁啟惠（以下簡稱答）：</strong><span style=\"color: rgb(0, 0, 0);\">得到獎項的肯定，總會增加信心和繼續向前行的動力。我當上助理教授後，得到美國總統青年學者獎（Presidential Young Investigator Award），對我來說意義很重大，這個獎多頒給剛展開獨立學術生涯的學者，看的不是新成就而是潛力，而且還提供一項沒有金額限制的配比基金，我的研究經費因此有了著落。得獎後，一些大公司甚至聘請我當顧問，讓我有機會去了解資深顧問如何與企業一起解決問題，對於學術研究跟產業發展之間的關聯性，得到很多啟示。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">2012年和2014年，我分別得到美國化學學會頒發的科博獎（Arthur C. Cope Award）和以色列的沃爾夫獎（Wolf Prize），前者是有機化學界的最高榮譽，後者的聲望極高，都是關鍵的轉捩點。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">威爾許化學獎可以說是美國化學界的最高榮譽，原本在2016年要頒給我，但我因為浩鼎案被監管無法出境，便取消了，當時也沒那個心情。之後我其實就沒有再想得獎的事情了，倒是他們主動希望我再被提名，於是去年就由美國斯克里普斯研究院（The Scripps Research Institute）提名，今年5月我就收到得獎的消息。我後來才知道，以色列和台灣也有人幫我提名，等於有三個國家提名。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">過去你投入很多心力建立台灣的生技法規，同時也一度因為浩鼎案成為法規的受難者，多年來在心境有何轉變？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">我當然很失望，因為我被指控的都不是事實。不知道什麼原因致使公權力指責我有貪污，但我一輩子最痛恨的事情就是貪污。起初我一直搞不清楚為什麼受到那麼嚴重的指控，還有點懷疑幕僚蓋錯章，開庭後就發現都是誤會，於是在結辯時，我們把指控我的證據列出來一一反駁。後來案子宣判的時候我沒有到場，因為我心裡很清楚自己根本沒有做那些事。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">整個過程的確相當折磨，但是我沒有被打倒，家人、朋友、學生、醣科學都是在背後支撐我的力量。那兩年是我這一輩子最高產的時候，我沒有其他事可以做，乾脆埋首在實驗室裡做研究，前後大概發表了39篇論文。2019年我選擇從中研院退休，回到Scripps，坦白說做這個決定也是跟浩鼎案有關，但我也一直忘不了台灣，所以目前兩邊都有我的實驗室。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">大部份對你的指控都已經宣判無罪，但公務員懲戒委員會還保留著申誡處分，你有什麼想法？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">當時我的律師都跟我說算了吧，很多官員的彈劾處分都比我嚴重。我說不能就這樣算了，因為申誡理由完全不是事實，而且監察院已撤銷申誡理由，確定我沒有不實申報財產也沒有違反利益衝突的規定。我們做科學的，是非分明，不能無證據地編造故事。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">你怎麼分配台灣、美國兩邊的研究主題和時間？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">我一年有四成的時間在中研院，六成的時間在Scripps。我在Scripps的研究主要聚焦在基礎科學上，探討醣分子在生物裡的作用，也就是醣化如何影響蛋白質的摺疊、結構、功能。我在台灣的研究則偏向醣科學的應用面，像是疾病的形成和治療，例如廣效性流感疫苗、單醣化棘蛋白廣效疫苗，都在台灣進行實驗，專利權屬於中研院。</span></p><p><br></p><p><span style=\"color: rgb(0, 187, 0);\"><img src=\"https://sa.ylib.com/read/images/SM236_051.jpg\"></span><strong style=\"color: rgb(0, 187, 0);\">&nbsp;▲美國威爾許基金會9月8日於官網公告（左），2021年威爾許化學獎頒給國際知名醣科學家翁啟惠，表彰他的醣化學技術對疫苗、製藥與癌症治療的貢獻。美國在台協會臉書（右）也隨即發文，恭賀翁啟惠因為在醣科學研究的革命性進展而獲得此殊榮。</strong></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">你擁有將基礎科學與產業應用結合的豐富經驗，根據你的經驗與觀察，在把科學研究導入產業應用的過程中，最大的困難是什麼？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">研究成果要能夠產品化，一定得有企業感興趣，才可能往下走。現在的問題是整體環境缺乏實質的鼓勵措施，來促進業者投資。業者思考的並不只是把技術商業化，他們考慮的是市場、是商業化之後的價值和產值，這時候政府的角色就很重要。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">例如疫苗的研發，會牽涉到政府政策，不似一般藥品那樣單純，通常都會交給有經驗的大廠製作，由政府給出一些承諾，像是收購或其他優惠措施，企業才有動力投入，例如莫德納（Moderna）藥廠有mRNA的新技術能夠快速研發出新冠疫苗，便獲得美國政府大筆經費補助。否則就會像2003年爆發SARS感染時那樣，疫苗出來之前疫情就已消失，故疫苗研發以失敗告終，令投資者慘賠。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">可是以政府或學術界的角度來看，假設台灣當時就持續投入疫苗研發，面對新冠疫情時便能調適得更快，或許我們現在就會處在領先的位置。這就是政策的問題，國家在學術及產業發展規劃上，應該具備更前瞻的思維。SARS大流行期間我就說過，能力不足只好靠購買，但我們最終仍須建立自己的研發環境，碰到問題就自己解決，不能老是依靠別人。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">尤其我們經常遭遇新興傳染病，政府必須把疫苗研發變成重要的國家發展政策，學術界和產業也要有社會責任，如此才能因應將來可能的未知疾病威脅。目前政府支持高端或聯亞可算是方法之一，但還需要更好、更積極的誘因來鼓勵業界投入生技研發。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">美國政府給莫德納的經費，是投資還是補助？這樣沒有圖利他人的問題嗎？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">製造傳染病疫苗所需要的錢並不多，那是補助，不是投資。美國政府圖利了廠商，但那是為了保護人民的健康，合情合理又公開透明。傳染病一定要由政府出面防治，然後跟廠商合作，因為法規掌握在政府手中，例如為了盡快控制新冠肺炎疫情，美國政府便透過緊急使用授權（EUA）來處理各種新冠疫苗。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">你在中研院發表的廣效性流感疫苗，概念和初步的成效已經廣為人知，是否曾與政府或廠商洽談合作呢？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">我從來沒有跟政府談過。確實有廠商來中研院跟智財處討論技轉，只是現有的政策環境還不足以令企業真的願意投入資金。因為他們看不到未來，不確定會不會有市場。相較之下，癌症疫苗的發展就屬於商業行為。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">那麼浩鼎的廣效性癌症疫苗，有哪些新進展？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">我的了解是目前正在全世界進行第三期臨床試驗，對象是針對三陰性乳癌患者，只要癌細胞上有Globo H，就能接受這項治療。試驗成功的話，照理應該可以對其他帶有GloboH的不同癌症做臨床試驗，甚至也有可能在醫師建議下檢測Globo H，若為陽性，或許可利用適應症外使用（off-label use），治療其他癌症。</span></p><p><br></p><p><span style=\"color: rgb(0, 187, 0);\"><img src=\"https://sa.ylib.com/read/images/SM236_053-1.jpg\"></span><strong style=\"color: rgb(0, 187, 0);\">&nbsp;▲2018年夏天，多位世界知名醣化學家及台灣學者參與了在礁溪舉辦的尖端化學生物學國際研討會（2018 Frontiers in Chemical Biology），連同中研院基因體中心同仁與好友，在8月3日會議的晚宴上為翁啟惠70大壽唱歌慶生送暖。</strong></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">從新冠疫情爆發到現在，大家討論疫苗談的還是蛋白質。醣分子在這一塊扮演什麼角色？你對醣科學的前景動搖了嗎？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">我沒有動搖，而且對醣分子還是有很多不了解的地方，最主要的原因是缺乏用來研究醣科學的方法和工具。從血型鑑定、精卵結合，到細胞分化都跟醣分子有關，細胞表面全部覆蓋著醣分子。但病毒上的醣分子卻不是它自己製造的。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">病毒不曉得為什麼，知道如何運用人體的醣化機制來偽裝自己，逃避免疫系統的追蹤。這一點表現在新冠病毒上比流感病毒更嚴重，因為其表面覆蓋的醣分子更多，加上新冠病毒是RNA病毒，突變速度快，只要一突變，就會影響疫苗的功效。我們持續觀察並發現，醣化對病毒來說不只是為了避開免疫反應，當病毒的受體結合區（RBD）要與人類細胞表面的ACE2受體結合時，醣分子也會發揮作用。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">單醣化棘蛋白疫苗的概念就是這樣來的，我們盡量拿掉病毒的醣分子外套，露出病毒不易突變的區域，來讓免疫系統辨認，所產生的抗體和T細胞便可以更完整地認識病毒，抗體的效價和親和力也更高。我們在實驗上也證明，這種去醣的疫苗會產生較強且廣的免疫反應，較有機會對付棘蛋白（spike protein）的不同部位，甚至產生的抗體碰到病毒時，會把覆蓋其上的醣分子推開，確實可發揮效用。還有，我們也從施打過疫苗的動物體內找到一種抗體，對Delta、Alpha、Beta、Gamma等新冠突變病毒都有效，證明了廣效疫苗的原理。這些有關蛋白質醣化反應的研究也是我得到威爾許化學獎的原因之一。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">我可否這樣子說，現有的疫苗設計時並沒有考量到醣分子？所以在實用性上，面對突變病毒時，必然有所限制。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">他們認為，病毒本來就存在醣分子，如果把棘蛋白的醣分子拿掉再來製作疫苗，就跟原來的病毒抗原不一樣了。我當然有不同的看法，我覺得應該從免疫反應的機制去思考，棘蛋白與上面的醣分子是怎麼被免疫細胞分解，從而產生抗體和T細胞的免疫反應，來了解棘蛋白脫醣衣的疫苗設計。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">你擔任中研院院長時，也兼任行政院首席科技顧問，現在科技顧問組不復存在，由科技會報辦公室取而代之，我觀察到科學政策的制定似乎有了偏頗。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">以前行政院的科技顧問大部份是國際學者和專家，很多政策的產生，都經過科技顧問組腦力激盪，評估台灣將來的需求、再向政府提出建議。後來科技顧問組被廢除了，變成科技會報辦公室。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">之所以會廢除科技顧問，我聽到的理由是：台灣的科技業已經站起來了。我當時就認為，相關的產業需求是永遠沒辦法滿足的，科技顧問也不會只討論半導體，顧問在想的是更前瞻性的、客觀的、可以解決問題的方法，採不採用端看政府的決定。科技會報辦公室則是由行政院院長擔任召集人、科技部部長擔任副召集人，底下的委員都是自己人，變成自己人在分配預算。</span></p><p><br></p><p><span style=\"color: rgb(0, 187, 0);\"><img src=\"https://sa.ylib.com/read/images/SM236_053-2.jpg\"></span><strong style=\"color: rgb(0, 187, 0);\">&nbsp;▲家人的支持是翁啟惠挺過司法檢調冤曲的力量來源。兩年內每次出庭，五哥崇惠兄嫂便從美國搭18小時飛機回來，住幾天再搭18小時飛機回去。兄弟情深、行動支持、一以貫之、令人感動。</strong></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">2020年春天爆發新冠肺炎，《科學人》發起了科學家串聯行動，我很期待政府、業界和學術界密切結合，放下門戶之見共同防疫，事後發展卻令人失望。不僅政府撥下的經費過於微小，各個學術單位也急著公佈短暫的研究進展，這些成果卻經不起時間的檢驗。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">這我同意，就是變成學術界在公佈消息，每次都被誤解已經解決了什麼問題，演變成不切實際的期待，從結果來看卻沒有做出成果。倒是民間做出一些創新產品，如果政府願意釋出更多誘因，鼓勵產學合作，或許業界可以做得更快。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">所以我的感觸是，政府需要有真正的科技顧問，必須仰仗可信賴的科學家，來推動正確的科技政策。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">對，完全同意，我認為恢復原來的科技顧問機制對台灣相當重要。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">2008年你預估台灣生技產業的產值未來有望提高到全世界的5%，13年來，生技產業的發展符合你的預期嗎？現在還維持同樣樂觀的看法嗎？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">當然沒有達到我預期的5%，現在的產值佔比我想連1%都不到。但台灣的生技產業確實一直在進步，當初我們的市值大概是新台幣1000、2000億元，產值更低，現在市值已經超過1兆元，產值也有6000億元。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">根據PwC全球聯盟組織（PwC Global）預測，全球醫療支出在2030年將達到15兆美元，佔全球GDP約12%，是非常龐大的數目，其中藥品的比例是最高的，產業趨勢將從疾病的治療擴充到預防與早期監測，我還是期待台灣能夠在這個領域有些發展。如果要插足早期監測和預防醫學，那麼資訊與通訊科技產業的技術（ICT）一定要加進來，才有辦法做到更精確的檢測或費用更低的產品。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">然而我們的ICT產業和醫療業，從來沒有好好對話過。ICT產業和生技產業的發展路徑相去甚遠，但我們長期只用一個方式來管理，所以一個成功、一個失敗了。成功之後，我們也逐漸習慣成本低廉的快速製造模式，如今全世界最厲害的代工廠就在台灣。事實上，我們的醫療服務品質也非常高。醫生知道需求在哪、卻不會製造，而ICT業者懂得製造、卻不了解醫療有哪些需求，我一直期待台灣的這兩個強項能夠對話，產生一些創新的產品。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">我想另一個關鍵在於，產學之間的互動缺乏健康的發展，因為我們都把學術研究跟產業發展分開來看。研究人員若想真正對人類社會有實質貢獻，可經過產學互動來達成，光靠學術界幾乎不可能做得到，只能提供一些比較新的想法與技術，往下變成產品，則要靠業界來接手。因此，除了政府要努力塑造友善的環境、適當的法規，學術界的想法也很重要，他們必須願意思考怎麼貢獻社會，及促進人類健康，讓學術研究成果能夠造福人類。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">每一年我們都在思考，有了電子業之後，下一個產業是什麼？答案都是生技，台灣的環境禁不起耗電耗能的高污染產業。而且很多人才都往生物醫學發展，沒有產業的話，很難讓我們培養的人才有好的出路。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">我依然樂觀看待生技產業的前景，有關專利技術的授權和轉移，國內已建立「生技新藥產業發展條例」、「科技基本法」等法規，政府也鼓勵發展生技，只是發展模式和電子業不一樣，畢竟生技產業研發期較長、講求創新、又與人類健康息息相關，所以法規要嚴謹，需與基礎研究緊密結合，這個思維和文化建立後，生技產業才有前景。其他國家的生技產業也在進步，但若與新興市場國家比較，台灣的競爭力已經超過以色列、僅次於新加坡。</span></p><p><br></p><p><span style=\"color: rgb(0, 187, 0);\"><img src=\"https://sa.ylib.com/read/images/SM236_055.jpg\"></span><strong style=\"color: rgb(0, 187, 0);\">&nbsp;▲翁啟惠回中研院服務後，對延攬人才、培養後進不遺餘力。他長年與馬徹（左）的實驗室合作，共同指導的博士生陳俊叡（右）目前正在開發廣效性流感疫苗。</strong></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">說到人才培育，我兩次在吳健雄科學營碰到你，你都堅持使用比較困難的內容來對高中生演講，學生不見得聽得懂，為什麼要這樣做？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">我接到的通知說這些學生都是菁英中的菁英，過去幾屆問的問題都很深入，很了解科學的新發展。所以我覺得不能做科普演講、只能做專業演講，我希望可以讓他們明白真正的「科學」是怎麼一回事。他們的確很踴躍發問，我記得第二次演講，學生問了100多個問題，讓我十分驚訝，真的很了不起。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">台灣的未來端靠人才，我回國服務也首重人才的延攬和養成，轉眼已近20年，看到很多當時一起回來打拚的同仁，現在都有亮麗的成就，且扮演相當重要的角色，深感欣慰。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">我回國不久便爆發SARS疫情，使我更加感覺台灣必須建立自主研發的生技產業環境，一方面讓人才有出路，一方面能克服隨時可能爆發的傳染病，因此和志同道合的同仁推動立法鼓勵產學合作，並設立生技研究園區，創造從基礎研究連結轉譯醫學的聚落以促進創新發展。生技條例的制定、科技基本法的修改，乃至於國家生技研究園區的建立，皆來自SARS爆發給我的啟示。</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">問：</strong><span style=\"color: rgb(0, 0, 0);\">美國科技業發展蓬勃，私人企業或私人基金會皆投入很多量能在支持學術研究，台灣有機會推動這樣的制度和習慣嗎？</span></p><p><br></p><p><strong style=\"color: rgb(0, 0, 0);\">答：</strong><span style=\"color: rgb(0, 0, 0);\">我覺得是有可能的，這完全取決於企業家怎麼思考這個問題，還有政府怎麼鼓勵這個制度。美國學術界有一個特別的制度，就是捐贈講座教授（endowed chair professor），私人企業或基金會捐款給學校，但不指定受款對象，由校方聘請講座教授。只要你還在原單位服務，講座就屬於你，你不使用的話，會有專人幫你管理基金、進行投資，投資所得一樣可以使用。這筆基金並沒有限制用途，只要是研究相關就行。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">美國對基金的管理都很成功，一年至少會有5、6%的收益。我記得有一次哈佛大學的基金投資只有6%的收益，結果整個團隊被資遣，因為太低了。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">一開始我之所以能在Scripps發展得那麼順利，就是因為他們給了我一筆200萬美元的講座基金，讓我安心做研究，也比較有勇氣去做一些困難且有挑戰性的工作，但當時我還有能力去申請美國政府的研究補助，我想等我年紀大了、沒辦法跟年輕人競爭政府預算時，再來動用這筆基金，所以我一直沒有用過。直到我要回台灣的時候，基金已經累積差不多1000萬美元，但我必須把講座退還給Scripps。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">2019年我回到Scripps，他們給了我一個新的講座，斯克里普斯家族講座（Scripps Family Chair），我一樣習慣先不動用它，我還有辦法寫研究計畫嘛。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">台灣幾乎沒有這種制度，即使有講座，也只存在短暫時間，不是終身擁有。假如國內也能建立這個機制，企業家捐款給學校，學校就能用這筆經費去延攬更多優秀的學者。我們很多由公務員管理的基金，因為太保守又缺乏專業，績效往往不是很理想，最好交給專業的管理團隊去投資，你可以跟他簽訂契約保證一定程度的收入，說不定能改善基金成長的問題。</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">我覺得因為政治環境的問題，政府的投資也都相當保守，碰上新冠肺炎，為什麼政府不敢花太多錢去採購疫苗、去投入研發？其實都是受到大環境氛圍的限制，總體來說我還是樂觀看待，有很多地方可以從制度上、觀念上慢慢改變。</span></p>', '', 52, 1, 1, 'normal', NULL, '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>', '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>'),
-(16, '2022-05-25 00:26:20.000000', '2022-10-14 22:22:56.177380', '同為UV固化,不同材料之間的特性差異為何?業界常在什麼情況下使用什麼系統?', 'https://sa.ylib.com/news/images/SM189-019.jpg', 1, '液化氣體引領電池革命', '2022-07-01 00:11:53', 1, 1, 0, NULL, 'published', '30', '<p>消費電子產品中常見的鋰離子電池（lithium-ion battery）可能會起火燃燒甚至爆炸，去年有些三星智慧型手機Note7的使用者便遭此慘痛經驗。</p><p><br></p><p>這種電池通常使用有機溶劑和溶解鋰鹽製成的電解質。這類液體能讓離子通過多孔薄膜在電極間流動，從而產生電流，但液體中容易產生樹枝狀結晶（細微的鋰金屬纖維），進而造成電池短路並迅速發熱。現在研究人員利用氟甲烷（CH<sub>3</sub>F），研發出更強效也更安全的電池。</p><p><br></p><p>美國加州大學聖地牙哥分校的博士後研究員拉唐吉（Cyrus Rustomji）與同事最近測試一種由液化氟甲烷組成的溶劑，能像傳統有機溶劑一樣溶解鋰鹽。這款實驗性的電池經過400次完全充放電後，儲存的電量跟全新時不相上下，但傳統鋰離子電池通常只剩約20%的電量。除此之外，凝結氣體電池（condensed-gas battery）也不會產生樹枝狀結晶。相關成果發表在今年初的《科學》期刊。</p><p><br></p><p>傳統鋰離子電池如果被刺穿，會使分隔電極的薄膜破裂，電極互相接觸而形成短路，並導致電池過熱，在外界氧氣助燃下，容易起化學反應的鋰電解質便可能起火燃燒。論文的主要作者拉唐吉表示，氟甲烷只有在高壓下才會液化，如果這款電池被刺穿，內部壓力釋放，液體會氣化並逸散。由於沒有電解質讓離子快速移動，電池也不會起火燃燒。</p><p><br></p><p>拉唐吉指出，和傳統鋰離子電池不同的是，這款電池在-60℃時依然運作良好，因此適用於高空無人機上的儀器與長程太空船。</p><p><br></p><p>未參與這項研究的麻省理工學院材料化學教授薩多威（Donald Sadoway）評論，這項新概念促使我們關注過去很少研究的液體類別，但研究人員必須確保過多熱量不會使液化氣體快速膨脹，導致壓力升高而造成危險。</p>', '', 30, 0, 1, 'normal', NULL, '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>', '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>'),
-(17, '2022-05-25 00:29:48.000000', '2022-10-14 22:22:56.176076', 'UV固化環氧樹酯配方原則,以及化學反應機構', 'https://image6.thenewslens.com/2021/10/1b6d4odnzuexfnl3rxnxv8ddyvfntw.jpg?auto=compress&h=648&q=80&w=1080', 1, '2021諾貝爾化學獎-不對稱有機催化', '2022-07-01 00:18:23', 30, 1, 0, NULL, 'published', '30', '<p>今（2021）年的諾貝爾化學獎由德國化學家李斯特（Benjamin List）以及美國化學家麥克米倫（David MacMillan）共獲殊榮，他們發現了建構分子的新方式——「不對稱有機催化」（asymmetric organocatalysis），為人類社會帶來重大貢獻。</p><p>5日公佈的諾貝爾物理學獎，頒給日本氣象學家真鍋淑郎、德國物理學家哈塞爾曼（Klaus Hasselmann）以及義大利物理學家帕里西（Giorgio Parisi）。諾貝爾化學獎得主，則在今（6）日瑞典時間上午揭曉。</p><p><br></p><h3>李斯特與麥克米倫「不對稱有機催化」，貢獻藥品研發與化學領域</h3><p><br></p><p>負責評審諾貝爾化學獎的瑞典皇家科學院表示，這次李斯特與麥克米倫研發「不對稱有機催化」，他們的研究不但對藥學帶來重大貢獻，也讓化學研究領域「更為環保」。</p><p>瑞典皇家科學院指出，許多研究領域與產業都仰賴化學家建構分子的能力，比如研發材料、電池、藥物都需要。而要建構分子，催化劑不可或缺，可以用催化劑控制化學反應的速率，且本身不會成為最終產物。過去學者使用的催化劑只有兩種，分別是金屬和酶。不過李斯特與麥克米倫在2000年，就分別投入研發第三種催化方式：不對稱有機催化。</p><p><br></p><p>諾貝爾化學獎委員會主席艾克維斯特（Johan Åqvist）表示：「不對稱有機催化的概念很單純巧妙，讓許多人很詫異，為什麼沒有早一點想到這個概念。」</p><p><br></p><p>諾貝爾委員會在接受記者提問時，則以簡單的方式形容李斯特及麥克米倫的發現：像是引進了新的下棋方式，引導化學界可以用完全不同的、新的方式來「思考棋路」。</p><p><br></p><p>中研院化學所陳榮傑副研究員則表示，其實2001年諾貝爾化學獎，就將獎項頒給研發「不對稱催化反應」的三位學者。當時不對稱催化反應主要結合金屬，效率很高，不過用在藥物上可能會有金屬殘留。不過這次李斯特與麥克米倫的「不對稱有機催化」，不但把有機催化的效率提高到可以商業化的程度，更不會有金屬殘留的問題。</p><p><br></p><p>他以藥品為例，表示製藥過程中，因為擔心金屬殘留，所以往往只用有機催化，但效率不如不對稱催化反應好。不過這次兩位得主的「不對稱有機催化」就可以解決這個問題。</p><p><br></p><p>陳榮傑也說，其實很久之前就有相關研究，兩位得主的貢獻應該是把這個領域發揚光大，並且做得更好。</p><p><br></p><h3>李斯特：我沒想過會獲獎</h3><p><br></p><p>今年諾貝爾化學獎得主李斯特和麥克米倫，現年均為53歲。李斯特目前是德國馬克斯・普朗克煤炭研究所（Max-Planck-Institut für Kohlenforschung）所長，麥克米倫則是美國普林斯頓大學（Princeton University）教授。</p>', '', 52, 0, 1, 'normal', NULL, '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>', '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>'),
-(18, '2022-05-25 00:30:50.000000', '2022-10-14 22:22:56.174312', 'UV固化硫醇配方原則,以及化學反應機構', 'https://image4.thenewslens.com/2021/6/cvv5dbpcxo428ur887nuv2pu48qlgl.jpeg?auto=compress&h=648&q=80&w=1080', 1, '隱形墨水', '2022-07-05 23:06:44', 30, 1, 0, NULL, 'published', '30', '<p><span style=\"color: rgb(77, 77, 77);\">文：陳瑋駿（科技業工程師、科普作家）</span></p><p><br></p><p><span style=\"color: rgb(77, 77, 77);\">在《哈利波特》（</span><em style=\"color: rgb(77, 77, 77);\">Harry Potter</em><span style=\"color: rgb(77, 77, 77);\">）的魔法世界裡，如果你想寫一些只讓特定人士知道的祕密，那你也許需要「隱形墨水」來幫忙。這種透明無色的墨水能讓你在振筆疾書之後，整張紙還看起來完好如初。如果想讓字跡現形，只需要拿著魔杖，指向紙張並喊出現形咒「阿八拉象（Aparecium）」（註1），秘密便會隨之浮現。</span></p><p>不論你有沒有看過《哈利波特》，相信正在看這篇文章的麻瓜們（註2）心裡也曾對這個魔法世界充滿各種想像。為了實現每個麻瓜心中的浪漫，我們的科技不是正在進步，就是正在進步的路上，隱形墨水至今已經不是什麼稀奇的事了，只要走一趟書局，掏個幾十塊帶一隻擦擦筆即可輕鬆擁有它！擦擦筆乍看之下和一般原子筆沒什麼兩樣，只是筆尾多附上了一個特製的橡皮擦，但只要拿這個橡皮擦來回擦拭寫過的字跡，字跡就會立即消失無蹤，如同隱形墨水一般。</p><p>正因為這種走過不留痕跡的特性，你可以在每支擦擦筆的筆身找到「請勿使用於有價證券，或須署名等重要文件」的警語，看來文具公司早就知道，每個人心裡都或多或少想藉由科技來盤算一些壞壞的事──可惜他們的擔憂還是成真了。早在2012年，就曾有暴力討債集團使用擦擦筆竄改本票的數字，盜領被害人的帳戶；而在去（2020）年，斗大的新聞標題也寫著警光山莊的警員利用擦擦筆，更改房客入住資訊浮報金額補貼己用。</p><h3>冷凍，就是你的阿八拉象！</h3><p>相信很多讀者時常對於社會上諸多不公不義的事件感到義憤填膺，既然如此，我們能藉由破解擦擦筆的墨水，揪出這些人的惡形惡狀嗎？魔法世界裡有「現形咒」來使隱形墨水顯色，但在麻瓜的世界裡面，有沒有屬於麻瓜們的現形咒？答案不僅肯定，而且破獲警光山莊案的警察也相當熟稔這個「咒語」。他只做了一個動作，就讓字跡浮出紙面，令犯人百口莫辯、乖乖就範，答案就是：冷凍。</p><p><br></p><p>在知道為什麼「冷凍」可以讓字跡無所遁形之前，我們應該先了解為什麼只要擦拭就可以讓字跡消失？先來觀察一則2017年10月的新聞標題，試著解出真正讓字跡消失的關鍵：</p><h3>擦擦筆寫作業悲劇！墊泡麵驚見「超狂麥田圈」</h3><p>這個悲劇的主角是一位男大生，他用擦擦筆將課堂心得寫在白紙上，沒想到只是在宿舍泡泡麵時，順手將這張心得紙墊在下方，好不容易洋洋灑灑寫下的心得卻消失了，紙上還出現了一個和泡麵碗底一樣大的圓，就像麥田圈一般，讓男大生哭笑不得發文討拍。</p><h3>是什麼蒙蔽了我的雙眼？</h3><p>在這樁慘案中，你是否找到了字跡消失的關鍵？既然橡皮擦並沒有參與整個犯案過程，顯然，泡麵碗的「高溫」才是嫌疑更大的犯人！因此我們可以合理推論，只要擦擦筆墨水上升到特定的溫度之後，顏色就會褪去。而事實也正是如此，要證實這個論點，我們可以用其他常見的熱源來做實驗，像是拿吹風機定點對著紙張吹，幾秒鐘後字跡也會淡去。由此可知，擦擦筆隨附的橡皮擦之所以可以把字跡抹除，並不是真的把墨水除去，而是藉由摩擦生熱，讓墨水變成透明無色，肉眼看起來才會像是真的被擦掉了。</p><p>好不容易找到真因後，最重要的問題就來了：為什麼擦擦筆的墨水能夠遇熱就消失得無影無蹤呢？</p><p>擦擦筆墨水與眾不同的核心關鍵就在於墨水配方。如果把擦擦筆墨水放到高倍率的顯微鏡底下來看，映入眼簾的會是一顆顆均勻分散的小球，就像是湯鍋裡面圓滾滾、一顆顆的小湯圓，每一顆小球都是這場魔術表演發生的場所。它們是由聚合物所構成的微膠囊（microcapsule），又稱感溫染料微胞，大小僅有2～3 微米（µm），約是頭髮直徑的1∕40。在這麼迷你的包裝當中，裝載著三樣要素：染料、顯色劑、變色溫度調整劑。</p><p>染料之所以能顯色，是因為顯色劑與它結合，雖然擦擦筆的具體成分屬於機密而無法確知，不過退一萬步來說，一般感溫墨水的染料本尊其實就是「酸鹼指示劑」的其中一種。酸鹼指示劑藉由與氫離子（H<sup>+</sup>）或氫氧根離子（OH<sup>-</sup>）酸鹼中和，進而改變分子結構，藉此讓分子上的電荷透過共振（resonance），達到更好的分散程度，影響吸收光的波長（圖一）。倘若吸收的是可見光，肉眼看見的便是吸收光的互補色，這也就是為什麼酸鹼指示劑能在不同酸鹼值呈現不同顏色。</p><p><img src=\"https://image3.thenewslens.com/2021/6/pt78yy2szomzntp4l7fto6nki1w956.png?auto=compress&amp;q=80&amp;w=150\" alt=\"截圖_2021-06-10_下午4_25_59\"></p><p><span style=\"color: rgb(251, 251, 251);\">Photo credit：科學月刊</span></p><p>圖一、經典的感溫油墨案例：結晶紫內酯（Crystal Violet Lactone, CVL）</p><p><br></p><p>酸鹼指示劑能藉由酸鹼中和改變分子結構，使分子上的電荷透過共振達到分散效果，進而影響吸收光波長。若吸收的是可見光，肉眼看見的便是吸收光的互補色，因此酸鹼指示劑能在不同酸鹼值呈現不同顏色。</p><p>當我們知道染料的本質後，顯色劑就比較好理解了，既然是為了讓酸鹼指示劑顯色，想必顯色劑非酸即鹼。不過一般常見感溫墨水的主要成分還是以有機酸為主，像是酚（phenols）、沒食子酸酯（gallates）、羥基香豆素（hydroxycoumarins）等可以提供少量質子的弱酸性物質。</p><h3>修但幾勒！所以我說那個感溫呢？</h3><p>我們已經清楚了解染料與顯色劑結合後能夠顯色，但是光這樣還不夠，還缺少了「隱形」的關鍵！研發人員除了得想辦法找到一個物質讓染料與顯色劑分離之外，更重要的是，要讓墨水在什麼溫度隱形？要是墨水在過低的溫度（例如體溫）就隱形，寫字的時候除了要注意另一隻手不可以蓋到字跡，寫累了還不能趴在桌上，否則一覺醒來看到空白的紙面，便會以為剛剛寫字的記憶都只是夢一場。</p>', '', 52, 0, 1, 'normal', NULL, '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>', '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>'),
-(19, '2022-05-25 23:05:16.000000', '2022-10-14 22:22:56.158266', '在UV固化丙烯酸樹酯配方中,要如何挑選好分散的無機粉體及溶劑?原理為何?', 'http://127.0.0.1:8001/public/uploads/20220816/83342bca-6cc3-4093-a1bf-f012c889521a_WBCSD-Chemicals-Grou_i1140.jpeg', 1, 'reskin-plastic-skin', '2022-07-05 23:06:57', 30, 1, 0, NULL, 'published', 'meta title', '<h2><strong>一、ReSkin 是什麼?</strong></h2><p><strong><img src=\"https://lh6.googleusercontent.com/iJa0WcnSW46sPI0GCK7UBETYmomZPmOLpLNPTANPeywZ8XVKJ7-Od0z65t1bg9jVCBJveh7SZGyS3T6DyIWYjI3tR7bPQPunZHbahofS3whr4d8hb10BasdTIyiiz4YrcJb7fR6M\" alt=\"一張含有 文字, 差異, 螢幕擷取畫面 的圖片\n\n自動產生的描述\"></strong></p><p><strong>塑膠皮膚(ReSkin)，簡單來說就是一個 \"柔軟的傳感器 (Soft Sensor) \"，其價格便宜，尺寸輕巧，耐用度持久，且即便換掉了汰換也方便，除了能夠蒐集兩個物件之間的被動密合接觸(passive conformal contact)數據外，更可以蒐集「主動接觸(active contact)的數據」。有了這些數據，未來的機器人就可以從事許多動作比較輕巧且複雜的工作，像是抱小孩、包餃子….等工作。</strong></p><p><br></p><p><strong>那到底 ReSkin在機器手臂的表現上，有什麼差別呢?</strong></p><p><strong>可以看一下以下兩張圖片，沒有ReSkin 的機器手臂，在拿小藍莓的時候會直接把它捏爆，因為他們被輸入的運算太粗糙簡單，沒辦法用適當力道抓取小藍莓；但有ReSkin的機器手臂，就可以用很輕巧的動作把小藍莓拿起來了!</strong></p><p><strong><img src=\"https://lh3.googleusercontent.com/BgcdhKIJl3naax2bQO5tknlw25DliP2pz6ghvyZvzjIMQex25_p0IyokzwyM2M3yGcv4iT-COSMAYElec0kkPFF-vOSOy07RkkNQc5FDUZJlRCUkA9LgV3rBCljdnRa8xxTP01JM\">&nbsp;&nbsp;&nbsp;<img src=\"https://lh3.googleusercontent.com/lkb3fjzM-6d9ETYkCQv-gADTUpuia-RyjtOf52ZgX1vmsiiSW-vOkpSeoZHQi2NFzcvheevWj-yesFt1m6F3kwUb16Tu6r6mp0zeGy49LTDv8zKCXIRC8g0gMEnyX9RVwTdzJxEs\" alt=\"一張含有 文字 的圖片\n\n自動產生的描述\"></strong></p><p><strong>圖片來源 |&nbsp;</strong><a href=\"https://youtu.be/SxT_G-Im_CA\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: inherit;\"><strong>https://youtu.be/SxT_G-Im_CA</strong></a></p><p><br></p><p>&nbsp;</p><p><strong>二、ReSkin 規格及優勢</strong></p><p><strong>一個好的塑膠皮膚須具備哪些能力呢?</strong></p><ol><li><strong>可用於穩定抓取/操作的密合接觸</strong></li><li><br></li><li><strong>可以精準的量測壓縮力及剪切力</strong></li><li><br></li><li><strong>擁有強力&lt;0.1N與時間分辨率(Temporal Resolution) &gt;100Hz</strong></li><li><br></li><li><strong>在大面積覆蓋時 (&gt;4cm2)，每個接觸點都可以有好的空間解析度(Spatial Resolution)</strong></li></ol><p><strong>而從實用性來看的話，還須具備</strong></p><ol><li><strong>可以緊貼物件表面以及多方應用的</strong></li><li><br></li><li><strong>便宜</strong></li><li><br></li><li><strong>耐用</strong></li></ol><p>&nbsp;</p><p><strong>ReSkin是結合了磁性材材料與拉伸彈性材料，所有使ReSkin變形的作用力及剪切力，都會因材料磁場的改變被讀取，這些數據會被追蹤回每一個接觸點進而讓AI進行學習</strong></p><p><strong>ReSkin 的優勢</strong></p><ol><li><strong>價格便宜 (&lt;30USD，量產可&lt;6USD)</strong></li><li><br></li><li><strong>厚度 2-3mm</strong></li><li><br></li><li><strong>時間分辨率高達 400Hz</strong></li><li><br></li><li><strong>空間解析度 1mm精度達90%</strong></li></ol><p>&nbsp;</p><p><strong>其實，市面上已經有許多類似的產品，但 ReSkin 確實有相當的優勢，產品分析表請參考以下原文圖表囉!</strong></p><p><strong><img src=\"https://lh6.googleusercontent.com/RpDW2Ec7Fada5tu38D8HiYQJnB8wiib_h9i85-L_r8f6FhN2Oxn6akNj7JObiTlmpq3B9JFAP1PyUApO7NlRBK0I-EDe9U_zgnPNfcMIDz4yMbp91rZTY0KRFhpccgG6mNBy9QSK\"></strong></p><p><strong>三、Reskin 使用的材料與合作對象</strong></p><p><strong>1. 磁性粉體 ( Magnetic Particles )</strong></p><p><strong>商品型號: MQP-15-7-20065-070</strong></p><p><strong>製造商: Magnequench</strong></p><p><strong>產品資料:&nbsp;</strong><a href=\"https://mqitechnology.com/wp-content/uploads/2017/09/mqp-15-7-20065-070.pdf\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: inherit;\"><strong>https://mqitechnology.com/wp-content/uploads/2017/09/mqp-15-7-20065-070.pdf</strong></a></p><p>&nbsp;</p><p><strong><img src=\"https://lh4.googleusercontent.com/Zx3pQ3BoAXnCLXTYcLt1CNuN6LaIG-Zy0ey5_Wk1lSLRQnyjvTbPLl3gYS2HllQusT7V41V6C48uSXsh_zYItNY4qgOUVHibzioBnRH8YpqR8bhIVWpUxxgQABfz_aQH3rlj2JO4\"></strong></p><p>&nbsp;</p><p><strong>2. 矽橡膠( Silicone Rubber )</strong></p><p><strong>商品型號: Dragon Skin™ 10 NV</strong></p><p><strong>製造商: Smooth-On</strong></p><p><strong>產品資料:&nbsp;</strong><a href=\"https://www.smooth-on.com/products/dragon-skin-10-nv/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: inherit;\"><strong>https://www.smooth-on.com/products/dragon-skin-10-nv/</strong></a></p><p><strong><img src=\"https://lh6.googleusercontent.com/_RyOE6uwulQqzERU1HZ6hUJHjWhjwQk61q8bASUOF6s1kMOieCHkSEbkVOTDoQqnRjS5yfAOwN929DxxgMYosTO5H3kLCUOMIpNp4ed34tPGDaVeJ0vV4F_8BQDvJOHZ_WvxGnOy\" alt=\"一張含有 文字 的圖片\n\n自動產生的描述\"></strong></p><p>&nbsp;</p><ol><li><strong>可編程磁場感測器 ( Magnetometer )</strong></li></ol><p><br></p><p><strong>商品編號: MLX90393</strong></p><p><strong>製造商: Melexis</strong></p><p><strong>產品資料:&nbsp;</strong><a href=\"https://www.digikey.tw/zh/product-highlight/m/melexis/mlx90393-programmable-triaxis-magnetic-field-sensor\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: inherit;\"><strong>https://www.digikey.tw/zh/product-highlight/m/melexis/mlx90393-programmable-triaxis-magnetic-field-sensor</strong></a></p><p><strong><img src=\"https://lh3.googleusercontent.com/nQxXuoM54lkZasMMAGcizUOqx1L2igz83MYDQcCeiXpmjsBRHgMeJJT89ai4sFBaqZb_X6YYcwKFFvnhPfFod3WAP7KhIjilT6XTc8uHiEWJfpPwTShhsU_PLSzzZocPe-S9TJPe\"></strong></p><p>&nbsp;</p><ol><li><strong>協作機器人 ( Sawyer robot )</strong></li></ol><p><br></p><p><strong>Soft Machines LAB in Carnegie Mellon University @USA</strong></p><p><strong>網址:&nbsp;</strong><a href=\"http://sml.me.cmu.edu/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: inherit;\"><strong>http://sml.me.cmu.edu/</strong></a></p><p>&nbsp;</p><p><strong>AGI Labs @India</strong></p><p><strong>網址:&nbsp;</strong><a href=\"https://agilabsindia.com/index.html\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: inherit;\"><strong>https://agilabsindia.com/index.html</strong></a></p>', 'meta description', 30, 0, 1, 'normal', NULL, '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>', '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>'),
-(21, '2022-08-16 21:50:27.000000', '2022-10-14 22:22:56.145713', '如何判斷UV固化丙烯酸樹酯原物料有沒有壞掉?', 'http://127.0.0.1:8001/public/uploads/20220816/83342bca-6cc3-4093-a1bf-f012c889521a_WBCSD-Chemicals-Grou_i1140.jpeg', 1, 'uv', '2022-08-16 21:50:50', 1, 1, NULL, NULL, 'published', NULL, '<p><span style=\"background-color: transparent; color: rgb(68, 62, 0);\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span><span style=\"color: rgb(68, 62, 0);\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span></p><p><span style=\"color: rgb(68, 62, 0); background-color: transparent;\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span><span style=\"color: rgb(68, 62, 0);\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span></p><p><span style=\"color: rgb(68, 62, 0);\">﻿</span></p><p><br></p><p><span style=\"color: rgb(68, 62, 0); background-color: transparent;\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span><span style=\"color: rgb(68, 62, 0);\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span></p><p><span style=\"color: rgb(68, 62, 0);\">﻿</span></p><p><span style=\"color: rgb(68, 62, 0); background-color: transparent;\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span><span style=\"color: rgb(68, 62, 0);\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span></p>', NULL, 59, 1, 1, 'normal', NULL, '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>', '<p><span style=\"color: rgb(68, 62, 0); background-color: transparent;\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span><span style=\"color: rgb(68, 62, 0);\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span></p><p><span style=\"background-color: transparent; color: rgb(68, 62, 0);\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span><span style=\"color: rgb(68, 62, 0);\">UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構UV固化硫醇配方原則,以及化學反應機構</span></p>'),
-(22, '2022-08-16 21:56:00.000000', '2022-10-14 22:22:56.144184', '從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?', 'http://127.0.0.1:8001/public/uploads/20220816/7447e12b-39b0-4f5f-b419-3cd5ffe8848a_GettyImages-692869882.jpeg', 1, 'uv-2', '2022-08-16 21:58:50', 1, 1, NULL, NULL, 'published', NULL, '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p><p><br></p><p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>', NULL, 52, 0, 1, 'normal', NULL, '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>', '<p>從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?從0開始要做UV固化配方需準備哪些儀器設備及實驗室環境?</p>'),
-(26, '2022-08-16 22:13:09.000000', '2022-10-14 22:22:56.140624', '影片標題', 'http://127.0.0.1:8001/public/uploads/20220817/d0c072a3-5715-47f3-b5e1-642aa6e7e0b0_1b6d4odnzuexfnl3rxnxv8ddyvfntw.jpeg', 1, 'video', '2022-08-16 22:13:09', 1, 1, NULL, NULL, 'published', NULL, '<p>video-content</p><p>登入內容</p>', NULL, 30, 1, 1, 'video', 'http://127.0.0.1:8001/public/uploads/20220816/fed4713b-4073-45c4-a195-aaac8c402c8b_CleanShot 2022-07-01 at 02.54.46.mp4', '<p>video-content</p>', '<p>video-content</p>');
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `news_article_category`
---
-
-CREATE TABLE `news_article_category` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
-  `categoryId` bigint(20) NOT NULL COMMENT '分類ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `news_article_category`
---
-
-INSERT INTO `news_article_category` (`id`, `createTime`, `updateTime`, `articleId`, `categoryId`) VALUES
-(79, '2022-08-16 22:04:11.740592', '2022-08-16 22:04:11.740592', 15, 10),
-(80, '2022-08-16 22:04:11.745853', '2022-08-16 22:04:11.745853', 15, 5),
-(107, '2022-08-17 20:48:23.400906', '2022-08-17 20:48:23.400906', 18, 20),
-(108, '2022-08-17 20:48:23.406371', '2022-08-17 20:48:23.406371', 18, 17),
-(111, '2022-08-17 20:49:15.105095', '2022-08-17 20:49:15.105095', 16, 9),
-(112, '2022-08-17 20:49:15.111652', '2022-08-17 20:49:15.111652', 16, 5),
-(113, '2022-08-17 20:49:46.424731', '2022-08-17 20:49:46.424731', 14, 10),
-(114, '2022-08-17 20:49:46.432731', '2022-08-17 20:49:46.432731', 14, 5),
-(115, '2022-08-17 20:49:59.078150', '2022-08-17 20:49:59.078150', 13, 9),
-(116, '2022-08-17 20:49:59.091419', '2022-08-17 20:49:59.091419', 13, 5),
-(117, '2022-08-17 20:50:05.755732', '2022-08-17 20:50:05.755732', 12, 21),
-(118, '2022-08-17 20:50:05.764320', '2022-08-17 20:50:05.764320', 12, 17),
-(119, '2022-08-17 21:54:45.832079', '2022-08-17 21:54:45.832079', 17, 7),
-(120, '2022-08-17 21:54:45.846987', '2022-08-17 21:54:45.846987', 17, 5),
-(125, '2022-08-19 13:28:05.801476', '2022-08-19 13:28:05.801476', 19, 10),
-(126, '2022-08-19 13:28:05.807835', '2022-08-19 13:28:05.807835', 19, 5),
-(135, '2022-10-07 03:53:30.685806', '2022-10-07 03:53:30.685806', 26, 11),
-(136, '2022-10-07 03:53:30.697228', '2022-10-07 03:53:30.697228', 26, 5),
-(137, '2022-10-07 03:53:41.615098', '2022-10-07 03:53:41.615098', 22, 14),
-(138, '2022-10-07 03:53:41.621562', '2022-10-07 03:53:41.621562', 22, 12),
-(139, '2022-10-07 03:53:49.366136', '2022-10-07 03:53:49.366136', 21, 16),
-(140, '2022-10-07 03:53:49.373648', '2022-10-07 03:53:49.373648', 21, 12);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `news_article_collection`
---
-
-CREATE TABLE `news_article_collection` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
-  `userId` bigint(20) NOT NULL COMMENT '用戶ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `news_article_collection`
---
+(29, '2022-05-23 23:23:47.601000', '2022-06-30 01:06:52.544309', '其他應用科技', '<p>其他應用科技</p>', 'other-tech', 17, NULL, 10),
+(30, '2022-11-15 18:17:47.043000', '2022-11-15 18:38:24.436576', '有機小分子', NULL, 'small-organic-molecules', 5, NULL, 0),
+(31, '2022-11-15 18:17:47.043000', '2022-11-15 18:17:47.043000', '有機高分子', NULL, 'organic-polymer', 5, NULL, 1),
+(32, '2022-11-15 18:17:47.043000', '2022-11-15 18:17:47.043000', '無機顏料/填料', NULL, 'inorganic-pigments-fillers', 5, NULL, 2),
+(33, '2022-11-15 18:17:47.043000', '2022-11-15 18:17:47.043000', '塗料助劑', NULL, 'coating-additives', 5, NULL, 3),
+(34, '2022-11-15 18:17:47.043000', '2022-11-15 18:17:47.043000', '溶劑', NULL, 'solvent', 5, NULL, 4),
+(35, '2022-11-15 18:17:47.043000', '2022-11-15 18:17:47.043000', '設備建置', NULL, 'equipment-construction', 5, NULL, 5),
+(36, '2022-11-15 18:17:47.043000', '2022-11-15 18:17:47.043000', '塗裝工藝', NULL, 'coating-process', 5, NULL, 6);
 
 INSERT INTO `news_article_collection` (`id`, `createTime`, `updateTime`, `articleId`, `userId`) VALUES
 (13, '2022-09-05 17:04:17.350907', '2022-09-05 17:04:17.350907', 21, 59),
@@ -969,191 +1986,11 @@ INSERT INTO `news_article_collection` (`id`, `createTime`, `updateTime`, `articl
 (23, '2022-11-03 23:33:28.357317', '2022-11-03 23:33:28.357317', 15, 61),
 (24, '2022-11-03 23:33:38.242787', '2022-11-03 23:33:38.242787', 21, 61),
 (25, '2022-11-04 03:54:14.802271', '2022-11-04 03:54:14.802271', 16, 61),
-(26, '2022-11-05 16:04:57.309861', '2022-11-05 16:04:57.309861', 13, 61);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `news_article_like`
---
-
-CREATE TABLE `news_article_like` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
-  `userId` bigint(20) NOT NULL COMMENT '用戶ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `news_article_like`
---
+(26, '2022-11-05 16:04:57.309861', '2022-11-05 16:04:57.309861', 13, 61),
+(27, '2022-11-15 17:06:18.890524', '2022-11-15 17:06:18.890524', 19, 61);
 
 INSERT INTO `news_article_like` (`id`, `createTime`, `updateTime`, `articleId`, `userId`) VALUES
-(21, '2022-08-27 17:03:27.358435', '2022-08-27 17:03:27.358435', 17, 59),
-(24, '2022-08-28 00:35:55.903717', '2022-08-28 00:35:55.903717', 26, 59),
-(36, '2022-08-28 14:12:43.525156', '2022-08-28 14:12:43.525156', 14, 59),
-(38, '2022-08-28 16:55:42.759461', '2022-08-28 16:55:42.759461', 3, 59),
-(50, '2022-09-05 17:13:40.313438', '2022-09-05 17:13:40.313438', 22, 59),
-(51, '2022-09-05 17:15:24.824687', '2022-09-05 17:15:24.824687', 12, 59),
-(52, '2022-10-04 18:27:27.555478', '2022-10-04 18:27:27.555478', 16, 59),
-(62, '2022-10-13 01:14:04.805811', '2022-10-13 01:14:04.805811', 19, 59),
-(63, '2022-10-13 13:07:00.415073', '2022-10-13 13:07:00.415073', 15, 59),
-(64, '2022-11-03 19:41:22.228985', '2022-11-03 19:41:22.228985', 21, 59),
-(65, '2022-11-03 23:33:27.506243', '2022-11-03 23:33:27.506243', 15, 61),
-(68, '2022-11-04 03:54:13.735152', '2022-11-04 03:54:13.735152', 16, 61),
-(70, '2022-11-05 16:04:56.275401', '2022-11-05 16:04:56.275401', 13, 61);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `news_article_view`
---
-
-CREATE TABLE `news_article_view` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
-  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
-  `count` bigint(20) NOT NULL COMMENT 'count'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `news_article_view`
---
-
-INSERT INTO `news_article_view` (`id`, `createTime`, `updateTime`, `articleId`, `userId`, `count`) VALUES
-(359, '2022-09-02 18:40:38.866887', '2022-09-02 18:40:38.866887', 19, 59, 1),
-(360, '2022-09-02 18:57:02.306138', '2022-09-02 18:57:02.306138', 18, 59, 1),
-(361, '2022-09-03 13:50:45.720073', '2022-09-03 13:50:45.720073', 13, 59, 1),
-(362, '2022-09-03 14:19:46.261155', '2022-09-03 14:19:46.261155', 12, 59, 1),
-(363, '2022-09-03 14:20:03.615212', '2022-11-02 21:50:31.000000', 12, 0, 10),
-(364, '2022-09-03 14:20:19.843570', '2022-09-03 14:20:19.843570', 21, 59, 1),
-(365, '2022-09-03 14:20:30.384755', '2022-09-03 14:20:30.384755', 15, 59, 1),
-(366, '2022-09-03 14:20:57.796120', '2022-09-03 14:20:57.796120', 16, 59, 1),
-(367, '2022-09-03 14:21:00.668846', '2022-09-03 14:21:00.668846', 14, 59, 1),
-(368, '2022-09-03 19:00:34.190012', '2022-11-05 14:53:36.000000', 21, 0, 13),
-(369, '2022-09-03 19:00:41.643135', '2022-11-03 20:15:34.000000', 19, 0, 33),
-(370, '2022-09-04 16:08:32.528652', '2022-11-05 14:53:38.000000', 26, 0, 15),
-(371, '2022-09-05 17:13:12.820017', '2022-09-05 17:13:12.820017', 26, 59, 1),
-(372, '2022-09-05 17:13:38.027540', '2022-09-05 17:13:38.027540', 22, 59, 1),
-(373, '2022-09-16 11:30:35.639265', '2022-11-01 17:12:19.000000', 15, 0, 5),
-(374, '2022-09-16 16:39:40.871574', '2022-11-03 02:32:35.000000', 17, 0, 3),
-(375, '2022-10-07 15:35:51.105320', '2022-10-07 15:35:51.105320', 17, 59, 1),
-(376, '2022-10-08 00:14:23.840443', '2022-11-04 04:50:10.000000', 16, 0, 7),
-(377, '2022-10-19 16:27:28.634947', '2022-11-05 14:54:40.000000', 13, 0, 8),
-(378, '2022-11-02 21:50:37.052466', '2022-11-05 23:38:27.000000', 22, 0, 43),
-(379, '2022-11-03 02:59:59.301563', '2022-11-03 02:59:59.301563', 18, 0, 1),
-(380, '2022-11-03 22:42:22.355975', '2022-11-03 22:42:22.355975', 22, 61, 1),
-(381, '2022-11-03 23:04:38.307608', '2022-11-03 23:04:38.307608', 21, 61, 1),
-(382, '2022-11-03 23:04:45.222400', '2022-11-03 23:04:45.222400', 26, 61, 1),
-(383, '2022-11-03 23:04:46.640365', '2022-11-03 23:04:46.640365', 19, 61, 1),
-(384, '2022-11-03 23:05:57.252647', '2022-11-03 23:05:57.252647', 15, 61, 1),
-(385, '2022-11-04 00:06:32.409857', '2022-11-04 00:06:32.409857', 12, 61, 1),
-(386, '2022-11-04 03:53:13.043018', '2022-11-04 03:53:13.043018', 13, 61, 1),
-(387, '2022-11-04 03:54:12.572591', '2022-11-04 03:54:12.572591', 16, 61, 1),
-(388, '2022-11-04 04:10:21.656843', '2022-11-04 04:10:21.656843', 17, 61, 1);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `news_comment`
---
-
-CREATE TABLE `news_comment` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `createBy` bigint(20) NOT NULL COMMENT '建立用戶ID',
-  `updateBy` bigint(20) NOT NULL COMMENT '更新用戶ID',
-  `deleteBy` bigint(20) DEFAULT NULL COMMENT '刪除用戶ID',
-  `deleteTime` datetime(6) DEFAULT NULL COMMENT '刪除時間',
-  `content` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '內容',
-  `articleId` bigint(20) NOT NULL COMMENT '文章ID',
-  `parentId` bigint(20) DEFAULT NULL COMMENT '父ID',
-  `ip` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ip',
-  `ipAddr` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ip地址'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `news_comment`
---
-
-INSERT INTO `news_comment` (`id`, `createTime`, `updateTime`, `createBy`, `updateBy`, `deleteBy`, `deleteTime`, `content`, `articleId`, `parentId`, `ip`, `ipAddr`) VALUES
-(1, '2022-07-01 01:24:07.000000', '2022-09-03 14:37:51.000000', 30, 1, NULL, NULL, '在Klook網站上購買全身按摩只要$850\n覺得CP值很高，價錢很便宜\n雖然空間不大，但該有的都有\n比很多大型連鎖按摩服務還周到\n\n按摩師是8號，我是女生感謝主動幫我安排女師傅\n手法剛剛好（本身很怕痛）\n按完肩膀終於舒緩了許多。\n<script>alert(\'test\')</script>', 19, NULL, '127.0.0.1', '本机地址'),
-(2, '2022-07-01 01:32:03.000000', '2022-07-05 23:20:52.653073', 30, 1, NULL, NULL, 'test2', 19, 1, '127.0.0.1', '本机地址'),
-(3, '2022-07-01 01:44:02.000000', '2022-07-05 23:20:52.000000', 30, 1, NULL, NULL, '櫃檯姊姊很貼心❤️❤️不會像大間按摩店這樣～\n剛按完回來身心靈舒暢 極推61號以及12號\n本來腰痛跟大小腿炸裂，現在完全舒服\n沒比較沒傷害🤣\n真心推薦👍\n', 19, NULL, '127.0.0.1', '本机地址'),
-(4, '2022-07-01 01:47:57.000000', '2022-07-05 23:20:52.000000', 30, 1, NULL, NULL, '強力推薦16號，我已經去給他按過很多次了。看起來瘦瘦的但其實力道很不錯唷，能大力也能適中。我這樣說吧，常常按摩的人一定有一個經驗，就是你可能找到了一個你覺得按的很好的人，但是當你變成常客時，他為了表現友好，所以就會開始跟你聊天，結果反而無法放鬆。', 19, NULL, '127.0.0.1', '本机地址'),
-(5, '2022-07-01 01:54:09.000000', '2022-07-05 23:20:58.000000', 31, 1, NULL, NULL, '二訪星達家～ 是會讓人念念不忘、專程來一趟台中的按摩體驗！推薦18號師傅👍 專業細心，平常工作運動太緊繃，師傅筋膜放鬆、力道控制的剛剛好，週年慶到8/15哦～ 推薦給想舒壓的人來體驗看看～', 19, NULL, '127.0.0.1', '本机地址'),
-(6, '2022-07-01 01:54:33.670999', '2022-07-05 23:20:58.164757', 31, 1, NULL, NULL, 'testset', 19, 5, '127.0.0.1', '本机地址'),
-(7, '2022-11-04 02:03:25.288861', '2022-11-04 02:28:18.256465', 61, 61, NULL, NULL, '<p>test</p>', 19, NULL, NULL, NULL),
-(8, '2022-11-04 02:03:49.898424', '2022-11-04 02:28:18.256672', 61, 61, NULL, NULL, '<p>test</p>', 19, NULL, NULL, NULL),
-(9, '2022-11-04 02:06:17.782344', '2022-11-04 02:28:18.256923', 61, 61, NULL, NULL, '<p>test</p>', 19, NULL, NULL, NULL),
-(10, '2022-11-04 02:11:29.017848', '2022-11-04 02:28:18.257154', 61, 61, NULL, NULL, '<p>test</p>', 19, NULL, NULL, NULL),
-(11, '2022-11-04 02:15:38.272792', '2022-11-04 02:28:18.257383', 61, 61, NULL, NULL, '<p>test</p>', 19, NULL, NULL, NULL),
-(12, '2022-11-04 02:16:26.236943', '2022-11-04 02:28:18.257587', 61, 61, NULL, NULL, '<p>test</p>', 19, NULL, NULL, NULL),
-(13, '2022-11-04 02:18:20.127255', '2022-11-04 02:28:18.257794', 61, 61, NULL, NULL, '<p>&lt;script&gt;alert(\'test\')&lt;/script&gt;</p>', 19, NULL, NULL, NULL),
-(14, '2022-11-04 02:19:10.174890', '2022-11-04 02:28:18.257989', 61, 61, NULL, NULL, '<p>asetsatsat2</p>', 19, NULL, NULL, NULL),
-(15, '2022-11-04 02:19:43.339726', '2022-11-04 02:28:18.256236', 61, 61, NULL, NULL, '<p>sfsafea</p>', 19, NULL, NULL, NULL),
-(16, '2022-11-04 02:21:25.845451', '2022-11-04 02:28:18.256036', 61, 61, NULL, NULL, '<p>sfsafea</p>', 19, NULL, NULL, NULL),
-(17, '2022-11-04 02:21:39.706278', '2022-11-04 02:28:18.255770', 61, 61, NULL, NULL, '<p>asefgasfsafsa</p>', 19, NULL, NULL, NULL),
-(18, '2022-11-04 02:22:22.299944', '2022-11-04 02:28:18.255470', 61, 61, NULL, NULL, '<p>111111111111</p>', 19, NULL, NULL, NULL),
-(19, '2022-11-04 02:22:46.677667', '2022-11-04 02:28:18.255208', 61, 61, NULL, NULL, '<p>check</p>', 19, NULL, NULL, NULL),
-(20, '2022-11-04 02:23:09.636819', '2022-11-04 02:28:18.254978', 61, 61, NULL, NULL, '<p>123123123</p>', 19, NULL, NULL, NULL),
-(21, '2022-11-04 02:23:36.263076', '2022-11-04 02:28:18.254753', 61, 61, NULL, NULL, '<p>123421341234124</p>', 19, NULL, NULL, NULL),
-(22, '2022-11-04 02:23:45.347560', '2022-11-04 02:28:18.254210', 61, 61, NULL, NULL, '<p>123421341234124sdfasefsafaf</p>', 19, NULL, NULL, NULL),
-(23, '2022-11-04 02:23:52.610927', '2022-11-04 02:28:18.253988', 61, 61, NULL, NULL, '<p>123421341234124sdfasefsafaf</p><p>safsajflafef</p>', 19, NULL, NULL, NULL),
-(24, '2022-11-04 02:24:20.067122', '2022-11-04 02:28:18.253765', 61, 61, NULL, NULL, '<p>asfeksjaflsajflea</p>', 19, NULL, NULL, NULL),
-(25, '2022-11-04 02:24:44.041466', '2022-11-04 02:28:18.253450', 61, 61, NULL, NULL, '<p>saefsaf21321313</p>', 19, NULL, NULL, NULL),
-(26, '2022-11-04 02:24:53.800296', '2022-11-04 02:28:18.252618', 61, 61, NULL, NULL, '<p>saefsaf21321313sfaf</p>', 19, NULL, NULL, NULL),
-(27, '2022-11-04 02:37:14.334218', '2022-11-04 02:37:14.334218', 61, 61, NULL, NULL, '<p>fsefafsefaf</p>', 19, NULL, NULL, NULL),
-(28, '2022-11-04 02:37:22.187768', '2022-11-04 02:37:22.187768', 61, 61, NULL, NULL, '<p>fsefafsefafsafesafsafsa</p>', 19, NULL, NULL, NULL),
-(29, '2022-11-04 02:37:54.806130', '2022-11-04 02:37:54.806130', 61, 61, NULL, NULL, '<p>astsaet</p>', 19, NULL, NULL, NULL),
-(30, '2022-11-04 03:25:32.733139', '2022-11-04 03:25:32.733139', 61, 61, NULL, NULL, '<p>test</p>', 19, NULL, NULL, NULL),
-(31, '2022-11-04 03:33:56.518146', '2022-11-04 03:33:56.518146', 61, 61, NULL, NULL, '<p>test</p>', 19, 20, NULL, NULL),
-(32, '2022-11-04 03:37:25.151146', '2022-11-04 03:37:25.151146', 61, 61, NULL, NULL, '<p>asfeaf</p>', 19, 1, NULL, NULL),
-(33, '2022-11-04 03:44:13.549840', '2022-11-04 03:44:13.549840', 61, 61, NULL, NULL, '<p>測試留言</p>', 22, NULL, NULL, NULL),
-(34, '2022-11-04 03:49:10.380185', '2022-11-04 03:49:10.380185', 61, 61, NULL, NULL, '<p>tesat</p>', 22, NULL, NULL, NULL),
-(35, '2022-11-04 03:50:44.746097', '2022-11-04 03:50:44.746097', 61, 61, NULL, NULL, '<p>asefsafe</p>', 22, NULL, NULL, NULL),
-(36, '2022-11-04 03:50:47.586249', '2022-11-04 03:50:47.586249', 61, 61, NULL, NULL, '<p>sagseagesafsaef</p>', 22, NULL, NULL, NULL),
-(37, '2022-11-04 03:50:52.480501', '2022-11-04 03:50:52.480501', 61, 61, NULL, NULL, '<p>sefsafasfsa</p>', 22, NULL, NULL, NULL),
-(38, '2022-11-04 03:55:05.781956', '2022-11-04 03:55:05.781956', 61, 61, NULL, NULL, '<p>fasefsaf</p>', 21, NULL, NULL, NULL),
-(39, '2022-11-05 15:38:30.577838', '2022-11-05 15:38:30.577838', 61, 61, NULL, NULL, '<p>esfaf</p>', 21, NULL, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `news_comment_like`
---
-
-CREATE TABLE `news_comment_like` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `commentId` bigint(20) NOT NULL COMMENT '留言ID',
-  `userId` bigint(20) NOT NULL COMMENT '用戶ID',
-  `articleId` bigint(20) NOT NULL COMMENT '文章ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `space_info`
---
-
-CREATE TABLE `space_info` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '地址',
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '类型',
-  `classifyId` bigint(20) DEFAULT NULL COMMENT '分类ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `space_info`
---
+(38, '2022-08-28 16:55:42.759461', '2022-08-28 16:55:42.759461', 3, 59);
 
 INSERT INTO `space_info` (`id`, `createTime`, `updateTime`, `url`, `type`, `classifyId`) VALUES
 (3, '2022-08-16 21:39:13.481000', '2022-08-16 21:39:13.481000', 'http://127.0.0.1:8001/public/uploads/20220816/7447e12b-39b0-4f5f-b419-3cd5ffe8848a_GettyImages-692869882.jpeg', 'image', 2),
@@ -1161,81 +1998,13 @@ INSERT INTO `space_info` (`id`, `createTime`, `updateTime`, `url`, `type`, `clas
 (5, '2022-08-16 22:12:43.885000', '2022-08-16 22:12:43.885000', 'http://127.0.0.1:8001/public/uploads/20220816/fed4713b-4073-45c4-a195-aaac8c402c8b_CleanShot 2022-07-01 at 02.54.46.mp4', 'file', NULL),
 (6, '2022-08-17 20:47:13.869000', '2022-08-17 20:47:13.869000', 'http://127.0.0.1:8001/public/uploads/20220817/d0c072a3-5715-47f3-b5e1-642aa6e7e0b0_1b6d4odnzuexfnl3rxnxv8ddyvfntw.jpeg', 'image', 2);
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `space_type`
---
-
-CREATE TABLE `space_type` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '类别名称',
-  `parentId` tinyint(4) DEFAULT NULL COMMENT '父分类ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `space_type`
---
-
 INSERT INTO `space_type` (`id`, `createTime`, `updateTime`, `name`, `parentId`) VALUES
 (1, '2022-05-17 16:04:37.272000', '2022-05-17 16:04:37.272000', '小知識', NULL),
 (2, '2022-05-17 16:04:41.362000', '2022-05-17 16:04:41.362000', '新聞', NULL);
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `task_info`
---
-
-CREATE TABLE `task_info` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `jobId` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任務ID',
-  `repeatConf` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任務配置',
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名稱',
-  `cron` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'cron',
-  `limit` int(11) DEFAULT NULL COMMENT '最大執行次數 不傳為無限次',
-  `every` int(11) DEFAULT NULL COMMENT '每間隔多少毫秒執行一次 如果cron設置了 這項設置就無效',
-  `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '備註',
-  `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '狀態 0:停止 1：運行',
-  `startDate` datetime DEFAULT NULL COMMENT '開始時間',
-  `endDate` datetime DEFAULT NULL COMMENT '結束時間',
-  `data` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '數據',
-  `service` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '執行的service實例ID',
-  `type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '狀態 0:系統 1：用戶',
-  `nextRunTime` datetime DEFAULT NULL COMMENT '下一次執行時間',
-  `taskType` tinyint(4) NOT NULL DEFAULT 0 COMMENT '狀態 0:cron 1：時間間隔'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `task_info`
---
-
 INSERT INTO `task_info` (`id`, `createTime`, `updateTime`, `jobId`, `repeatConf`, `name`, `cron`, `limit`, `every`, `remark`, `status`, `startDate`, `endDate`, `data`, `service`, `type`, `nextRunTime`, `taskType`) VALUES
 (1, '2021-03-10 14:25:13.381172', '2021-03-10 14:25:19.011000', NULL, '{\"count\":1,\"type\":1,\"limit\":5,\"name\":\"每秒执行,总共5次\",\"taskType\":1,\"every\":1000,\"service\":\"taskDemoService.test()\",\"status\":1,\"id\":1,\"createTime\":\"2021-03-10 14:25:13\",\"updateTime\":\"2021-03-10 14:25:13\",\"jobId\":1}', '每秒执行,总共5次', NULL, 5, 1000, NULL, 0, NULL, NULL, NULL, 'taskDemoService.test()', 1, '2021-03-10 14:25:18', 1),
 (2, '2021-03-10 14:25:53.000000', '2022-05-30 19:55:01.818168', NULL, '{\"jobId\":2,\"cron\":\"0/5 * * * * ? \",\"count\":1}', 'cron任务，5秒执行一次', '0/5 * * * * ? ', NULL, NULL, NULL, 0, NULL, NULL, NULL, 'taskDemoService.test()', 1, NULL, 0);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `task_log`
---
-
-CREATE TABLE `task_log` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `taskId` bigint(20) DEFAULT NULL COMMENT '任务ID',
-  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '状态 0:失败 1：成功',
-  `detail` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '详情描述'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `task_log`
---
 
 INSERT INTO `task_log` (`id`, `createTime`, `updateTime`, `taskId`, `status`, `detail`) VALUES
 (1, '2021-03-10 14:25:14.020930', '2021-03-10 14:25:14.020930', 1, 1, '\"任务执行成功\"'),
@@ -1251,644 +2020,26 @@ INSERT INTO `task_log` (`id`, `createTime`, `updateTime`, `taskId`, `status`, `d
 (11, '2022-05-30 19:54:55.124257', '2022-05-30 19:54:55.124257', 2, 1, '\"任务执行成功\"'),
 (12, '2022-05-30 19:55:00.066587', '2022-05-30 19:55:00.066587', 2, 1, '\"任务执行成功\"');
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `tip`
---
-
-CREATE TABLE `tip` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '標題',
-  `publishDate` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '發布日期',
-  `status` enum('draft','published') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft' COMMENT '狀態',
-  `content` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '內容'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `tip`
---
-
 INSERT INTO `tip` (`id`, `createTime`, `updateTime`, `title`, `publishDate`, `status`, `content`) VALUES
 (2, '2022-06-30 15:43:28.538000', '2022-06-30 15:43:28.538000', '今日小知識', '2022-06-30', 'published', ''),
 (3, '2022-06-30 15:43:42.000000', '2022-07-05 23:31:13.000000', '小知識標題', '2022-07-05', 'published', ''),
 (4, '2022-08-16 12:05:32.000000', '2022-11-03 23:57:20.000000', '小知識測試', '2022-11-03', 'published', '<h1><span style=\"background-color: transparent;\">10 Blog Examples for Your Inspiration</span></h1><p><br></p><p><span style=\"background-color: transparent;\"><img src=\"https://static.wixstatic.com/media/0e0314_46871fae1bae4ead92d0eb9c0cd07dfe~mv2.png/v1/fill/w_1158,h_662,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/0e0314_46871fae1bae4ead92d0eb9c0cd07dfe~mv2.png\"></span></p><p><br></p><p><em style=\"background-color: transparent;\">This post was last updated on February 20, 2022.</em></p><p><br></p><p><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">Blogging has long been a popular way for people to express their passions, experiences and ideas with readers worldwide.</span></p><p><br></p><p><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">A blog can be its own website, or an add-on to an existing site. Whichever option you choose, it serves as a space to share your story or market your expertise in your own words, with your own visual language to match.</span></p><p><br></p><p><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">To help </span><a href=\"https://www.wix.com/start/blog\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent; color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff));\">create a blog</a><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\"> of your own, we’ve compiled this selection of ten blog examples. They’re packed with all the design wisdom you need to transform your blog into one of the best in the business.</span></p><p><br></p><p><br></p><h3><span style=\"background-color: var(--ricos-custom-h3-background-color,unset);\">10 inspiring blog examples</span></h3><ol><li><a href=\"https://www.wix.com/blog/2018/08/blog-examples/#viewer-2iqlc\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff)); background-color: transparent;\">Zion Adventure Photog</a> </li><li><a href=\"https://www.wix.com/blog/2018/08/blog-examples/#viewer-6atle\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff)); background-color: transparent;\">Mrs. Space Cadet</a> </li><li><a href=\"https://www.wix.com/blog/2018/08/blog-examples/#viewer-bdb1l\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff)); background-color: transparent;\">Simply Tabitha</a> </li><li><a href=\"https://www.wix.com/blog/2018/08/blog-examples/#viewer-e60qv\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff)); background-color: transparent;\">Lizzy Hadfield</a> </li><li><a href=\"https://www.wix.com/blog/2018/08/blog-examples/#viewer-9m9f7\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff)); background-color: transparent;\">Suvelle Cuisine</a> </li><li><a href=\"https://www.wix.com/blog/2018/08/blog-examples/#viewer-4uo07\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff)); background-color: transparent;\">Mikaela Reuben</a> </li><li><a href=\"https://www.wix.com/blog/2018/08/blog-examples/#viewer-4el2c\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff)); background-color: transparent;\">Seasons in Colour</a> </li><li><a href=\"https://www.wix.com/blog/2018/08/blog-examples/#viewer-70gcl\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff)); background-color: transparent;\">Not Another Cooking Show</a> </li><li><a href=\"https://www.wix.com/blog/2018/08/blog-examples/#viewer-4tr94\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff)); background-color: transparent;\">Roshini Kumar</a> </li><li><a href=\"https://www.wix.com/blog/2018/08/blog-examples/#viewer-1ophb\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff)); background-color: transparent;\">Olivia and Laura</a> </li></ol><p><br></p><p><br></p><h3><span style=\"background-color: var(--ricos-custom-h3-background-color,unset);\">01. </span><a href=\"https://www.zionadventurephotog.com/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent; color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff));\">Zion Adventure Photog</a></h3><p><br></p><p><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">When you\'re first approaching the question of</span><a href=\"https://www.wix.com/blog/2021/02/how-to-start-a-blog/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent; color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff));\"> how to start a blog</a><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">, check out Zion Adventure Photog. The blog has a dual purpose: owner Arika’s photography portfolio and establishing her expertise of the Zion area. With these, she’s able to</span><a href=\"https://www.wix.com/blog/2020/12/how-to-make-money-blogging/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent; color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff));\"> make money blogging</a><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">.</span></p><p><br></p><p><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">The blog’s ruggedly playful green and yellow color scheme evokes nature and sunshine. The blog’s homepage features visual testimonials of happy clients enjoying their adventures. She embeds her Instagram Feed directly onto her site, spreading the word about her service and drawing people deeper into her brand.</span></p><p><br></p><p><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">The blog design mirrors its content in depth and expertise. Detailed posts provide detailed guidance on activities such as canyoneering and hiking. From the written content, it’s clear that Arika is an expert in her field, and the visuals confirm her photography skills.</span></p><p><br></p><p><br></p><p><a href=\"https://www.zionadventurephotog.com/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent;\"><img src=\"https://static.wixstatic.com/media/0e0314_3aecf0e7e284411bab905cec387ce685~mv2.png/v1/fill/w_1158,h_2300,al_c,q_95,usm_0.66_1.00_0.01,enc_auto/0e0314_3aecf0e7e284411bab905cec387ce685~mv2.png\" alt=\"zion adventure photog\"></a></p><p><br></p><h3><span style=\"background-color: var(--ricos-custom-h3-background-color,unset);\">02.</span><strong style=\"background-color: transparent;\"> </strong><a href=\"https://www.mrsspacecadet.com/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent; color: rgb(17, 85, 204);\"><strong>Mrs. Space Cadet</strong></a></h3><p><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">On this blog’s </span><em style=\"background-color: transparent;\">My Story</em><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\"> page, the creator explains how she couldn’t find an online space that featured anything other than people’s perfect marathon training journeys. In response, she created this wonderfully authentic blog highlighting her, “Running through life one struggle at a time.”</span></p><p><br></p><p><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">The top fold features an image of the creator wearing crooked glasses and running on a treadmill with roller skates—a perfect embodiment of her </span><a href=\"https://www.wix.com/blog/2017/11/how-to-write-catchy-blog-titles/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent; color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff));\">blog title</a><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">. Her site features individual pages for her blog, podcast and </span><a href=\"https://www.wix.com/ecommerce/website\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent; color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff));\">online store</a><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\"> and includes links to her social media, all areas where she shares her incredibly relatable content. </span></p><p><br></p><p><br></p><p><a href=\"https://www.mrsspacecadet.com/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent;\"><img src=\"https://static.wixstatic.com/media/0e0314_f270b2afef02435f811f5575055d7525~mv2.png/v1/fill/w_1158,h_1986,al_c,q_95,usm_0.66_1.00_0.01,enc_auto/0e0314_f270b2afef02435f811f5575055d7525~mv2.png\" alt=\"mrs. space cadet\"></a></p><p><br></p><p><br></p><h3><span style=\"background-color: var(--ricos-custom-h3-background-color,unset);\">03. </span><a href=\"https://www.simplytabitha.com/blog\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent; color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff));\">Simply Tabitha</a></h3><p><br></p><p><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">Tabitha\'s</span><a href=\"https://www.wix.com/blog/2020/12/personal-blog-tips/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent; color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff));\"> personal blog</a><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\"> is a stellar example of how sharing your thoughts and advice can powerfully build your online brand. She dishes out fashion and beauty advice in her blog posts then helps her audience of mommas replicate her look with a </span><em style=\"background-color: transparent;\">Shop the Post</em><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\"> widget at the end. And with Pinterest\'s Save buttons hovering over each picture, fans can keep her glamorous aesthetic on hand for inspiration.</span></p><p><br></p><p><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">Take note from this blog example—partnering with an affiliate and linking out to recommended products in your posts is a great way to</span><a href=\"https://www.wix.com/blog/2019/01/how-to-monetize-blog/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent; color: var(--ricos-custom-link-color,var(--ricos-action-color,#0261ff));\"> monetize your blog</a><span style=\"background-color: var(--ricos-custom-p-background-color,unset);\">, as you’ll earn a commission for every sale that comes through your site.</span></p><p><br></p><p><br></p><p><a href=\"https://www.simplytabitha.com/blog\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: transparent;\"><img src=\"https://static.wixstatic.com/media/0e0314_d37e25d2e6e046aea2e48d950f350e05~mv2.png/v1/fill/w_1158,h_1486,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/0e0314_d37e25d2e6e046aea2e48d950f350e05~mv2.png\" alt=\"simply tabitha\"></a></p><p><br></p><p><br></p>');
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `tip_category`
---
-
-CREATE TABLE `tip_category` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `tipId` bigint(20) NOT NULL COMMENT '小知識ID',
-  `categoryId` bigint(20) NOT NULL COMMENT '分類ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `tip_collection`
---
-
-CREATE TABLE `tip_collection` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `tipId` bigint(20) NOT NULL COMMENT '小知識ID',
-  `userId` bigint(20) NOT NULL COMMENT '用戶ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `tip_collection`
---
-
 INSERT INTO `tip_collection` (`id`, `createTime`, `updateTime`, `tipId`, `userId`) VALUES
 (6, '2022-09-20 13:43:59.910548', '2022-09-20 13:43:59.910548', 4, 59),
 (8, '2022-11-04 04:09:31.530360', '2022-11-04 04:09:31.530360', 4, 61);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `tip_view`
---
-
-CREATE TABLE `tip_view` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `createTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '創建時間',
-  `updateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
-  `tipId` bigint(20) NOT NULL COMMENT '小知識ID',
-  `userId` bigint(20) NOT NULL COMMENT '用戶ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `tip_view`
---
 
 INSERT INTO `tip_view` (`id`, `createTime`, `updateTime`, `tipId`, `userId`) VALUES
 (1, '2022-07-05 23:27:20.345496', '2022-07-05 23:27:20.345496', 3, 45),
 (2, '2022-08-16 12:15:33.911325', '2022-08-16 12:15:33.911325', 4, 59),
 (3, '2022-11-03 23:57:29.428193', '2022-11-03 23:57:29.428193', 4, 61);
 
---
--- 已傾印資料表的索引
---
 
---
--- 資料表索引 `award_tip`
---
-ALTER TABLE `award_tip`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_dae815d71dfe420302661f46e6` (`createTime`),
-  ADD KEY `IDX_db49b86f2dd640c40e9fab804c` (`updateTime`);
 
---
--- 資料表索引 `award_tip_category`
---
-ALTER TABLE `award_tip_category`
-  ADD PRIMARY KEY (`awardTipId`,`industryCategoryId`),
-  ADD KEY `IDX_87f84a1fdcf928032b0dd22605` (`awardTipId`),
-  ADD KEY `IDX_aa35d86677050492d195ce958f` (`industryCategoryId`);
-
---
--- 資料表索引 `award_tip_collection`
---
-ALTER TABLE `award_tip_collection`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_eb8cd0d3bab0963599c12aa42b` (`createTime`),
-  ADD KEY `IDX_a84fa02b5a72f191ff1047a0a2` (`updateTime`),
-  ADD KEY `FK_ca917bcb2a3d0bb5dbec70ffdff` (`awardTipId`),
-  ADD KEY `FK_fc0300ae03194150782492b0980` (`userId`);
-
---
--- 資料表索引 `award_tip_view`
---
-ALTER TABLE `award_tip_view`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_bbcccb0fee5e8f861d80bf7c95` (`createTime`),
-  ADD KEY `IDX_d1767b7c075fb2bbdae6ed329e` (`updateTime`),
-  ADD KEY `FK_35cea6be22a229c502cb93e0a92` (`awardTipId`),
-  ADD KEY `FK_8fd6c2ad439a21e4bc368a97930` (`userId`);
-
---
--- 資料表索引 `base_sys_conf`
---
-ALTER TABLE `base_sys_conf`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `IDX_9be195d27767b4485417869c3a` (`cKey`),
-  ADD KEY `IDX_905208f206a3ff9fd513421971` (`createTime`),
-  ADD KEY `IDX_4c6f27f6ecefe51a5a196a047a` (`updateTime`);
-
---
--- 資料表索引 `base_sys_department`
---
-ALTER TABLE `base_sys_department`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_be4c53cd671384fa588ca9470a` (`createTime`),
-  ADD KEY `IDX_ca1473a793961ec55bc0c8d268` (`updateTime`);
-
---
--- 資料表索引 `base_sys_log`
---
-ALTER TABLE `base_sys_log`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_51a2caeb5713efdfcb343a8772` (`userId`),
-  ADD KEY `IDX_938f886fb40e163db174b7f6c3` (`action`),
-  ADD KEY `IDX_24e18767659f8c7142580893f2` (`ip`),
-  ADD KEY `IDX_a03a27f75cf8d502b3060823e1` (`ipAddr`),
-  ADD KEY `IDX_c9382b76219a1011f7b8e7bcd1` (`createTime`),
-  ADD KEY `IDX_bfd44e885b470da43bcc39aaa7` (`updateTime`);
-
---
--- 資料表索引 `base_sys_menu`
---
-ALTER TABLE `base_sys_menu`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_05e3d6a56604771a6da47ebf8e` (`createTime`),
-  ADD KEY `IDX_d5203f18daaf7c3fe0ab34497f` (`updateTime`);
-
---
--- 資料表索引 `base_sys_param`
---
-ALTER TABLE `base_sys_param`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_cf19b5e52d8c71caa9c4534454` (`keyName`),
-  ADD KEY `IDX_7bcb57371b481d8e2d66ddeaea` (`createTime`),
-  ADD KEY `IDX_479122e3bf464112f7a7253dac` (`updateTime`);
-
---
--- 資料表索引 `base_sys_role`
---
-ALTER TABLE `base_sys_role`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `IDX_469d49a5998170e9550cf113da` (`name`),
-  ADD UNIQUE KEY `IDX_f3f24fbbccf00192b076e549a7` (`label`),
-  ADD KEY `IDX_6f01184441dec49207b41bfd92` (`createTime`),
-  ADD KEY `IDX_d64ca209f3fc52128d9b20e97b` (`updateTime`);
-
---
--- 資料表索引 `base_sys_role_department`
---
-ALTER TABLE `base_sys_role_department`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_e881a66f7cce83ba431cf20194` (`createTime`),
-  ADD KEY `IDX_cbf48031efee5d0de262965e53` (`updateTime`);
-
---
--- 資料表索引 `base_sys_role_menu`
---
-ALTER TABLE `base_sys_role_menu`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_3641f81d4201c524a57ce2aa54` (`createTime`),
-  ADD KEY `IDX_f860298298b26e7a697be36e5b` (`updateTime`);
-
---
--- 資料表索引 `base_sys_user`
---
-ALTER TABLE `base_sys_user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `IDX_469ad55973f5b98930f6ad627b` (`username`),
-  ADD UNIQUE KEY `IDX_400a3f7d29883f1ace87ff93d3` (`email`),
-  ADD UNIQUE KEY `IDX_9ec6d7ac6337eafb070e4881a8` (`phone`),
-  ADD UNIQUE KEY `IDX_a8903023c24cf63cdb21db4cd8` (`idCard`),
-  ADD KEY `IDX_0cf944da378d70a94f5fefd803` (`departmentId`),
-  ADD KEY `IDX_ca8611d15a63d52aa4e292e46a` (`createTime`),
-  ADD KEY `IDX_a0f2f19cee18445998ece93ddd` (`updateTime`),
-  ADD KEY `IDX_d264b9f0e4ae49a17a7150d93e` (`createBy`),
-  ADD KEY `IDX_06ca72f509a1ac2cf339c9d917` (`updateBy`),
-  ADD KEY `IDX_2313dc36bdabec27461abe0264` (`deleteBy`);
-
---
--- 資料表索引 `base_sys_user_identity`
---
-ALTER TABLE `base_sys_user_identity`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `IDX_937215ab83a5d4ea78a9c95328` (`userId`),
-  ADD KEY `IDX_a0da48c942110aeaced4cb0bbe` (`createTime`),
-  ADD KEY `IDX_d7c1586a1672effb311225f3d1` (`updateTime`),
-  ADD KEY `IDX_7b94ece1304851fe39cab141d2` (`createBy`),
-  ADD KEY `IDX_bc39816e16e7da41e040ba5bf0` (`updateBy`);
-
---
--- 資料表索引 `base_sys_user_role`
---
-ALTER TABLE `base_sys_user_role`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_fa9555e03e42fce748c9046b1c` (`createTime`),
-  ADD KEY `IDX_3e36c0d2b1a4c659c6b4fc64b3` (`updateTime`);
-
---
--- 資料表索引 `collection_article`
---
-ALTER TABLE `collection_article`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_58d24a12c7c68fabafae201fe6` (`createTime`),
-  ADD KEY `IDX_f669b717c78d169aa15b210ac7` (`updateTime`);
-
---
--- 資料表索引 `collection_award_tip`
---
-ALTER TABLE `collection_award_tip`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_304d238e534bea8304c9dfeea0` (`createTime`),
-  ADD KEY `IDX_e79c40c96f0bbd11b7c9a4295a` (`updateTime`);
-
---
--- 資料表索引 `collection_tip`
---
-ALTER TABLE `collection_tip`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_45fcdb95d6b5d636f814fd1d33` (`createTime`),
-  ADD KEY `IDX_6d49b67b022e19c26902cbe79b` (`updateTime`);
-
---
--- 資料表索引 `demo_goods`
---
-ALTER TABLE `demo_goods`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_5075bf301ed9c39b5ca534231c` (`createTime`),
-  ADD KEY `IDX_82703e0477d1219261277df718` (`updateTime`);
-
---
--- 資料表索引 `industry_category`
---
-ALTER TABLE `industry_category`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `IDX_9f26e3c0d649615ec7849aea05` (`name`),
-  ADD UNIQUE KEY `IDX_e1ac4d7245b7ddca94c319ddb6` (`slug`),
-  ADD KEY `IDX_81fc5e3804320468d01bf78ee9` (`createTime`),
-  ADD KEY `IDX_30a9d37811e3ccea0e65d93fc0` (`updateTime`);
-
---
--- 資料表索引 `news_article`
---
-ALTER TABLE `news_article`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `IDX_c6bbfb15842493169f3e616fab` (`slug`),
-  ADD KEY `IDX_b7b4846ec5875b3dc81f5ac7f4` (`createTime`),
-  ADD KEY `IDX_902afd9ace5423046d21f494f0` (`updateTime`),
-  ADD KEY `IDX_1d3e381e731aa621ec5a603344` (`createBy`),
-  ADD KEY `IDX_bb27ae67761c4b2e9b88613f51` (`updateBy`),
-  ADD KEY `IDX_39edf5217ba60642cfc03aab6d` (`deleteBy`),
-  ADD KEY `IDX_ff0cb9036098cdbad4f8e5a2a3` (`title`);
-
---
--- 資料表索引 `news_article_category`
---
-ALTER TABLE `news_article_category`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_0416b2346e597f06ff372de297` (`createTime`),
-  ADD KEY `IDX_cd1f3e05b74cce06fa7826037d` (`updateTime`);
-
---
--- 資料表索引 `news_article_collection`
---
-ALTER TABLE `news_article_collection`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_e6a898e0eaba2bc4a78335fc3c` (`createTime`),
-  ADD KEY `IDX_025cdbad16c922f9cfac3fefb3` (`updateTime`);
-
---
--- 資料表索引 `news_article_like`
---
-ALTER TABLE `news_article_like`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_b9204c3ff90d945591cdfaa628` (`createTime`),
-  ADD KEY `IDX_a753f2bbb362a608bcec8d2c00` (`updateTime`);
-
---
--- 資料表索引 `news_article_view`
---
-ALTER TABLE `news_article_view`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_eb9555c1591ca3ba5b5684f08e` (`createTime`),
-  ADD KEY `IDX_d9f3a6f6b7000d28075b946150` (`updateTime`);
-
---
--- 資料表索引 `news_comment`
---
-ALTER TABLE `news_comment`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_81d8221c5139f5a00795e4dd3a` (`createTime`),
-  ADD KEY `IDX_84c2537550971c57cf909b8e8d` (`updateTime`),
-  ADD KEY `IDX_7e38467cc7ad60351701fbe03c` (`createBy`),
-  ADD KEY `IDX_b27a10c6c06ff89fae9ef3d9ed` (`updateBy`),
-  ADD KEY `IDX_b060795bbfc06659628c01f82d` (`deleteBy`),
-  ADD KEY `IDX_2483843be6a021565c5c5e97c0` (`ip`),
-  ADD KEY `IDX_7fd311599f53bb51d61d55b02e` (`ipAddr`);
-
---
--- 資料表索引 `news_comment_like`
---
-ALTER TABLE `news_comment_like`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_84e6b703c6cc0742aa879e140b` (`createTime`),
-  ADD KEY `IDX_2f129025b265ccc9f71ce067d5` (`updateTime`);
-
---
--- 資料表索引 `space_info`
---
-ALTER TABLE `space_info`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_eb1da2f304c760846b5add09b3` (`createTime`),
-  ADD KEY `IDX_d7a2539961e9aacba8b353f3c9` (`updateTime`);
-
---
--- 資料表索引 `space_type`
---
-ALTER TABLE `space_type`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_6669449501d275f367ca295472` (`createTime`),
-  ADD KEY `IDX_0749b509b68488caecd4cc2bbc` (`updateTime`);
-
---
--- 資料表索引 `task_info`
---
-ALTER TABLE `task_info`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_6ced02f467e59bd6306b549bb0` (`createTime`),
-  ADD KEY `IDX_2adc6f9c241391126f27dac145` (`updateTime`);
-
---
--- 資料表索引 `task_log`
---
-ALTER TABLE `task_log`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_b9af0e100be034924b270aab31` (`createTime`),
-  ADD KEY `IDX_8857d8d43d38bebd7159af1fa6` (`updateTime`),
-  ADD KEY `IDX_1142dfec452e924b346f060fda` (`taskId`);
-
---
--- 資料表索引 `tip`
---
-ALTER TABLE `tip`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_def3234e0a0f6f6cc76e7393e3` (`createTime`),
-  ADD KEY `IDX_8abd3a4b5c0010cb338091b8f4` (`updateTime`);
-
---
--- 資料表索引 `tip_category`
---
-ALTER TABLE `tip_category`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_068920b1090cbb0c7ccf2dba57` (`createTime`),
-  ADD KEY `IDX_50e8fe8d0a30bcba80526e2dad` (`updateTime`);
-
---
--- 資料表索引 `tip_collection`
---
-ALTER TABLE `tip_collection`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_1fa7a4f407b6bf3bda104ef5bf` (`createTime`),
-  ADD KEY `IDX_7a2bc2777a58faab0983d08455` (`updateTime`);
-
---
--- 資料表索引 `tip_view`
---
-ALTER TABLE `tip_view`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_1c1e85a2f0e6602e239d81ad67` (`createTime`),
-  ADD KEY `IDX_40a90c49e1358d470def40ae03` (`updateTime`);
-
---
--- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
---
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `award_tip`
---
-ALTER TABLE `award_tip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `award_tip_collection`
---
-ALTER TABLE `award_tip_collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `award_tip_view`
---
-ALTER TABLE `award_tip_view`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `base_sys_conf`
---
-ALTER TABLE `base_sys_conf`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=2;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `base_sys_department`
---
-ALTER TABLE `base_sys_department`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=19;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `base_sys_log`
---
-ALTER TABLE `base_sys_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=600;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `base_sys_menu`
---
-ALTER TABLE `base_sys_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=202;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `base_sys_param`
---
-ALTER TABLE `base_sys_param`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `base_sys_role`
---
-ALTER TABLE `base_sys_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=16;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `base_sys_role_department`
---
-ALTER TABLE `base_sys_role_department`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=39;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `base_sys_role_menu`
---
-ALTER TABLE `base_sys_role_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=912;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `base_sys_user`
---
-ALTER TABLE `base_sys_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=62;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `base_sys_user_identity`
---
-ALTER TABLE `base_sys_user_identity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=10;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `base_sys_user_role`
---
-ALTER TABLE `base_sys_user_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=102;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `collection_article`
---
-ALTER TABLE `collection_article`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `collection_award_tip`
---
-ALTER TABLE `collection_award_tip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `collection_tip`
---
-ALTER TABLE `collection_tip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `demo_goods`
---
-ALTER TABLE `demo_goods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `industry_category`
---
-ALTER TABLE `industry_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=30;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `news_article`
---
-ALTER TABLE `news_article`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=27;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `news_article_category`
---
-ALTER TABLE `news_article_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=141;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `news_article_collection`
---
-ALTER TABLE `news_article_collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=27;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `news_article_like`
---
-ALTER TABLE `news_article_like`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=71;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `news_article_view`
---
-ALTER TABLE `news_article_view`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=389;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `news_comment`
---
-ALTER TABLE `news_comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=40;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `news_comment_like`
---
-ALTER TABLE `news_comment_like`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=35;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `space_info`
---
-ALTER TABLE `space_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=7;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `space_type`
---
-ALTER TABLE `space_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `task_info`
---
-ALTER TABLE `task_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `task_log`
---
-ALTER TABLE `task_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=13;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `tip`
---
-ALTER TABLE `tip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=5;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `tip_category`
---
-ALTER TABLE `tip_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `tip_collection`
---
-ALTER TABLE `tip_collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=9;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `tip_view`
---
-ALTER TABLE `tip_view`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
-
---
--- 已傾印資料表的限制式
---
-
---
--- 資料表的限制式 `award_tip_category`
---
-ALTER TABLE `award_tip_category`
-  ADD CONSTRAINT `FK_87f84a1fdcf928032b0dd22605e` FOREIGN KEY (`awardTipId`) REFERENCES `award_tip` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_aa35d86677050492d195ce958f9` FOREIGN KEY (`industryCategoryId`) REFERENCES `industry_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- 資料表的限制式 `award_tip_collection`
---
-ALTER TABLE `award_tip_collection`
-  ADD CONSTRAINT `FK_ca917bcb2a3d0bb5dbec70ffdff` FOREIGN KEY (`awardTipId`) REFERENCES `award_tip` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_fc0300ae03194150782492b0980` FOREIGN KEY (`userId`) REFERENCES `base_sys_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- 資料表的限制式 `award_tip_view`
---
-ALTER TABLE `award_tip_view`
-  ADD CONSTRAINT `FK_35cea6be22a229c502cb93e0a92` FOREIGN KEY (`awardTipId`) REFERENCES `award_tip` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_8fd6c2ad439a21e4bc368a97930` FOREIGN KEY (`userId`) REFERENCES `base_sys_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-COMMIT;
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
