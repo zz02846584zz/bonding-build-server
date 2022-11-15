@@ -1,7 +1,7 @@
 export declare const twilio: {
-    serviceSid: string;
     accountSid: string;
     authToken: string;
+    verifySid: string;
 };
 export declare const googleMail: {
     user: string;
