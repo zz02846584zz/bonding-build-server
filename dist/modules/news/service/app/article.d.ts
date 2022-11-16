@@ -84,14 +84,6 @@ export declare class NewsArticleApiService extends BaseService {
         id: any;
         status: any;
     }>;
-    myArticle(query: any): Promise<{
-        list: any;
-        pagination: {
-            page: number;
-            size: number;
-            total: number;
-        };
-    }>;
     viewHistory(query: any): Promise<{
         list: any;
         pagination: {

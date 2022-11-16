@@ -42,7 +42,9 @@ export declare class NewsArticleAdminService extends BaseService {
         publishTime: Date;
         type: import("../../entity/article").ArticleType;
         videoUrl: string;
-        authorId: number;
+        authorAvatar: string;
+        authorName: string;
+        authorIntro: string;
         deleteBy: number;
         deleteTime: Date;
         createBy: number;

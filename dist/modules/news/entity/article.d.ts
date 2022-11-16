@@ -27,6 +27,8 @@ export declare class NewsArticleEntity extends BaseDeleteEntity {
     publishTime: Date;
     type: ArticleType;
     videoUrl: string;
-    authorId: number;
+    authorAvatar: string;
+    authorName: string;
+    authorIntro: string;
     categories: number[];
 }

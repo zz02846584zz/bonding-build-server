@@ -20,10 +20,6 @@ export declare class BaseAppUserController extends BaseController {
      * 收藏
      * @param params
      */
-    myArticle(params: any): Promise<{
-        code: import("@cool-midway/core").RESCODE;
-        message: import("@cool-midway/core").RESMESSAGE;
-    }>;
     /**
      * 瀏覽紀錄
      * @param params
