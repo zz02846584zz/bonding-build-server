@@ -201,7 +201,7 @@ let NewsArticleApiService = class NewsArticleApiService extends core_1.BaseServi
         FROM
           news_article a
           LEFT JOIN news_article_category b ON a.id = b.articleId
-          LEFT JOIN industry_category c ON c.categoryId = b.id
+          LEFT JOIN industry_category c ON b.id = c.categoryId
           LEFT JOIN news_article_view e ON a.id = e.articleId
           LEFT JOIN news_article_like f ON a.id = f.articleId
           LEFT JOIN news_article_collection g ON a.id = g.articleId
