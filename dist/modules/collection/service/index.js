@@ -82,7 +82,7 @@ let CollectionService = class CollectionService extends core_1.BaseService {
             a.publishTime,
             (CASE WHEN LENGTH(a.excerpt) > 0 THEN a.excerpt ELSE LEFT(REGEXP_REPLACE(a.content, '<[^>]+>', ''), 80) END) AS excerpt,
 
-            b.authorName as author,
+            a.authorName as author,
             GROUP_CONCAT(DISTINCT d.name) As categories,
             COUNT(DISTINCT(e.id)) as views,
             COUNT(DISTINCT(f.id)) as likes,
