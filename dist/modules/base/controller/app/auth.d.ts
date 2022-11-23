@@ -1,11 +1,13 @@
 import { BaseController } from '@cool-midway/core';
 import { BaseAppAuthService } from '../../service/app/auth';
+import { BaseApiUserService } from '../../service/app/user';
 import { ApiLoginDTO, ApiRegisterDTO, ApiCaptchaDTO, ApiForgotDTO } from '../../dto/app/auth';
 /**
  * 商品
  */
 export declare class AppAuthController extends BaseController {
     baseAppAuthService: BaseAppAuthService;
+    baseApiUserService: BaseApiUserService;
     /**
      * 登錄
      * @param login
@@ -42,6 +44,13 @@ export declare class AppAuthController extends BaseController {
      * 刷新token
      */
     refreshToken(params: any): Promise<{
+        code: import("@cool-midway/core").RESCODE;
+        message: import("@cool-midway/core").RESMESSAGE;
+    }>;
+    /**
+     * 驗證Email
+     */
+    emailVerify(params: any): Promise<{
         code: import("@cool-midway/core").RESCODE;
         message: import("@cool-midway/core").RESMESSAGE;
     }>;

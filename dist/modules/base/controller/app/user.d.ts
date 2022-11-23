@@ -47,13 +47,6 @@ export declare class BaseAppUserController extends BaseController {
         message: import("@cool-midway/core").RESMESSAGE;
     }>;
     /**
-     * 驗證Email
-     */
-    emailVerify(params: any): Promise<{
-        code: import("@cool-midway/core").RESCODE;
-        message: import("@cool-midway/core").RESMESSAGE;
-    }>;
-    /**
      * 退出
      */
     logout(): Promise<{
