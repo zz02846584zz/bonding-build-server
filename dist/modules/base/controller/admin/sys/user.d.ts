@@ -12,4 +12,11 @@ export declare class BaseSysUserController extends BaseController {
         code: import("@cool-midway/core").RESCODE;
         message: import("@cool-midway/core").RESMESSAGE;
     }>;
+    /**
+     * 查看身份驗證
+     */
+    getIdentify(userId: number): Promise<{
+        code: import("@cool-midway/core").RESCODE;
+        message: import("@cool-midway/core").RESMESSAGE;
+    }>;
 }

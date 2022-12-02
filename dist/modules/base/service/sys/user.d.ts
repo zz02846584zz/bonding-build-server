@@ -5,11 +5,13 @@ import { BaseSysPermsService } from './perms';
 import { BaseSysUserRoleEntity } from '../../entity/sys/user_role';
 import { BaseSysDepartmentEntity } from '../../entity/sys/department';
 import { CacheManager } from '@midwayjs/cache';
+import { UserIdentityEntity } from '../../../user/entity/identity';
 /**
  * 系统用户
  */
 export declare class BaseSysUserService extends BaseService {
     baseSysUserEntity: Repository<BaseSysUserEntity>;
+    userIdentityEntity: Repository<UserIdentityEntity>;
     baseSysUserRoleEntity: Repository<BaseSysUserRoleEntity>;
     baseSysDepartmentEntity: Repository<BaseSysDepartmentEntity>;
     cacheManager: CacheManager;
@@ -72,4 +74,5 @@ export declare class BaseSysUserService extends BaseService {
      * @param userId
      */
     list(): Promise<any>;
+    getIdentify(userId: number): Promise<UserIdentityEntity>;
 }
