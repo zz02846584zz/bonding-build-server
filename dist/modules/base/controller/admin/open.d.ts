@@ -1,5 +1,5 @@
 import { BaseController, CoolEps } from '@cool-midway/core';
-import { LoginDTO } from '../../dto/admin/login';
+import { LoginDTO } from '../../dto/login';
 import { BaseSysLoginService } from '../../service/sys/login';
 import { BaseSysParamService } from '../../service/sys/param';
 import { Context } from '@midwayjs/koa';

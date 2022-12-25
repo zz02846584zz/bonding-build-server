@@ -1,7 +1,6 @@
 import { BaseController } from '@cool-midway/core';
 import { BaseAppAuthService } from '../../service/app/auth';
 import { BaseApiUserService } from '../../service/app/user';
-import { ApiLoginDTO, ApiRegisterDTO, ApiCaptchaDTO, ApiForgotDTO } from '../../dto/app/auth';
 /**
  * 商品
  */
@@ -12,7 +11,7 @@ export declare class AppAuthController extends BaseController {
      * 登錄
      * @param login
      */
-    login(login: ApiLoginDTO): Promise<{
+    login(login: any): Promise<{
         code: import("@cool-midway/core").RESCODE;
         message: import("@cool-midway/core").RESMESSAGE;
     }>;
@@ -20,7 +19,7 @@ export declare class AppAuthController extends BaseController {
      * 註冊
      * @param register
      */
-    register(register: ApiRegisterDTO): Promise<{
+    register(register: any): Promise<{
         code: import("@cool-midway/core").RESCODE;
         message: import("@cool-midway/core").RESMESSAGE;
     }>;
@@ -28,7 +27,7 @@ export declare class AppAuthController extends BaseController {
      * 註冊
      * @param forgot
      */
-    forgot(forgot: ApiForgotDTO): Promise<{
+    forgot(forgot: any): Promise<{
         code: import("@cool-midway/core").RESCODE;
         message: import("@cool-midway/core").RESMESSAGE;
     }>;
@@ -36,7 +35,7 @@ export declare class AppAuthController extends BaseController {
      * 獲得驗證碼
      * @param captcha
      */
-    captcha(params: ApiCaptchaDTO): Promise<{
+    captcha(params: any): Promise<{
         code: import("@cool-midway/core").RESCODE;
         message: import("@cool-midway/core").RESMESSAGE;
     }>;

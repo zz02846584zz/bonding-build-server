@@ -2,7 +2,7 @@ import { BaseService } from '@cool-midway/core';
 import { Context } from '@midwayjs/koa';
 import { CacheManager } from '@midwayjs/cache';
 import { Repository } from 'typeorm';
-import { BaseSysUserEntity, UserStatus } from '../../entity/sys/user';
+import { BaseSysUserEntity } from '../../entity/sys/user';
 import { BaseSysUserService } from '../sys/user';
 import { BaseSysRoleEntity } from '../../entity/sys/role';
 import { BaseSysDepartmentEntity } from '../../entity/sys/department';
@@ -11,7 +11,6 @@ import { BaseSysUserRoleEntity } from '../../entity/sys/user_role';
 import { BaseSysMenuService } from '../sys/menu';
 import { BaseSysPermsService } from '../sys/perms';
 import { BaseSysDepartmentService } from '../sys/department';
-import { ApiLoginDTO, ApiRegisterDTO, ApiCaptchaDTO, ApiForgotDTO } from '../../dto/app/auth';
 import { BaseApiUserService } from './user';
 /**
  * 登錄
@@ -35,7 +34,7 @@ export declare class BaseAppAuthService extends BaseService {
      * 登錄
      * @param login
      */
-    login(login: ApiLoginDTO): Promise<{
+    login(login: any): Promise<{
         expire: any;
         token: any;
         refreshExpire: any;
@@ -44,28 +43,24 @@ export declare class BaseAppAuthService extends BaseService {
     person(id: any): Promise<{
         departmentName: string;
         departmentId: number;
+        socketId: string;
         username: string;
-        email: string;
-        emailVerify: import("../../entity/sys/user").EmailVerify;
-        phone: string;
         password: string;
         passwordV: number;
-        status: UserStatus;
-        identifyVerify: import("../../entity/sys/user").IdentifyVerify;
-        roleIdList: number[];
-        socketId: string;
+        avatar: string;
         firstName: string;
         lastName: string;
-        idCard: string;
+        gender: number;
         birthday: string;
-        headImg: string;
-        gender: import("../../entity/sys/user").UserGender;
-        remark: string;
+        phone: string;
+        email: string;
+        idCard: string;
+        identityStatus: number;
         intro: string;
-        deleteBy: number;
-        deleteTime: Date;
-        createBy: number;
-        updateBy: number;
+        remark: string;
+        emailStatus: number;
+        status: number;
+        roleIdList: number[];
         id: number;
         createTime: Date;
         updateTime: Date;
@@ -74,7 +69,7 @@ export declare class BaseAppAuthService extends BaseService {
      * 註冊
      * @param register
      */
-    register(register: ApiRegisterDTO): Promise<{
+    register(register: any): Promise<{
         expire: any;
         token: any;
         refreshExpire: any;
@@ -84,7 +79,7 @@ export declare class BaseAppAuthService extends BaseService {
     /**
      * 忘記密碼
      */
-    forgot(forgot: ApiForgotDTO): Promise<{
+    forgot(forgot: any): Promise<{
         expire: any;
         token: any;
         refreshExpire: any;
@@ -94,7 +89,10 @@ export declare class BaseAppAuthService extends BaseService {
      * 發送手機驗證碼
      * @param captcha 國際區號
      */
-    captcha({ type, phone }: ApiCaptchaDTO): Promise<any>;
+    captcha({ type, phone }: {
+        type: any;
+        phone: any;
+    }): Promise<any>;
     /**
      * 檢驗手機驗證碼
      * @param phone 手機號

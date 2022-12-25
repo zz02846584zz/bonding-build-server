@@ -10,6 +10,7 @@ export declare class BaseSysMenuService extends BaseService {
     ctx: Context;
     baseSysMenuEntity: Repository<BaseSysMenuEntity>;
     baseSysPermsService: BaseSysPermsService;
+    update(param: any): Promise<void>;
     /**
      * 获得所有菜单
      */

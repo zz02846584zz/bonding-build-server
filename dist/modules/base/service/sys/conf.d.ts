@@ -16,5 +16,5 @@ export declare class BaseSysConfService extends BaseService {
      * @param cKey
      * @param cValue
      */
-    updateValue(cKey: any, cValue: any): Promise<void>;
+    updateVaule(cKey: any, cValue: any): Promise<void>;
 }

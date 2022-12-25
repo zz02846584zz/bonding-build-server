@@ -5,20 +5,22 @@ import { BaseSysPermsService } from './perms';
 import { BaseSysUserRoleEntity } from '../../entity/sys/user_role';
 import { BaseSysDepartmentEntity } from '../../entity/sys/department';
 import { CacheManager } from '@midwayjs/cache';
-import { UserIdentityEntity } from '../../../user/entity/identity';
+import { BaseUserIdentityEntity } from '../../entity/sys/user_identity';
+import { BaseSysLogUploadEntity } from '../../entity/sys/log_upload';
 /**
- * 系统用户
+ * 系統用戶
  */
 export declare class BaseSysUserService extends BaseService {
     baseSysUserEntity: Repository<BaseSysUserEntity>;
-    userIdentityEntity: Repository<UserIdentityEntity>;
     baseSysUserRoleEntity: Repository<BaseSysUserRoleEntity>;
     baseSysDepartmentEntity: Repository<BaseSysDepartmentEntity>;
+    baseUserIdentityEntity: Repository<BaseUserIdentityEntity>;
+    baseSysLogUploadEntity: Repository<BaseSysLogUploadEntity>;
     cacheManager: CacheManager;
     baseSysPermsService: BaseSysPermsService;
     ctx: any;
     /**
-     * 分页查询
+     * 分頁查詢
      * @param query
      */
     page(query: any): Promise<{
@@ -30,17 +32,17 @@ export declare class BaseSysUserService extends BaseService {
         };
     }>;
     /**
-     * 移动部门
+     * 移動部門
      * @param departmentId
      * @param userIds
      */
     move(departmentId: any, userIds: any): Promise<void>;
     /**
-     * 获得个人信息
+     * 獲得個人信息
      */
     person(): Promise<BaseSysUserEntity>;
     /**
-     * 更新用户角色关系
+     * 更新用戶角色關係
      * @param user
      */
     updateUserRole(user: any): Promise<void>;
@@ -50,29 +52,27 @@ export declare class BaseSysUserService extends BaseService {
      */
     add(param: any): Promise<any>;
     /**
-     * 根据ID获得信息
+     * 根據ID獲得信息
      * @param id
      */
     info(id: any): Promise<BaseSysUserEntity>;
     /**
-     * 修改个人信息
+     * 修改個人信息
      * @param param
      */
     personUpdate(param: any): Promise<void>;
     /**
      * 修改
-     * @param param 数据
+     * @param param 數據
      */
     update(param: any): Promise<void>;
     /**
-     * 禁用用户
+     * 禁用用戶
      * @param userId
      */
     forbidden(userId: any): Promise<void>;
-    /**
-     * 用戶列表
-     * @param userId
-     */
-    list(): Promise<any>;
-    getIdentify(userId: number): Promise<UserIdentityEntity>;
+    getIdentity(userId: number): Promise<{
+        positive: string;
+        negative: string;
+    }>;
 }

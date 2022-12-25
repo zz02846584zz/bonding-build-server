@@ -1,10 +1,13 @@
 import { BaseController, CoolEps } from '@cool-midway/core';
 import { Context } from '@midwayjs/koa';
 import { CoolFile } from '@cool-midway/file';
+import { BaseSysLogUploadEntity } from '../../entity/sys/log_upload';
+import { Repository } from 'typeorm';
 /**
  * 不需要登录的后台接口
  */
 export declare class BaseAppCommController extends BaseController {
+    baseSysLogUploadEntity: Repository<BaseSysLogUploadEntity>;
     coolFile: CoolFile;
     ctx: Context;
     eps: CoolEps;
@@ -19,10 +22,7 @@ export declare class BaseAppCommController extends BaseController {
     /**
      * 文件上传
      */
-    upload(): Promise<{
-        code: import("@cool-midway/core").RESCODE;
-        message: import("@cool-midway/core").RESMESSAGE;
-    }>;
+    upload(): Promise<number>;
     urlToFile(url: any, filename: any, mimeType: any): Promise<File>;
     /**
      * 文件上传模式，本地或者云存储

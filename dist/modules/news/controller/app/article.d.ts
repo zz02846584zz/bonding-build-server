@@ -1,13 +1,12 @@
 import { BaseController } from '@cool-midway/core';
-import { NewsArticleApiService } from '../../service/app/article';
+import { AppNewsArticleService } from '../../service/app/article';
 import { Context } from '@midwayjs/koa';
-import { ArticleDTO } from '../../dto/article';
 /**
  * 描述
  */
 export declare class NewsArticleController extends BaseController {
-    newsArticleApiService: NewsArticleApiService;
     ctx: Context;
+    appNewsArticleService: AppNewsArticleService;
     /**
      * 分頁
      * @query query
@@ -51,7 +50,7 @@ export declare class NewsArticleController extends BaseController {
      * 新增
      * @param article
      */
-    articleNew(article: ArticleDTO): Promise<{
+    articleNew(article: any): Promise<{
         code: import("@cool-midway/core").RESCODE;
         message: import("@cool-midway/core").RESMESSAGE;
     }>;

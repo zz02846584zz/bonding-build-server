@@ -1,30 +1,26 @@
 import { BaseService } from '@cool-midway/core';
 import { Repository } from 'typeorm';
-import { NewsArticleEntity, ArticleStatus } from '../../entity/article';
-import { NewsArticleCommentEntity } from '../../entity/comment';
-import { IndustryCategoryEntity } from '../../../industry/entity/category';
-import { BaseSysUserEntity } from '../../../base/entity/sys/user';
+import { NewsArticleEntity } from '../../entity/article';
 import { NewsArticleCategoryEntity } from '../../entity/articleCategory';
 import { NewsArticleViewEntity } from '../../entity/articleView';
-import { NewsArticleLikeEntity } from '../../entity/articleLike';
-import { NewsArticleCommentLikeEntity } from '../../entity/commentLike';
 /**
  * 描述
  */
-export declare class NewsArticleAdminService extends BaseService {
+export declare class AdminNewsArticleService extends BaseService {
     newsArticleEntity: Repository<NewsArticleEntity>;
     newsArticleCategoryEntity: Repository<NewsArticleCategoryEntity>;
-    newsArticleCommentEntity: Repository<NewsArticleCommentEntity>;
-    newsArticleCommentLikeEntity: Repository<NewsArticleCommentLikeEntity>;
     newsArticleViewEntity: Repository<NewsArticleViewEntity>;
-    newsArticleLikeEntity: Repository<NewsArticleLikeEntity>;
-    industryCategoryEntity: Repository<IndustryCategoryEntity>;
-    baseSysUserEntity: Repository<BaseSysUserEntity>;
     ctx: any;
-    /**
-     * 取得內容
-     * @param query
-     */
+    page(query: any): Promise<{
+        list: any;
+        pagination: {
+            page: number;
+            size: number;
+            total: number;
+        };
+    }>;
+    add(params: any): Promise<any>;
+    update(params: any): Promise<any>;
     info(id: any): Promise<{
         categories: any;
         title: string;
@@ -32,15 +28,15 @@ export declare class NewsArticleAdminService extends BaseService {
         metaDescription: string;
         slug: string;
         content: string;
-        content_preview: string;
+        contentPreview: string;
         excerpt: string;
         thumbnail: string;
         commentOpen: boolean;
         isTop: boolean;
         isHot: boolean;
-        status: ArticleStatus;
+        status: number;
         publishTime: Date;
-        type: import("../../entity/article").ArticleType;
+        type: number;
         videoUrl: string;
         authorAvatar: string;
         authorName: string;
@@ -54,10 +50,15 @@ export declare class NewsArticleAdminService extends BaseService {
         updateTime: Date;
     }>;
     /**
-     * 分页查询
-     * @param query
+     * 更新分類关系
+     * @param user
      */
-    page(query: any): Promise<{
+    updateCategories(article: any): Promise<void>;
+    /**
+     * 閱讀紀錄
+     * @param articleId
+     */
+    viewLogs(query: any): Promise<{
         list: any;
         pagination: {
             page: number;
@@ -66,29 +67,27 @@ export declare class NewsArticleAdminService extends BaseService {
         };
     }>;
     /**
-     * 列表查询
-     * @param query
+     * 點贊紀錄
+     * @param articleId
      */
-    list(): Promise<NewsArticleEntity[]>;
+    likeLogs(query: any): Promise<{
+        list: any;
+        pagination: {
+            page: number;
+            size: number;
+            total: number;
+        };
+    }>;
     /**
-     * 新增
-     * @param param
+     * 收藏紀錄
+     * @param articleId
      */
-    add(param: any): Promise<any>;
-    /**
-     * 更新分類关系
-     * @param user
-     */
-    updateCategories(article: any): Promise<void>;
-    /**
-     * 新增
-     * @param param
-     */
-    update(param: any): Promise<any>;
-    getToday(): string;
-    /**
-     * 刪除
-     * @param ids
-     */
-    delete(ids: any): Promise<void>;
+    collectionLogs(query: any): Promise<{
+        list: any;
+        pagination: {
+            page: number;
+            size: number;
+            total: number;
+        };
+    }>;
 }

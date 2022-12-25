@@ -1,15 +1,14 @@
 import { BaseService } from '@cool-midway/core';
 import { Repository } from 'typeorm';
-import { BaseSysUserEntity, EmailVerify, UserStatus } from '../../entity/sys/user';
+import { BaseSysUserEntity } from '../../entity/sys/user';
 import { BaseSysUserRoleEntity } from '../../entity/sys/user_role';
 import { BaseSysDepartmentEntity } from '../../entity/sys/department';
 import { CacheManager } from '@midwayjs/cache';
 import { Context } from '@midwayjs/koa';
-import { ApiResetPasswordDTO } from '../../dto/app/auth';
 import { Utils } from '../../../../comm/utils';
-import { TipAppService } from '../../../tip/service/app';
+import { TipAppService } from '../../../award/service/app/tips';
 import { BaseAppAuthService } from './auth';
-import { UserIdentityEntity } from '../../../user/entity/identity';
+import { BaseUserIdentityEntity } from '../../../base/entity/sys/user_identity';
 /**
  * 系統用戶
  */
@@ -17,7 +16,7 @@ export declare class BaseApiUserService extends BaseService {
     baseSysUserEntity: Repository<BaseSysUserEntity>;
     baseSysUserRoleEntity: Repository<BaseSysUserRoleEntity>;
     baseSysDepartmentEntity: Repository<BaseSysDepartmentEntity>;
-    userIdentityEntity: Repository<UserIdentityEntity>;
+    userIdentityEntity: Repository<BaseUserIdentityEntity>;
     tipAppService: Repository<TipAppService>;
     baseAppAuthService: BaseAppAuthService;
     cacheManager: CacheManager;
@@ -28,29 +27,25 @@ export declare class BaseApiUserService extends BaseService {
      */
     person(): Promise<{
         departmentId: number;
+        socketId: string;
         username: string;
-        email: string;
-        emailVerify: EmailVerify;
-        phone: string;
         password: string;
         passwordV: number;
-        status: UserStatus;
-        identifyVerify: import("../../entity/sys/user").IdentifyVerify;
-        departmentName: string;
-        roleIdList: number[];
-        socketId: string;
+        avatar: string;
         firstName: string;
         lastName: string;
-        idCard: string;
+        gender: number;
         birthday: string;
-        headImg: string;
-        gender: import("../../entity/sys/user").UserGender;
-        remark: string;
+        phone: string;
+        email: string;
+        idCard: string;
+        identityStatus: number;
         intro: string;
-        deleteBy: number;
-        deleteTime: Date;
-        createBy: number;
-        updateBy: number;
+        remark: string;
+        emailStatus: number;
+        status: number;
+        departmentName: string;
+        roleIdList: number[];
         id: number;
         createTime: Date;
         updateTime: Date;
@@ -63,7 +58,7 @@ export declare class BaseApiUserService extends BaseService {
     /**
      * 重設密碼
      */
-    resetPassword(reset: ApiResetPasswordDTO): Promise<void>;
+    resetPassword(reset: any): Promise<void>;
     /**
      * 根據ID獲得信息
      * @param id

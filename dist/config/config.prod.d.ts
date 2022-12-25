@@ -1,8 +1,6 @@
 import { MidwayConfig } from '@midwayjs/core';
-declare const _default: MidwayConfig | {
-    cache: any;
-};
+declare const _default: MidwayConfig;
 /**
- * 產品開發 npm run start 讀取的配置文件
+ * 本地开发 npm run dev 读取的配置文件
  */
 export default _default;

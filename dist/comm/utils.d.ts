@@ -1,25 +1,25 @@
 import { Context } from '@midwayjs/koa';
 /**
- * 幫助類
+ * 帮助类
  */
 export declare class Utils {
     baseDir: any;
     /**
-     * 獲得請求IP
+     * 获得请求IP
      */
     getReqIP(ctx: Context): Promise<string | string[]>;
     /**
-     * 根據IP獲得請求地址
-     * @param ip 為空時則為當前請求的IP地址
+     * 根据IP获得请求地址
+     * @param ip 为空时则为当前请求的IP地址
      */
     getIpAddr(ctx: Context, ip?: string | string[]): Promise<any>;
     /**
-     * 去除對象的空值屬性
+     * 去除对象的空值属性
      * @param obj
      */
     removeEmptyP(obj: any): Promise<void>;
     /**
-     * 線程阻塞毫秒數
+     * 线程阻塞毫秒数
      * @param ms
      */
     sleep(ms: any): Promise<unknown>;

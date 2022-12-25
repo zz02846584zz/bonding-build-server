@@ -15,10 +15,9 @@ const core_1 = require("@cool-midway/core");
 const orm_1 = require("@midwayjs/orm");
 const typeorm_1 = require("typeorm");
 const articleCollection_1 = require("../../news/entity/articleCollection");
-const collection_1 = require("../../tip/entity/collection");
 const _ = require("lodash");
-const article_1 = require("../../news/entity/article");
-const app_1 = require("../../tip/service/app");
+const tips_1 = require("../../award/service/app/tips");
+const tips_collection_1 = require("../../award/entity/tips_collection");
 /**
  * 描述
  */
@@ -30,8 +29,6 @@ let CollectionService = class CollectionService extends core_1.BaseService {
         const { type, order = 'createTime', sort = 'desc' } = query;
         if (_.isEmpty(type))
             throw new core_1.CoolCommException('未輸入類型');
-        // const fn = {
-        //   news: async () => {
         const sql = `
       SELECT
         a.id,
@@ -45,27 +42,6 @@ let CollectionService = class CollectionService extends core_1.BaseService {
             order,
             sort,
         }));
-        //   },
-        //   tip: async () => {
-        //     const sql = `
-        //       SELECT
-        //         a.id,
-        //         b.title
-        //       FROM
-        //         tip_collection a
-        //         LEFT JOIN tip b ON a.tipId = b.id
-        //       WHERE a.userId = ${this.ctx.user.userId}
-        //     `;
-        //     return await this.renderPage(
-        //       sql,
-        //       _.assign(query, {
-        //         order,
-        //         sort,
-        //       })
-        //     );
-        //   },
-        // };
-        // return await fn[type];
     }
     async my(query) {
         const userId = this.ctx.user.userId;
@@ -95,7 +71,7 @@ let CollectionService = class CollectionService extends core_1.BaseService {
             LEFT JOIN news_article_view e ON a.id = e.articleId
             LEFT JOIN news_article_like f ON a.id = f.articleId
             LEFT JOIN news_article_collection g ON a.id = g.articleId
-        WHERE a.status = '${article_1.ArticleStatus.PUBLISHED}'
+        WHERE a.status = 9
             AND parent.userId = ${userId}
             ${this.setSql(category, 'AND d.slug = (?)', category)}
             ${this.setSql(keyWord, 'AND (a.title LIKE ?)', [`%${keyWord}%`])}
@@ -116,9 +92,9 @@ let CollectionService = class CollectionService extends core_1.BaseService {
             GROUP_CONCAT(distinct d.name) AS categories
 
         FROM
-            tip a
-            LEFT JOIN tip_collection b on a.id = b.tipId
-            LEFT JOIN tip_category c on a.id = c.tipId
+            award_tips a
+            LEFT JOIN award_tips_collection b on a.id = b.tipId
+            LEFT JOIN award_tips_category c on a.id = c.tipId
             LEFT JOIN industry_category d on d.id = c.categoryId
         WHERE b.userId = ${userId}
         GROUP BY a.id
@@ -136,12 +112,12 @@ __decorate([
     __metadata("design:type", typeorm_1.Repository)
 ], CollectionService.prototype, "newsArticleCollectionEntity", void 0);
 __decorate([
-    (0, orm_1.InjectEntityModel)(collection_1.TipCollectionEntity),
+    (0, orm_1.InjectEntityModel)(tips_collection_1.AwardTipsCollectionEntity),
     __metadata("design:type", typeorm_1.Repository)
 ], CollectionService.prototype, "tipCollectionEntity", void 0);
 __decorate([
     (0, decorator_1.Inject)(),
-    __metadata("design:type", app_1.TipAppService)
+    __metadata("design:type", tips_1.TipAppService)
 ], CollectionService.prototype, "tipAppService", void 0);
 __decorate([
     (0, decorator_1.Inject)(),
@@ -151,4 +127,4 @@ CollectionService = __decorate([
     (0, decorator_1.Provide)()
 ], CollectionService);
 exports.CollectionService = CollectionService;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL2t1cm91L3Byb2plY3QvYm9uZGluZy9wcm9qZWN0L3NlcnZlci9zcmMvIiwic291cmNlcyI6WyJtb2R1bGVzL2NvbGxlY3Rpb24vc2VydmljZS9pbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFBQSxtREFBc0Q7QUFDdEQsNENBQW1FO0FBQ25FLHVDQUFrRDtBQUNsRCxxQ0FBcUM7QUFDckMsMkVBQWtGO0FBQ2xGLDREQUFrRTtBQUNsRSw0QkFBNEI7QUFDNUIsdURBQTBEO0FBQzFELCtDQUFzRDtBQUV0RDs7R0FFRztBQUVILElBQWEsaUJBQWlCLEdBQTlCLE1BQWEsaUJBQWtCLFNBQVEsa0JBQVc7SUFhaEQ7O09BRUc7SUFDSCxLQUFLLENBQUMsSUFBSSxDQUFDLEtBQUs7UUFDZCxNQUFNLEVBQUUsSUFBSSxFQUFFLEtBQUssR0FBRyxZQUFZLEVBQUUsSUFBSSxHQUFHLE1BQU0sRUFBRSxHQUFHLEtBQUssQ0FBQztRQUM1RCxJQUFJLENBQUMsQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDO1lBQUUsTUFBTSxJQUFJLHdCQUFpQixDQUFDLE9BQU8sQ0FBQyxDQUFDO1FBRTFELGVBQWU7UUFDZix3QkFBd0I7UUFDeEIsTUFBTSxHQUFHLEdBQUc7Ozs7Ozs7eUJBT1MsSUFBSSxDQUFDLEdBQUcsQ0FBQyxJQUFJLENBQUMsTUFBTTtLQUN4QyxDQUFDO1FBQ0YsT0FBTyxNQUFNLElBQUksQ0FBQyxVQUFVLENBQzFCLEdBQUcsRUFDSCxDQUFDLENBQUMsTUFBTSxDQUFDLEtBQUssRUFBRTtZQUNkLEtBQUs7WUFDTCxJQUFJO1NBQ0wsQ0FBQyxDQUNILENBQUM7UUFDRixPQUFPO1FBQ1AsdUJBQXVCO1FBQ3ZCLG9CQUFvQjtRQUNwQixlQUFlO1FBQ2YsZ0JBQWdCO1FBQ2hCLGtCQUFrQjtRQUNsQixhQUFhO1FBQ2IsMkJBQTJCO1FBQzNCLDRDQUE0QztRQUM1QyxpREFBaUQ7UUFDakQsU0FBUztRQUNULG9DQUFvQztRQUNwQyxhQUFhO1FBQ2IsMEJBQTBCO1FBQzFCLGlCQUFpQjtRQUNqQixnQkFBZ0I7UUFDaEIsV0FBVztRQUNYLFNBQVM7UUFDVCxPQUFPO1FBQ1AsS0FBSztRQUVMLHlCQUF5QjtJQUMzQixDQUFDO0lBRUQsS0FBSyxDQUFDLEVBQUUsQ0FBQyxLQUFLO1FBQ1osTUFBTSxNQUFNLEdBQUcsSUFBSSxDQUFDLEdBQUcsQ0FBQyxJQUFJLENBQUMsTUFBTSxDQUFDO1FBQ3BDLE1BQU0sRUFDSixJQUFJLEVBQ0osT0FBTyxFQUNQLEtBQUssR0FBRyxhQUFhLEVBQ3JCLElBQUksR0FBRyxNQUFNLEVBQ2IsUUFBUSxHQUNULEdBQUcsS0FBSyxDQUFDO1FBRVYsSUFBSSxJQUFJLEtBQUssU0FBUyxFQUFFO1lBQ3RCLE1BQU0sR0FBRyxHQUFHOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7NEJBd0JVLHVCQUFhLENBQUMsU0FBUztrQ0FDakIsTUFBTTtjQUMxQixJQUFJLENBQUMsTUFBTSxDQUFDLFFBQVEsRUFBRSxrQkFBa0IsRUFBRSxRQUFRLENBQUM7Y0FDbkQsSUFBSSxDQUFDLE1BQU0sQ0FBQyxPQUFPLEVBQUUsc0JBQXNCLEVBQUUsQ0FBQyxJQUFJLE9BQU8sR0FBRyxDQUFDLENBQUM7O1NBRW5FLENBQUM7WUFFSixNQUFNLE1BQU0sR0FBRyxNQUFNLElBQUksQ0FBQyxhQUFhLENBQ3JDLEdBQUcsRUFDSCxDQUFDLENBQUMsTUFBTSxDQUFDLEtBQUssRUFBRTtnQkFDZCxLQUFLO2dCQUNMLElBQUk7YUFDTCxDQUFDLENBQ0gsQ0FBQztZQUVGLE9BQU8sTUFBTSxDQUFDO1NBQ2Y7YUFBTSxJQUFJLElBQUksS0FBSyxLQUFLLEVBQUU7WUFDekIsTUFBTSxHQUFHLEdBQUc7Ozs7Ozs7Ozs7OzsyQkFZUyxNQUFNOztPQUUxQixDQUFDO1lBRUYsTUFBTSxNQUFNLEdBQUcsTUFBTSxJQUFJLENBQUMsYUFBYSxDQUNyQyxHQUFHLEVBQ0gsQ0FBQyxDQUFDLE1BQU0sQ0FBQyxLQUFLLEVBQUU7Z0JBQ2QsS0FBSyxFQUFFLGFBQWE7Z0JBQ3BCLElBQUk7YUFDTCxDQUFDLENBQ0gsQ0FBQztZQUVGLE9BQU8sTUFBTSxDQUFDO1NBQ2Y7SUFDSCxDQUFDO0NBQ0YsQ0FBQTtBQTNJQztJQURDLElBQUEsdUJBQWlCLEVBQUMsK0NBQTJCLENBQUM7OEJBQ2xCLG9CQUFVO3NFQUE4QjtBQUdyRTtJQURDLElBQUEsdUJBQWlCLEVBQUMsZ0NBQW1CLENBQUM7OEJBQ2xCLG9CQUFVOzhEQUFzQjtBQUdyRDtJQURDLElBQUEsa0JBQU0sR0FBRTs4QkFDTSxtQkFBYTt3REFBQztBQUc3QjtJQURDLElBQUEsa0JBQU0sR0FBRTs7OENBQ0w7QUFYTyxpQkFBaUI7SUFEN0IsSUFBQSxtQkFBTyxHQUFFO0dBQ0csaUJBQWlCLENBNkk3QjtBQTdJWSw4Q0FBaUIifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL2t1cm91L3RlbXBsYXRlL2JvbmRpbmctcmVuZXcvYm9uZGluZy1zZXJ2ZXIvc3JjLyIsInNvdXJjZXMiOlsibW9kdWxlcy9jb2xsZWN0aW9uL3NlcnZpY2UvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBQUEsbURBQXNEO0FBQ3RELDRDQUFtRTtBQUNuRSx1Q0FBa0Q7QUFDbEQscUNBQXFDO0FBQ3JDLDJFQUFrRjtBQUNsRiw0QkFBNEI7QUFDNUIsdURBQTZEO0FBQzdELHdFQUErRTtBQUUvRTs7R0FFRztBQUVILElBQWEsaUJBQWlCLEdBQTlCLE1BQWEsaUJBQWtCLFNBQVEsa0JBQVc7SUFhaEQ7O09BRUc7SUFDSCxLQUFLLENBQUMsSUFBSSxDQUFDLEtBQUs7UUFDZCxNQUFNLEVBQUUsSUFBSSxFQUFFLEtBQUssR0FBRyxZQUFZLEVBQUUsSUFBSSxHQUFHLE1BQU0sRUFBRSxHQUFHLEtBQUssQ0FBQztRQUM1RCxJQUFJLENBQUMsQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDO1lBQUUsTUFBTSxJQUFJLHdCQUFpQixDQUFDLE9BQU8sQ0FBQyxDQUFDO1FBRTFELE1BQU0sR0FBRyxHQUFHOzs7Ozs7O3lCQU9TLElBQUksQ0FBQyxHQUFHLENBQUMsSUFBSSxDQUFDLE1BQU07S0FDeEMsQ0FBQztRQUNGLE9BQU8sTUFBTSxJQUFJLENBQUMsVUFBVSxDQUMxQixHQUFHLEVBQ0gsQ0FBQyxDQUFDLE1BQU0sQ0FBQyxLQUFLLEVBQUU7WUFDZCxLQUFLO1lBQ0wsSUFBSTtTQUNMLENBQUMsQ0FDSCxDQUFDO0lBQ0osQ0FBQztJQUVELEtBQUssQ0FBQyxFQUFFLENBQUMsS0FBSztRQUNaLE1BQU0sTUFBTSxHQUFHLElBQUksQ0FBQyxHQUFHLENBQUMsSUFBSSxDQUFDLE1BQU0sQ0FBQztRQUNwQyxNQUFNLEVBQ0osSUFBSSxFQUNKLE9BQU8sRUFDUCxLQUFLLEdBQUcsYUFBYSxFQUNyQixJQUFJLEdBQUcsTUFBTSxFQUNiLFFBQVEsR0FDVCxHQUFHLEtBQUssQ0FBQztRQUVWLElBQUksSUFBSSxLQUFLLFNBQVMsRUFBRTtZQUN0QixNQUFNLEdBQUcsR0FBRzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztrQ0F5QmdCLE1BQU07Y0FDMUIsSUFBSSxDQUFDLE1BQU0sQ0FBQyxRQUFRLEVBQUUsa0JBQWtCLEVBQUUsUUFBUSxDQUFDO2NBQ25ELElBQUksQ0FBQyxNQUFNLENBQUMsT0FBTyxFQUFFLHNCQUFzQixFQUFFLENBQUMsSUFBSSxPQUFPLEdBQUcsQ0FBQyxDQUFDOztTQUVuRSxDQUFDO1lBRUosTUFBTSxNQUFNLEdBQUcsTUFBTSxJQUFJLENBQUMsYUFBYSxDQUNyQyxHQUFHLEVBQ0gsQ0FBQyxDQUFDLE1BQU0sQ0FBQyxLQUFLLEVBQUU7Z0JBQ2QsS0FBSztnQkFDTCxJQUFJO2FBQ0wsQ0FBQyxDQUNILENBQUM7WUFFRixPQUFPLE1BQU0sQ0FBQztTQUNmO2FBQU0sSUFBSSxJQUFJLEtBQUssS0FBSyxFQUFFO1lBQ3pCLE1BQU0sR0FBRyxHQUFHOzs7Ozs7Ozs7Ozs7MkJBWVMsTUFBTTs7T0FFMUIsQ0FBQztZQUVGLE1BQU0sTUFBTSxHQUFHLE1BQU0sSUFBSSxDQUFDLGFBQWEsQ0FDckMsR0FBRyxFQUNILENBQUMsQ0FBQyxNQUFNLENBQUMsS0FBSyxFQUFFO2dCQUNkLEtBQUssRUFBRSxhQUFhO2dCQUNwQixJQUFJO2FBQ0wsQ0FBQyxDQUNILENBQUM7WUFFRixPQUFPLE1BQU0sQ0FBQztTQUNmO0lBQ0gsQ0FBQztDQUNGLENBQUE7QUFuSEM7SUFEQyxJQUFBLHVCQUFpQixFQUFDLCtDQUEyQixDQUFDOzhCQUNsQixvQkFBVTtzRUFBOEI7QUFHckU7SUFEQyxJQUFBLHVCQUFpQixFQUFDLDJDQUF5QixDQUFDOzhCQUN4QixvQkFBVTs4REFBNEI7QUFHM0Q7SUFEQyxJQUFBLGtCQUFNLEdBQUU7OEJBQ00sb0JBQWE7d0RBQUM7QUFHN0I7SUFEQyxJQUFBLGtCQUFNLEdBQUU7OzhDQUNMO0FBWE8saUJBQWlCO0lBRDdCLElBQUEsbUJBQU8sR0FBRTtHQUNHLGlCQUFpQixDQXFIN0I7QUFySFksOENBQWlCIn0=

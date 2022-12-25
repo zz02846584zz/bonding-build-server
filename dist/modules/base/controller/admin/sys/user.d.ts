@@ -15,7 +15,7 @@ export declare class BaseSysUserController extends BaseController {
     /**
      * 查看身份驗證
      */
-    getIdentify(userId: number): Promise<{
+    getIdentity(userId: number): Promise<{
         code: import("@cool-midway/core").RESCODE;
         message: import("@cool-midway/core").RESMESSAGE;
     }>;

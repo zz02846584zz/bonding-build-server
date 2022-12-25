@@ -11,7 +11,7 @@ import { NewsArticleCollectionEntity } from '../../entity/articleCollection';
 /**
  * 描述
  */
-export declare class NewsArticleApiService extends BaseService {
+export declare class AppNewsArticleService extends BaseService {
     newsArticleEntity: Repository<NewsArticleEntity>;
     newsArticleCategoryEntity: Repository<NewsArticleCategoryEntity>;
     newsArticleCommentEntity: Repository<NewsArticleCommentEntity>;
@@ -26,11 +26,6 @@ export declare class NewsArticleApiService extends BaseService {
      * @param article
      */
     add(article: any): Promise<any>;
-    /**
-     * 刪除
-     * @param id
-     */
-    delete({ id }: any): Promise<any>;
     /**
      * 取得內容
      * @param query

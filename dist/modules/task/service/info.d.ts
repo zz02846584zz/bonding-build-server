@@ -22,6 +22,11 @@ export declare class TaskInfoService extends BaseService {
      */
     stop(id: any): Promise<void>;
     /**
+     * 移除任务
+     * @param taskId
+     */
+    remove(taskId: any): Promise<void>;
+    /**
      * 开始任务
      * @param id
      * @param type

@@ -2,14 +2,14 @@ import { BaseController, CoolEps } from '@cool-midway/core';
 import { BaseApiUserService } from '../../service/app/user';
 import { BaseSysParamService } from '../../service/sys/param';
 import { Context } from '@midwayjs/koa';
-import { NewsArticleApiService } from '../../../news/service/app/article';
+import { AppNewsArticleService } from '../../../news/service/app/article';
 import { CollectionService } from '../../../collection/service';
-import { TipAppService } from '../../../tip/service/app';
+import { TipAppService } from '../../../award/service/app/tips';
 /**
  * 不需要登錄的後台接口
  */
 export declare class BaseAppUserController extends BaseController {
-    newsArticleApiService: NewsArticleApiService;
+    newsArticleApiService: AppNewsArticleService;
     collectionService: CollectionService;
     baseApiUserService: BaseApiUserService;
     baseSysParamService: BaseSysParamService;

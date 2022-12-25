@@ -1,11 +1,11 @@
 import { BaseController } from '@cool-midway/core';
-import { IndustryAppCategoryService } from '../../service/app/category';
+import { AppIndustryCategoryService } from '../../service/app/category';
 /**
  * 描述
  */
-export declare class IndustryCategoryController extends BaseController {
-    industryAppCategoryService: IndustryAppCategoryService;
-    getInfo(query: any): Promise<{
+export declare class AdminIndustryCategoryController extends BaseController {
+    appIndustryCategoryService: AppIndustryCategoryService;
+    information(query: any): Promise<{
         code: import("@cool-midway/core").RESCODE;
         message: import("@cool-midway/core").RESMESSAGE;
     }>;

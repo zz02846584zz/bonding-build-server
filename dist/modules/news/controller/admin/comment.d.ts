@@ -2,5 +2,5 @@ import { BaseController } from '@cool-midway/core';
 /**
  * 描述
  */
-export declare class NewsCommentAdminController extends BaseController {
+export declare class AdminNewsCommentController extends BaseController {
 }

@@ -1,6 +1,6 @@
 import { BaseEntity } from '@cool-midway/core';
 /**
- * 任務信息
+ * 任务信息
  */
 export declare class TaskInfoEntity extends BaseEntity {
     jobId: string;

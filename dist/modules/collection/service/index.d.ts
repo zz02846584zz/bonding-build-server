@@ -1,14 +1,14 @@
 import { BaseService } from '@cool-midway/core';
 import { Repository } from 'typeorm';
 import { NewsArticleCollectionEntity } from '../../news/entity/articleCollection';
-import { TipCollectionEntity } from '../../tip/entity/collection';
-import { TipAppService } from '../../tip/service/app';
+import { TipAppService } from '../../award/service/app/tips';
+import { AwardTipsCollectionEntity } from '../../award/entity/tips_collection';
 /**
  * 描述
  */
 export declare class CollectionService extends BaseService {
     newsArticleCollectionEntity: Repository<NewsArticleCollectionEntity>;
-    tipCollectionEntity: Repository<TipCollectionEntity>;
+    tipCollectionEntity: Repository<AwardTipsCollectionEntity>;
     tipAppService: TipAppService;
     ctx: any;
     /**

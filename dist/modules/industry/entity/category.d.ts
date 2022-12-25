@@ -9,4 +9,6 @@ export declare class IndustryCategoryEntity extends BaseEntity {
     parentId: number;
     icon: string;
     orderNum: number;
+    tipCount: number;
+    articleCount: number;
 }

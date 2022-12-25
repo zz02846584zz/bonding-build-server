@@ -2,13 +2,14 @@ import { BaseController, CoolEps } from '@cool-midway/core';
 import { BaseApiUserService } from '../../service/app/user';
 import { BaseSysParamService } from '../../service/sys/param';
 import { Context } from '@midwayjs/koa';
-import { ApiResetPasswordDTO } from '../../dto/app/auth';
+import { UserIdentityService } from '../../service/app/identity';
 /**
  * 不需要登錄的後台接口
  */
 export declare class BaseAppUserController extends BaseController {
     baseApiUserService: BaseApiUserService;
     baseSysParamService: BaseSysParamService;
+    userIdentityService: UserIdentityService;
     ctx: Context;
     eps: CoolEps;
     /**
@@ -28,7 +29,7 @@ export declare class BaseAppUserController extends BaseController {
     /**
      * 重設密碼
      */
-    resetPassword(params: ApiResetPasswordDTO): Promise<{
+    resetPassword(params: any): Promise<{
         code: import("@cool-midway/core").RESCODE;
         message: import("@cool-midway/core").RESMESSAGE;
     }>;
@@ -50,6 +51,17 @@ export declare class BaseAppUserController extends BaseController {
      * 退出
      */
     logout(): Promise<{
+        code: import("@cool-midway/core").RESCODE;
+        message: import("@cool-midway/core").RESMESSAGE;
+    }>;
+    identityCert(param: any): Promise<{
+        code: import("@cool-midway/core").RESCODE;
+        message: import("@cool-midway/core").RESMESSAGE;
+    }>;
+    /**
+     * 身份驗證
+     */
+    identityVerify(params: any): Promise<{
         code: import("@cool-midway/core").RESCODE;
         message: import("@cool-midway/core").RESMESSAGE;
     }>;

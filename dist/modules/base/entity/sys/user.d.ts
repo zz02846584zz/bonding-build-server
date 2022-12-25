@@ -1,47 +1,26 @@
-import { BaseDeleteEntity } from '../../../../base/entity/baseDelete';
-export declare enum UserStatus {
-    NORMAL = "normal",
-    SUSPEND = "suspend",
-    DELETE = "delete"
-}
-export declare enum IdentifyVerify {
-    UNVERIFIED = "unverified",
-    PENDING = "pending",
-    REJECT = "rejected",
-    VERIFY = "verify"
-}
-export declare enum UserGender {
-    MALE = "male",
-    FEMALE = "female",
-    INTERSEX = "intersex"
-}
-export declare enum EmailVerify {
-    UNVERIFIED = "unverified",
-    VERIFY = "verify",
-    PENDING = "pending"
-}
+import { BaseEntity } from '@cool-midway/core';
 /**
  * 系統用戶
  */
-export declare class BaseSysUserEntity extends BaseDeleteEntity {
+export declare class BaseSysUserEntity extends BaseEntity {
     departmentId: number;
+    socketId: string;
     username: string;
-    email: string;
-    emailVerify: EmailVerify;
-    phone: string;
     password: string;
     passwordV: number;
-    status: UserStatus;
-    identifyVerify: IdentifyVerify;
-    departmentName: string;
-    roleIdList: number[];
-    socketId: string;
+    avatar: string;
     firstName: string;
     lastName: string;
-    idCard: string;
+    gender: number;
     birthday: string;
-    headImg: string;
-    gender: UserGender;
-    remark: string;
+    phone: string;
+    email: string;
+    idCard: string;
+    identityStatus: number;
     intro: string;
+    remark: string;
+    emailStatus: number;
+    status: number;
+    departmentName: string;
+    roleIdList: number[];
 }

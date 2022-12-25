@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NewsCommentAdminController = void 0;
+exports.AdminNewsCommentController = void 0;
 const decorator_1 = require("@midwayjs/decorator");
 const core_1 = require("@cool-midway/core");
 const comment_1 = require("../../entity/comment");
@@ -14,15 +14,15 @@ const comment_2 = require("../../service/admin/comment");
 /**
  * 描述
  */
-let NewsCommentAdminController = class NewsCommentAdminController extends core_1.BaseController {
+let AdminNewsCommentController = class AdminNewsCommentController extends core_1.BaseController {
 };
-NewsCommentAdminController = __decorate([
+AdminNewsCommentController = __decorate([
     (0, decorator_1.Provide)(),
     (0, core_1.CoolController)({
         api: ['add', 'delete', 'update', 'info', 'list', 'page'],
         entity: comment_1.NewsArticleCommentEntity,
-        service: comment_2.NewsCommentAdminService,
+        service: comment_2.NewsArticleCommentAdminService,
     })
-], NewsCommentAdminController);
-exports.NewsCommentAdminController = NewsCommentAdminController;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29tbWVudC5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMva3Vyb3UvcHJvamVjdC9ib25kaW5nL3Byb2plY3Qvc2VydmVyL3NyYy8iLCJzb3VyY2VzIjpbIm1vZHVsZXMvbmV3cy9jb250cm9sbGVyL2FkbWluL2NvbW1lbnQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0FBQUEsbURBQThDO0FBQzlDLDRDQUFtRTtBQUNuRSxrREFBZ0U7QUFDaEUseURBQXNFO0FBRXRFOztHQUVHO0FBT0gsSUFBYSwwQkFBMEIsR0FBdkMsTUFBYSwwQkFBMkIsU0FBUSxxQkFBYztDQUFHLENBQUE7QUFBcEQsMEJBQTBCO0lBTnRDLElBQUEsbUJBQU8sR0FBRTtJQUNULElBQUEscUJBQWMsRUFBQztRQUNkLEdBQUcsRUFBRSxDQUFDLEtBQUssRUFBRSxRQUFRLEVBQUUsUUFBUSxFQUFFLE1BQU0sRUFBRSxNQUFNLEVBQUUsTUFBTSxDQUFDO1FBQ3hELE1BQU0sRUFBRSxrQ0FBd0I7UUFDaEMsT0FBTyxFQUFFLGlDQUF1QjtLQUNqQyxDQUFDO0dBQ1csMEJBQTBCLENBQTBCO0FBQXBELGdFQUEwQiJ9
+], AdminNewsCommentController);
+exports.AdminNewsCommentController = AdminNewsCommentController;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29tbWVudC5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMva3Vyb3UvdGVtcGxhdGUvYm9uZGluZy1yZW5ldy9ib25kaW5nLXNlcnZlci9zcmMvIiwic291cmNlcyI6WyJtb2R1bGVzL25ld3MvY29udHJvbGxlci9hZG1pbi9jb21tZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUFBLG1EQUE4QztBQUM5Qyw0Q0FBbUU7QUFDbkUsa0RBQWdFO0FBQ2hFLHlEQUE2RTtBQUU3RTs7R0FFRztBQU9ILElBQWEsMEJBQTBCLEdBQXZDLE1BQWEsMEJBQTJCLFNBQVEscUJBQWM7Q0FBSSxDQUFBO0FBQXJELDBCQUEwQjtJQU50QyxJQUFBLG1CQUFPLEdBQUU7SUFDVCxJQUFBLHFCQUFjLEVBQUM7UUFDZCxHQUFHLEVBQUUsQ0FBQyxLQUFLLEVBQUUsUUFBUSxFQUFFLFFBQVEsRUFBRSxNQUFNLEVBQUUsTUFBTSxFQUFFLE1BQU0sQ0FBQztRQUN4RCxNQUFNLEVBQUUsa0NBQXdCO1FBQ2hDLE9BQU8sRUFBRSx3Q0FBOEI7S0FDeEMsQ0FBQztHQUNXLDBCQUEwQixDQUEyQjtBQUFyRCxnRUFBMEIifQ==

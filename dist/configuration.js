@@ -20,9 +20,9 @@ const view = require("@midwayjs/view-ejs");
 const orm = require("@midwayjs/orm");
 const cool = require("@cool-midway/core");
 const file = require("@cool-midway/file");
-// import * as localTask from '@midwayjs/task';
+const localTask = require("@midwayjs/task");
 // import * as socketio from '@midwayjs/socketio';
-const task = require("@cool-midway/task");
+// import * as task from '@cool-midway/task';
 // import * as pay from '@cool-midway/pay';
 // import * as es from '@cool-midway/es';
 // import * as rpc from '@cool-midway/rpc';
@@ -41,7 +41,7 @@ ContainerLifeCycle = __decorate([
             // 参数验证 http://midwayjs.org/docs/extensions/validate
             validate,
             // 本地任务 http://midwayjs.org/docs/extensions/task
-            // localTask,
+            localTask,
             // 模板渲染 http://midwayjs.org/docs/extensions/render
             view,
             // 静态文件托管 http://midwayjs.org/docs/extensions/static_file
@@ -55,7 +55,7 @@ ContainerLifeCycle = __decorate([
             // 文件上传 阿里云存储 腾讯云存储 七牛云存储
             file,
             // 任务与队列
-            task,
+            // task,
             // 支付 微信与支付宝
             // pay,
             // elasticsearch
@@ -71,4 +71,4 @@ ContainerLifeCycle = __decorate([
     })
 ], ContainerLifeCycle);
 exports.ContainerLifeCycle = ContainerLifeCycle;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29uZmlndXJhdGlvbi5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMva3Vyb3UvcHJvamVjdC9ib25kaW5nL3Byb2plY3Qvc2VydmVyL3NyYy8iLCJzb3VyY2VzIjpbImNvbmZpZ3VyYXRpb24udHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBQUEsbURBQXlEO0FBQ3pELHFDQUFxQztBQUNyQywrQ0FBK0M7QUFDL0MsdUNBQXVDO0FBQ3ZDLCtCQUE0QjtBQUM1QixvREFBb0Q7QUFDcEQsMkNBQTJDO0FBQzNDLHFDQUFxQztBQUNyQywwQ0FBMEM7QUFDMUMsMENBQTBDO0FBQzFDLCtDQUErQztBQUMvQyxrREFBa0Q7QUFDbEQsMENBQTBDO0FBQzFDLDJDQUEyQztBQUMzQyx5Q0FBeUM7QUFDekMsMkNBQTJDO0FBcUMzQyxJQUFhLGtCQUFrQixHQUEvQixNQUFhLGtCQUFrQjtJQUk3QixLQUFLLENBQUMsT0FBTyxLQUFJLENBQUM7Q0FDbkIsQ0FBQTtBQUhDO0lBREMsSUFBQSxlQUFHLEdBQUU7OytDQUNlO0FBRlYsa0JBQWtCO0lBbkM5QixJQUFBLHlCQUFhLEVBQUM7UUFDYixPQUFPLEVBQUU7WUFDUCxtQkFBbUI7WUFDbkIsR0FBRztZQUNILG9EQUFvRDtZQUNwRCxRQUFRO1lBQ1IsZ0RBQWdEO1lBQ2hELGFBQWE7WUFDYixrREFBa0Q7WUFDbEQsSUFBSTtZQUNKLHlEQUF5RDtZQUN6RCxVQUFVO1lBQ1Ysa0VBQWtFO1lBQ2xFLEdBQUc7WUFDSCw0REFBNEQ7WUFDNUQsWUFBWTtZQUNaLDBDQUEwQztZQUMxQyxJQUFJO1lBQ0oseUJBQXlCO1lBQ3pCLElBQUk7WUFDSixRQUFRO1lBQ1IsSUFBSTtZQUNKLFlBQVk7WUFDWixPQUFPO1lBQ1AsZ0JBQWdCO1lBQ2hCLE1BQU07WUFDTixlQUFlO1lBQ2YsT0FBTztZQUNQO2dCQUNFLFNBQVMsRUFBRSxJQUFJO2dCQUNmLGtCQUFrQixFQUFFLENBQUMsT0FBTyxDQUFDO2FBQzlCO1NBQ0Y7UUFDRCxhQUFhLEVBQUUsQ0FBQyxJQUFBLFdBQUksRUFBQyxTQUFTLEVBQUUsVUFBVSxDQUFDLENBQUM7S0FDN0MsQ0FBQztHQUNXLGtCQUFrQixDQUs5QjtBQUxZLGdEQUFrQiJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29uZmlndXJhdGlvbi5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMva3Vyb3UvdGVtcGxhdGUvYm9uZGluZy1yZW5ldy9ib25kaW5nLXNlcnZlci9zcmMvIiwic291cmNlcyI6WyJjb25maWd1cmF0aW9uLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLG1EQUF5RDtBQUN6RCxxQ0FBcUM7QUFDckMsK0NBQStDO0FBQy9DLHVDQUF1QztBQUN2QywrQkFBNEI7QUFDNUIsb0RBQW9EO0FBQ3BELDJDQUEyQztBQUMzQyxxQ0FBcUM7QUFDckMsMENBQTBDO0FBQzFDLDBDQUEwQztBQUMxQyw0Q0FBNEM7QUFDNUMsa0RBQWtEO0FBQ2xELDZDQUE2QztBQUM3QywyQ0FBMkM7QUFDM0MseUNBQXlDO0FBQ3pDLDJDQUEyQztBQXFDM0MsSUFBYSxrQkFBa0IsR0FBL0IsTUFBYSxrQkFBa0I7SUFJN0IsS0FBSyxDQUFDLE9BQU8sS0FBSSxDQUFDO0NBQ25CLENBQUE7QUFIQztJQURDLElBQUEsZUFBRyxHQUFFOzsrQ0FDZTtBQUZWLGtCQUFrQjtJQW5DOUIsSUFBQSx5QkFBYSxFQUFDO1FBQ2IsT0FBTyxFQUFFO1lBQ1AsbUJBQW1CO1lBQ25CLEdBQUc7WUFDSCxvREFBb0Q7WUFDcEQsUUFBUTtZQUNSLGdEQUFnRDtZQUNoRCxTQUFTO1lBQ1Qsa0RBQWtEO1lBQ2xELElBQUk7WUFDSix5REFBeUQ7WUFDekQsVUFBVTtZQUNWLGtFQUFrRTtZQUNsRSxHQUFHO1lBQ0gsNERBQTREO1lBQzVELFlBQVk7WUFDWiwwQ0FBMEM7WUFDMUMsSUFBSTtZQUNKLHlCQUF5QjtZQUN6QixJQUFJO1lBQ0osUUFBUTtZQUNSLFFBQVE7WUFDUixZQUFZO1lBQ1osT0FBTztZQUNQLGdCQUFnQjtZQUNoQixNQUFNO1lBQ04sZUFBZTtZQUNmLE9BQU87WUFDUDtnQkFDRSxTQUFTLEVBQUUsSUFBSTtnQkFDZixrQkFBa0IsRUFBRSxDQUFDLE9BQU8sQ0FBQzthQUM5QjtTQUNGO1FBQ0QsYUFBYSxFQUFFLENBQUMsSUFBQSxXQUFJLEVBQUMsU0FBUyxFQUFFLFVBQVUsQ0FBQyxDQUFDO0tBQzdDLENBQUM7R0FDVyxrQkFBa0IsQ0FLOUI7QUFMWSxnREFBa0IifQ==

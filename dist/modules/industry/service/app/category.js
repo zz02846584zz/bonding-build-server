@@ -9,34 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IndustryAppCategoryService = void 0;
+exports.AppIndustryCategoryService = void 0;
 const decorator_1 = require("@midwayjs/decorator");
 const core_1 = require("@cool-midway/core");
 const orm_1 = require("@midwayjs/orm");
 const typeorm_1 = require("typeorm");
 const category_1 = require("../../entity/category");
-const _ = require("lodash");
+const category_2 = require("../admin/category");
 /**
  * 描述
  */
-let IndustryAppCategoryService = class IndustryAppCategoryService extends core_1.BaseService {
-    /**
-     * 描述
-     */
+let AppIndustryCategoryService = class AppIndustryCategoryService extends core_1.BaseService {
+    async list() {
+        return await this.adminIndustryCategoryService.list();
+    }
     async info(query) {
         const { slug } = query;
-        const info = await this.industryCategoryEntity.findOne({ slug });
-        if (_.isEmpty(info))
-            throw new core_1.CoolCommException('找不到該分類');
-        return info;
+        return await this.industryCategoryEntity.findOne({ slug });
     }
 };
 __decorate([
     (0, orm_1.InjectEntityModel)(category_1.IndustryCategoryEntity),
     __metadata("design:type", typeorm_1.Repository)
-], IndustryAppCategoryService.prototype, "industryCategoryEntity", void 0);
-IndustryAppCategoryService = __decorate([
+], AppIndustryCategoryService.prototype, "industryCategoryEntity", void 0);
+__decorate([
+    (0, decorator_1.Inject)(),
+    __metadata("design:type", category_2.AdminIndustryCategoryService)
+], AppIndustryCategoryService.prototype, "adminIndustryCategoryService", void 0);
+AppIndustryCategoryService = __decorate([
     (0, decorator_1.Provide)()
-], IndustryAppCategoryService);
-exports.IndustryAppCategoryService = IndustryAppCategoryService;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2F0ZWdvcnkuanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL2t1cm91L3Byb2plY3QvYm9uZGluZy9wcm9qZWN0L3NlcnZlci9zcmMvIiwic291cmNlcyI6WyJtb2R1bGVzL2luZHVzdHJ5L3NlcnZpY2UvYXBwL2NhdGVnb3J5LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLG1EQUE4QztBQUM5Qyw0Q0FBbUU7QUFDbkUsdUNBQWtEO0FBQ2xELHFDQUFxQztBQUNyQyxvREFBK0Q7QUFDL0QsNEJBQTRCO0FBRTVCOztHQUVHO0FBRUgsSUFBYSwwQkFBMEIsR0FBdkMsTUFBYSwwQkFBMkIsU0FBUSxrQkFBVztJQUl6RDs7T0FFRztJQUNILEtBQUssQ0FBQyxJQUFJLENBQUMsS0FBSztRQUNkLE1BQU0sRUFBRSxJQUFJLEVBQUUsR0FBRyxLQUFLLENBQUM7UUFDdkIsTUFBTSxJQUFJLEdBQUcsTUFBTSxJQUFJLENBQUMsc0JBQXNCLENBQUMsT0FBTyxDQUFDLEVBQUUsSUFBSSxFQUFFLENBQUMsQ0FBQztRQUNqRSxJQUFJLENBQUMsQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDO1lBQUUsTUFBTSxJQUFJLHdCQUFpQixDQUFDLFFBQVEsQ0FBQyxDQUFDO1FBQzNELE9BQU8sSUFBSSxDQUFDO0lBQ2QsQ0FBQztDQUNGLENBQUE7QUFYQztJQURDLElBQUEsdUJBQWlCLEVBQUMsaUNBQXNCLENBQUM7OEJBQ2xCLG9CQUFVOzBFQUF5QjtBQUZoRCwwQkFBMEI7SUFEdEMsSUFBQSxtQkFBTyxHQUFFO0dBQ0csMEJBQTBCLENBYXRDO0FBYlksZ0VBQTBCIn0=
+], AppIndustryCategoryService);
+exports.AppIndustryCategoryService = AppIndustryCategoryService;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2F0ZWdvcnkuanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL2t1cm91L3RlbXBsYXRlL2JvbmRpbmctcmVuZXcvYm9uZGluZy1zZXJ2ZXIvc3JjLyIsInNvdXJjZXMiOlsibW9kdWxlcy9pbmR1c3RyeS9zZXJ2aWNlL2FwcC9jYXRlZ29yeS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFBQSxtREFBc0Q7QUFDdEQsNENBQWdEO0FBQ2hELHVDQUFrRDtBQUNsRCxxQ0FBcUM7QUFDckMsb0RBQStEO0FBQy9ELGdEQUFpRTtBQUVqRTs7R0FFRztBQUVILElBQWEsMEJBQTBCLEdBQXZDLE1BQWEsMEJBQTJCLFNBQVEsa0JBQVc7SUFPekQsS0FBSyxDQUFDLElBQUk7UUFDUixPQUFPLE1BQU0sSUFBSSxDQUFDLDRCQUE0QixDQUFDLElBQUksRUFBRSxDQUFDO0lBQ3hELENBQUM7SUFFRCxLQUFLLENBQUMsSUFBSSxDQUFDLEtBQUs7UUFDZCxNQUFNLEVBQUUsSUFBSSxFQUFFLEdBQUcsS0FBSyxDQUFDO1FBQ3ZCLE9BQU8sTUFBTSxJQUFJLENBQUMsc0JBQXNCLENBQUMsT0FBTyxDQUFDLEVBQUUsSUFBSSxFQUFFLENBQUMsQ0FBQztJQUM3RCxDQUFDO0NBQ0YsQ0FBQTtBQWJDO0lBREMsSUFBQSx1QkFBaUIsRUFBQyxpQ0FBc0IsQ0FBQzs4QkFDbEIsb0JBQVU7MEVBQXlCO0FBRzNEO0lBREMsSUFBQSxrQkFBTSxHQUFFOzhCQUNxQix1Q0FBNEI7Z0ZBQUM7QUFMaEQsMEJBQTBCO0lBRHRDLElBQUEsbUJBQU8sR0FBRTtHQUNHLDBCQUEwQixDQWV0QztBQWZZLGdFQUEwQiJ9

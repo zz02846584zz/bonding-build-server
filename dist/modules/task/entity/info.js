@@ -14,20 +14,20 @@ const orm_1 = require("@midwayjs/orm");
 const core_1 = require("@cool-midway/core");
 const typeorm_1 = require("typeorm");
 /**
- * 任務信息
+ * 任务信息
  */
 let TaskInfoEntity = class TaskInfoEntity extends core_1.BaseEntity {
 };
 __decorate([
-    (0, typeorm_1.Column)({ comment: '任務ID', nullable: true }),
+    (0, typeorm_1.Column)({ comment: '任务ID', nullable: true }),
     __metadata("design:type", String)
 ], TaskInfoEntity.prototype, "jobId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '任務配置', nullable: true, length: 1000 }),
+    (0, typeorm_1.Column)({ comment: '任务配置', nullable: true, length: 1000 }),
     __metadata("design:type", String)
 ], TaskInfoEntity.prototype, "repeatConf", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '名稱' }),
+    (0, typeorm_1.Column)({ comment: '名称' }),
     __metadata("design:type", String)
 ], TaskInfoEntity.prototype, "name", void 0);
 __decorate([
@@ -35,54 +35,54 @@ __decorate([
     __metadata("design:type", String)
 ], TaskInfoEntity.prototype, "cron", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '最大執行次數 不傳為無限次', nullable: true }),
+    (0, typeorm_1.Column)({ comment: '最大执行次数 不传为无限次', nullable: true }),
     __metadata("design:type", Number)
 ], TaskInfoEntity.prototype, "limit", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        comment: '每間隔多少毫秒執行一次 如果cron設置了 這項設置就無效',
+        comment: '每间隔多少毫秒执行一次 如果cron设置了 这项设置就无效',
         nullable: true,
     }),
     __metadata("design:type", Number)
 ], TaskInfoEntity.prototype, "every", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '備註', nullable: true }),
+    (0, typeorm_1.Column)({ comment: '备注', nullable: true }),
     __metadata("design:type", String)
 ], TaskInfoEntity.prototype, "remark", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '狀態 0:停止 1：運行', default: 1, type: 'tinyint' }),
+    (0, typeorm_1.Column)({ comment: '状态 0:停止 1：运行', default: 1, type: 'tinyint' }),
     __metadata("design:type", Number)
 ], TaskInfoEntity.prototype, "status", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '開始時間', nullable: true }),
+    (0, typeorm_1.Column)({ comment: '开始时间', nullable: true }),
     __metadata("design:type", Date)
 ], TaskInfoEntity.prototype, "startDate", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '結束時間', nullable: true }),
+    (0, typeorm_1.Column)({ comment: '结束时间', nullable: true }),
     __metadata("design:type", Date)
 ], TaskInfoEntity.prototype, "endDate", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '數據', nullable: true }),
+    (0, typeorm_1.Column)({ comment: '数据', nullable: true }),
     __metadata("design:type", String)
 ], TaskInfoEntity.prototype, "data", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '執行的service實例ID', nullable: true }),
+    (0, typeorm_1.Column)({ comment: '执行的service实例ID', nullable: true }),
     __metadata("design:type", String)
 ], TaskInfoEntity.prototype, "service", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '狀態 0:系統 1：用戶', default: 0, type: 'tinyint' }),
+    (0, typeorm_1.Column)({ comment: '状态 0:系统 1：用户', default: 0, type: 'tinyint' }),
     __metadata("design:type", Number)
 ], TaskInfoEntity.prototype, "type", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '下一次執行時間', nullable: true }),
+    (0, typeorm_1.Column)({ comment: '下一次执行时间', nullable: true }),
     __metadata("design:type", Date)
 ], TaskInfoEntity.prototype, "nextRunTime", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '狀態 0:cron 1：時間間隔', default: 0, type: 'tinyint' }),
+    (0, typeorm_1.Column)({ comment: '状态 0:cron 1：时间间隔', default: 0, type: 'tinyint' }),
     __metadata("design:type", Number)
 ], TaskInfoEntity.prototype, "taskType", void 0);
 TaskInfoEntity = __decorate([
     (0, orm_1.EntityModel)('task_info')
 ], TaskInfoEntity);
 exports.TaskInfoEntity = TaskInfoEntity;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5mby5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMva3Vyb3UvcHJvamVjdC9ib25kaW5nL3Byb2plY3Qvc2VydmVyL3NyYy8iLCJzb3VyY2VzIjpbIm1vZHVsZXMvdGFzay9lbnRpdHkvaW5mby50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFBQSx1Q0FBNEM7QUFDNUMsNENBQStDO0FBQy9DLHFDQUFpQztBQUVqQzs7R0FFRztBQUVILElBQWEsY0FBYyxHQUEzQixNQUFhLGNBQWUsU0FBUSxpQkFBVTtDQWdEN0MsQ0FBQTtBQTlDQztJQURDLElBQUEsZ0JBQU0sRUFBQyxFQUFFLE9BQU8sRUFBRSxNQUFNLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzs2Q0FDOUI7QUFHZDtJQURDLElBQUEsZ0JBQU0sRUFBQyxFQUFFLE9BQU8sRUFBRSxNQUFNLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxNQUFNLEVBQUUsSUFBSSxFQUFFLENBQUM7O2tEQUN2QztBQUduQjtJQURDLElBQUEsZ0JBQU0sRUFBQyxFQUFFLE9BQU8sRUFBRSxJQUFJLEVBQUUsQ0FBQzs7NENBQ2I7QUFHYjtJQURDLElBQUEsZ0JBQU0sRUFBQyxFQUFFLE9BQU8sRUFBRSxNQUFNLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzs0Q0FDL0I7QUFHYjtJQURDLElBQUEsZ0JBQU0sRUFBQyxFQUFFLE9BQU8sRUFBRSxlQUFlLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzs2Q0FDdkM7QUFNZDtJQUpDLElBQUEsZ0JBQU0sRUFBQztRQUNOLE9BQU8sRUFBRSwrQkFBK0I7UUFDeEMsUUFBUSxFQUFFLElBQUk7S0FDZixDQUFDOzs2Q0FDWTtBQUdkO0lBREMsSUFBQSxnQkFBTSxFQUFDLEVBQUUsT0FBTyxFQUFFLElBQUksRUFBRSxRQUFRLEVBQUUsSUFBSSxFQUFFLENBQUM7OzhDQUMzQjtBQUdmO0lBREMsSUFBQSxnQkFBTSxFQUFDLEVBQUUsT0FBTyxFQUFFLGNBQWMsRUFBRSxPQUFPLEVBQUUsQ0FBQyxFQUFFLElBQUksRUFBRSxTQUFTLEVBQUUsQ0FBQzs7OENBQ2xEO0FBR2Y7SUFEQyxJQUFBLGdCQUFNLEVBQUMsRUFBRSxPQUFPLEVBQUUsTUFBTSxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQzs4QkFDakMsSUFBSTtpREFBQztBQUdoQjtJQURDLElBQUEsZ0JBQU0sRUFBQyxFQUFFLE9BQU8sRUFBRSxNQUFNLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzhCQUNuQyxJQUFJOytDQUFDO0FBR2Q7SUFEQyxJQUFBLGdCQUFNLEVBQUMsRUFBRSxPQUFPLEVBQUUsSUFBSSxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQzs7NENBQzdCO0FBR2I7SUFEQyxJQUFBLGdCQUFNLEVBQUMsRUFBRSxPQUFPLEVBQUUsZ0JBQWdCLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzsrQ0FDdEM7QUFHaEI7SUFEQyxJQUFBLGdCQUFNLEVBQUMsRUFBRSxPQUFPLEVBQUUsY0FBYyxFQUFFLE9BQU8sRUFBRSxDQUFDLEVBQUUsSUFBSSxFQUFFLFNBQVMsRUFBRSxDQUFDOzs0Q0FDcEQ7QUFHYjtJQURDLElBQUEsZ0JBQU0sRUFBQyxFQUFFLE9BQU8sRUFBRSxTQUFTLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzhCQUNsQyxJQUFJO21EQUFDO0FBR2xCO0lBREMsSUFBQSxnQkFBTSxFQUFDLEVBQUUsT0FBTyxFQUFFLGtCQUFrQixFQUFFLE9BQU8sRUFBRSxDQUFDLEVBQUUsSUFBSSxFQUFFLFNBQVMsRUFBRSxDQUFDOztnREFDcEQ7QUEvQ04sY0FBYztJQUQxQixJQUFBLGlCQUFXLEVBQUMsV0FBVyxDQUFDO0dBQ1osY0FBYyxDQWdEMUI7QUFoRFksd0NBQWMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5mby5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMva3Vyb3UvdGVtcGxhdGUvYm9uZGluZy1yZW5ldy9ib25kaW5nLXNlcnZlci9zcmMvIiwic291cmNlcyI6WyJtb2R1bGVzL3Rhc2svZW50aXR5L2luZm8udHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBQUEsdUNBQTRDO0FBQzVDLDRDQUErQztBQUMvQyxxQ0FBaUM7QUFFakM7O0dBRUc7QUFFSCxJQUFhLGNBQWMsR0FBM0IsTUFBYSxjQUFlLFNBQVEsaUJBQVU7Q0FnRDdDLENBQUE7QUE5Q0M7SUFEQyxJQUFBLGdCQUFNLEVBQUMsRUFBRSxPQUFPLEVBQUUsTUFBTSxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQzs7NkNBQzlCO0FBR2Q7SUFEQyxJQUFBLGdCQUFNLEVBQUMsRUFBRSxPQUFPLEVBQUUsTUFBTSxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsTUFBTSxFQUFFLElBQUksRUFBRSxDQUFDOztrREFDdkM7QUFHbkI7SUFEQyxJQUFBLGdCQUFNLEVBQUMsRUFBRSxPQUFPLEVBQUUsSUFBSSxFQUFFLENBQUM7OzRDQUNiO0FBR2I7SUFEQyxJQUFBLGdCQUFNLEVBQUMsRUFBRSxPQUFPLEVBQUUsTUFBTSxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQzs7NENBQy9CO0FBR2I7SUFEQyxJQUFBLGdCQUFNLEVBQUMsRUFBRSxPQUFPLEVBQUUsZUFBZSxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQzs7NkNBQ3ZDO0FBTWQ7SUFKQyxJQUFBLGdCQUFNLEVBQUM7UUFDTixPQUFPLEVBQUUsK0JBQStCO1FBQ3hDLFFBQVEsRUFBRSxJQUFJO0tBQ2YsQ0FBQzs7NkNBQ1k7QUFHZDtJQURDLElBQUEsZ0JBQU0sRUFBQyxFQUFFLE9BQU8sRUFBRSxJQUFJLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzs4Q0FDM0I7QUFHZjtJQURDLElBQUEsZ0JBQU0sRUFBQyxFQUFFLE9BQU8sRUFBRSxjQUFjLEVBQUUsT0FBTyxFQUFFLENBQUMsRUFBRSxJQUFJLEVBQUUsU0FBUyxFQUFFLENBQUM7OzhDQUNsRDtBQUdmO0lBREMsSUFBQSxnQkFBTSxFQUFDLEVBQUUsT0FBTyxFQUFFLE1BQU0sRUFBRSxRQUFRLEVBQUUsSUFBSSxFQUFFLENBQUM7OEJBQ2pDLElBQUk7aURBQUM7QUFHaEI7SUFEQyxJQUFBLGdCQUFNLEVBQUMsRUFBRSxPQUFPLEVBQUUsTUFBTSxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQzs4QkFDbkMsSUFBSTsrQ0FBQztBQUdkO0lBREMsSUFBQSxnQkFBTSxFQUFDLEVBQUUsT0FBTyxFQUFFLElBQUksRUFBRSxRQUFRLEVBQUUsSUFBSSxFQUFFLENBQUM7OzRDQUM3QjtBQUdiO0lBREMsSUFBQSxnQkFBTSxFQUFDLEVBQUUsT0FBTyxFQUFFLGdCQUFnQixFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQzs7K0NBQ3RDO0FBR2hCO0lBREMsSUFBQSxnQkFBTSxFQUFDLEVBQUUsT0FBTyxFQUFFLGNBQWMsRUFBRSxPQUFPLEVBQUUsQ0FBQyxFQUFFLElBQUksRUFBRSxTQUFTLEVBQUUsQ0FBQzs7NENBQ3BEO0FBR2I7SUFEQyxJQUFBLGdCQUFNLEVBQUMsRUFBRSxPQUFPLEVBQUUsU0FBUyxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQzs4QkFDbEMsSUFBSTttREFBQztBQUdsQjtJQURDLElBQUEsZ0JBQU0sRUFBQyxFQUFFLE9BQU8sRUFBRSxrQkFBa0IsRUFBRSxPQUFPLEVBQUUsQ0FBQyxFQUFFLElBQUksRUFBRSxTQUFTLEVBQUUsQ0FBQzs7Z0RBQ3BEO0FBL0NOLGNBQWM7SUFEMUIsSUFBQSxpQkFBVyxFQUFDLFdBQVcsQ0FBQztHQUNaLGNBQWMsQ0FnRDFCO0FBaERZLHdDQUFjIn0=
